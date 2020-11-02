@@ -1,0 +1,30 @@
+Người lao động:
+- đăng nhập đăng ký đăng xuất
+- đổi mật khẩu quên mật khẩu
+- cập nhật thông tin
+- quản lý CV: tạo sửa xóa
+- xem CV
+- download CV
+- chia sẻ CV
+- tìm kiếm việc làm
+- xem thông tin việc làm
+- theo dõi công ty
+- lưu lại việc làm
+- ứng tuyển việc làm
+
+Nhà tuyển dụng:
+- đăng nhập đăng ký đăng xuất
+- đổi mật khẩu quên mật khẩu
+- cập nhật thông tin
+- quản lý JOB: tạo xem sửa xóa
+- chia sẻ JOB
+- tìm kiếm ứng viên
+- xem CV ứng viên
+- lưu lại CV đã xem
+- mua lượt xem
+
+Quản trị viên:
+- quản lý tài khoản
+- quản lý mẫu CV
+- quản lý CV
+- quản lý JOB
