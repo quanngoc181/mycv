@@ -19,7 +19,7 @@ export function AddTodoForm() {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    dispatch(addTodo(title, content))
+    dispatch(addTodo({ title, content }))
 
     setTitle('')
     setContent('')

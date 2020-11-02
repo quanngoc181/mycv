@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, ListGroup } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AddTodoForm } from './AddTodoForm'
 import { TodoItem } from './TodoItem'
+import { fetchTodo } from './todoSlice'
 
 export function TodoList() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchTodo())
+  }, [dispatch])
+
   const todoList = useSelector((state) => state.todo.items)
 
   return (

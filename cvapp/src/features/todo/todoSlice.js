@@ -1,35 +1,40 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+const axios = require('axios')
+
+export const fetchTodo = createAsyncThunk('todo/fetchTodo', async () => {
+  let todos = await axios.get('http://localhost:8080/todo')
+
+  return todos.data
+})
+
+export const addTodo = createAsyncThunk('todo/addTodo', async ({ title, content }) => {
+  let todos = await axios.post('http://localhost:8080/todo', { title, content })
+
+  return todos.data
+})
+
+export const deleteTodo = createAsyncThunk('todo/deleteTodo', async ({ id }) => {
+  let todos = await axios.delete('http://localhost:8080/todo/' + id)
+
+  return todos.data
+})
+
+export const toggleTodo = createAsyncThunk('todo/toggleTodo', async ({ id }, { getState }) => {
+  let todo = getState().todo.items.find((td) => td.id === id)
+
+  if (!todo) return
+
+  let todos = await axios.put('http://localhost:8080/todo', { ...todo, done: !todo.done })
+
+  return todos.data
+})
 
 export const todoSlice = createSlice({
   name: 'todo',
   initialState: {
-    items: [
-      { id: 1, title: 'Title 1', content: 'Content 1', done: true },
-      { id: 2, title: 'Title 2', content: 'Content 2', done: false },
-      { id: 3, title: 'Title 3', content: 'Content 3', done: true },
-    ],
+    items: [],
   },
   reducers: {
-    addTodo: {
-      prepare(title, content) {
-        return {
-          payload: { id: 0, title, content, done: false },
-        }
-      },
-      reducer(state, action) {
-        let lastItem = state.items[state.items.length - 1]
-        action.payload.id = lastItem ? lastItem.id + 1 : 1
-        state.items.push(action.payload)
-      },
-    },
-    toggleStatus(state, action) {
-      let todo = state.items.find((todo) => todo.id === action.payload.id)
-      if (todo) todo.done = !todo.done
-    },
-    deleteTodo(state, action) {
-      let index = state.items.findIndex((todo) => todo.id === action.payload.id)
-      if (index !== -1) state.items.splice(index, 1)
-    },
     updateTodo(state, action) {
       let todo = state.items.find((todo) => todo.id === action.payload.id)
       if (todo) {
@@ -38,8 +43,24 @@ export const todoSlice = createSlice({
       }
     },
   },
+  extraReducers: {
+    [fetchTodo.fulfilled]: (state, action) => {
+      state.items = action.payload
+    },
+    [addTodo.fulfilled]: (state, action) => {
+      state.items.push(action.payload)
+    },
+    [deleteTodo.fulfilled]: (state, action) => {
+      let index = state.items.findIndex((todo) => todo.id === action.payload.id)
+      if (index !== -1) state.items.splice(index, 1)
+    },
+    [toggleTodo.fulfilled]: (state, action) => {
+      let item = state.items.find((todo) => todo.id === action.payload.id)
+      if (item) item.done = action.payload.done
+    },
+  },
 })
 
-export const { addTodo, toggleStatus, deleteTodo, updateTodo } = todoSlice.actions
+export const { updateTodo } = todoSlice.actions
 
 export default todoSlice.reducer
