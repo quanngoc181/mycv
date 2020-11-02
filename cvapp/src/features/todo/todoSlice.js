@@ -17,8 +17,8 @@ export const todoSlice = createSlice({
         }
       },
       reducer(state, action) {
-        let lastId = state.items[state.items.length - 1].id
-        action.payload.id = lastId + 1
+        let lastItem = state.items[state.items.length - 1]
+        action.payload.id = lastItem ? lastItem.id + 1 : 1
         state.items.push(action.payload)
       },
     },
