@@ -29,6 +29,16 @@ export const toggleTodo = createAsyncThunk('todo/toggleTodo', async ({ id }, { g
   return todos.data
 })
 
+export const updateTodo = createAsyncThunk('todo/updateTodo', async ({ id, title, content }, { getState }) => {
+  let todo = getState().todo.items.find((td) => td.id === id)
+
+  if (!todo) return
+
+  let todos = await axios.put('http://localhost:8080/todo', { ...todo, title, content })
+
+  return todos.data
+})
+
 export const todoSlice = createSlice({
   name: 'todo',
   initialState: {
@@ -58,9 +68,13 @@ export const todoSlice = createSlice({
       let item = state.items.find((todo) => todo.id === action.payload.id)
       if (item) item.done = action.payload.done
     },
+    [updateTodo.fulfilled]: (state, action) => {
+      let index = state.items.findIndex((todo) => todo.id === action.payload.id)
+      if (index !== -1) state.items.splice(index, 1, action.payload)
+    },
   },
 })
 
-export const { updateTodo } = todoSlice.actions
+// export const {} = todoSlice.actions
 
 export default todoSlice.reducer

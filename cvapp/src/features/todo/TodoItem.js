@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Button, ListGroup } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { deleteTodo, toggleTodo } from './todoSlice'
 
 export function TodoItem({ todo }) {
@@ -28,12 +28,12 @@ export function TodoItem({ todo }) {
           <span>{todo.content}</span>
         </div>
         <div className='action'>
-          {/* <Link to={`/todos/edit/${todo.id}`}>
+          <Link to={`/todos/edit/${todo.id}`}>
             <Button variant='outline-primary' size='sm'>
               Update
             </Button>
           </Link>
-          &nbsp; */}
+          &nbsp;
           <Button variant='outline-primary' size='sm' onClick={handleDelete}>
             Delete
           </Button>
