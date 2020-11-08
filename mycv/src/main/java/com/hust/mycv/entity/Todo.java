@@ -1,13 +1,25 @@
 package com.hust.mycv.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Todo {
 
-	private long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 	private String title;
 	private String content;
 	private boolean done;
 
-	public Todo(long id, String title, String content, boolean done) {
+	public Todo() {
+		super();
+	}
+
+	public Todo(Integer id, String title, String content, boolean done) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -15,11 +27,11 @@ public class Todo {
 		this.done = done;
 	}
 
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
