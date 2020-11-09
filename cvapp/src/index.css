@@ -24,6 +24,7 @@ code {
 .app-footer {
   padding: 10px 20px;
   font-size: 14px;
+  background-color: white;
 }
 
 .app-footer .right {

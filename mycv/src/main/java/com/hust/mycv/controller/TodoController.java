@@ -1,6 +1,8 @@
 package com.hust.mycv.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.hust.mycv.entity.Todo;
 import com.hust.mycv.repository.TodoRepository;
@@ -28,7 +31,8 @@ public class TodoController {
 
 	@GetMapping("/todo/{id}")
 	public Todo findById(@PathVariable Integer id) {
-		Todo todo = todoRepository.findById(id).orElse(null);
+		Todo todo = todoRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo not found."));
 		return todo;
 	}
 
@@ -46,9 +50,9 @@ public class TodoController {
 
 	@DeleteMapping("/todo/{id}")
 	public Todo deleteTodo(@PathVariable Integer id) {
-		Todo todo = todoRepository.findById(id).orElse(null);
-		if (todo != null)
-			todoRepository.delete(todo);
+		Todo todo = todoRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo not found."));
+		todoRepository.delete(todo);
 		return todo;
 	}
 

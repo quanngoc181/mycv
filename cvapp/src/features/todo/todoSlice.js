@@ -13,10 +13,13 @@ export const addTodo = createAsyncThunk('todo/addTodo', async ({ title, content 
   return todos.data
 })
 
-export const deleteTodo = createAsyncThunk('todo/deleteTodo', async ({ id }) => {
-  let todos = await axios.delete('http://localhost:8080/todo/' + id)
-
-  return todos.data
+export const deleteTodo = createAsyncThunk('todo/deleteTodo', async ({ id }, { rejectWithValue }) => {
+  try {
+    let todos = await axios.delete('http://localhost:8080/todo/' + id)
+    return todos.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
 })
 
 export const toggleTodo = createAsyncThunk('todo/toggleTodo', async ({ id }, { getState }) => {
@@ -63,6 +66,9 @@ export const todoSlice = createSlice({
     [deleteTodo.fulfilled]: (state, action) => {
       let index = state.items.findIndex((todo) => todo.id === action.payload.id)
       if (index !== -1) state.items.splice(index, 1)
+    },
+    [deleteTodo.rejected]: (state, action) => {
+      console.log(action.payload.message)
     },
     [toggleTodo.fulfilled]: (state, action) => {
       let item = state.items.find((todo) => todo.id === action.payload.id)
