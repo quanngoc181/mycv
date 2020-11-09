@@ -7,7 +7,7 @@ export function Login() {
     <div className='login-form'>
       <Card>
         <Card.Body>
-          <div className='text-center'>
+          <div className='text-center' style={{ marginBottom: 20 }}>
             <div className='app-logo'>MYCV</div>
           </div>
           <Form>

@@ -13,7 +13,8 @@ code {
 .app-logo {
   display: inline-block;
   font-size: 50px;
-  background: linear-gradient(81.84deg, #0099ff -9.4%, #a033ff 51.57%, #ff5280 84.07%, #ff7061 90.59%);
+  line-height: 50px;
+  background: linear-gradient(45deg, #0099ff 0%, #a033ff 25%, #ff5280 50%, #FF7062 75%, #ffff00 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
