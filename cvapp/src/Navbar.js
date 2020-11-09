@@ -14,6 +14,9 @@ export function NavBar() {
         <Link to='/todos'>
           <Navbar.Brand>Todos</Navbar.Brand>
         </Link>
+        <Link to='/login'>
+          <Navbar.Brand>LogIn</Navbar.Brand>
+        </Link>
       </Navbar>
     </>
   )
