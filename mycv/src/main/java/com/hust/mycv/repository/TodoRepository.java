@@ -1,9 +1,9 @@
 package com.hust.mycv.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hust.mycv.entity.Todo;
 
-public interface TodoRepository extends CrudRepository<Todo, Integer> {
+public interface TodoRepository extends JpaRepository<Todo, Integer> {
 
 }

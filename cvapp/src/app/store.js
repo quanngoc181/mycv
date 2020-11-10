@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
+import userReducer from '../features/authen/userSlice'
 import counterReducer from '../features/counter/counterSlice'
-import todoSlice from '../features/todo/todoSlice'
+import todoReducer from '../features/todo/todoSlice'
 
 export default configureStore({
   reducer: {
     counter: counterReducer,
-    todo: todoSlice,
+    todo: todoReducer,
+    user: userReducer,
   },
 })

@@ -6,6 +6,7 @@ import { TodoList } from './features/todo/TodoList'
 import { EditTodoForm } from './features/todo/EditTodoForm'
 import { Login } from './features/authen/Login'
 import { Footer } from './Footer'
+import { Register } from './features/authen/Register'
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
         </Route>
         <Route path='/login'>
           <Login></Login>
+        </Route>
+        <Route path='/register'>
+          <Register></Register>
         </Route>
         <Route path='/'></Route>
       </Switch>

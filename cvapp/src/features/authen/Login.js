@@ -25,7 +25,7 @@ export function Login() {
               <Link to='/'>Quên mật khẩu?</Link>
             </div>
             <div className='text-center'>
-              <Link to='/'>Chưa có tài khoản?</Link>
+              <Link to='/register'>Chưa có tài khoản?</Link>
             </div>
           </Form>
         </Card.Body>

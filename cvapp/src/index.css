@@ -19,6 +19,7 @@ code {
   -webkit-background-clip: text;
   color: transparent;
   font-weight: bold;
+  user-select: none;
 }
 
 .app-footer {

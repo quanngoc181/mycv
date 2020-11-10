@@ -17,6 +17,9 @@ export function NavBar() {
         <Link to='/login'>
           <Navbar.Brand>Login</Navbar.Brand>
         </Link>
+        <Link to='/register'>
+          <Navbar.Brand>Register</Navbar.Brand>
+        </Link>
       </Navbar>
     </>
   )
