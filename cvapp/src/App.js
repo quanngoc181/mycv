@@ -9,6 +9,9 @@ import { Footer } from './Footer'
 import { Register } from './features/authen/Register'
 
 function App() {
+
+  console.log('app component')
+
   return (
     <Router>
       <NavBar />

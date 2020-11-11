@@ -1,12 +1,13 @@
 package com.hust.mycv.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hust.mycv.entity.User;
+import com.hust.mycv.entity.ApplicationUser;
 import com.hust.mycv.repository.UserRepository;
 
 @RestController
@@ -14,10 +15,14 @@ import com.hust.mycv.repository.UserRepository;
 public class UserController {
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@PostMapping("/user")
-	public User register(@RequestBody User user) {
-		User res = userRepository.save(user);
+	public ApplicationUser register(@RequestBody ApplicationUser user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		ApplicationUser res = userRepository.save(user);
 		res.setPassword(null);
 		return res;
 	}

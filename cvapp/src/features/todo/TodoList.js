@@ -9,6 +9,7 @@ export function TodoList() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    console.log('fetch todo')
     dispatch(fetchTodo())
   }, [dispatch])
 
