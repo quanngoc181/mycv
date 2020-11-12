@@ -3,13 +3,19 @@ import { Nav, Navbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 export function NavBar() {
+  const logout = () => {
+    localStorage.removeItem('my-cv-token')
+  }
+
   return (
     <>
       <Navbar bg='primary' variant='dark'>
         <Navbar.Brand>
-          <div className='app-logo' style={{ fontSize: 30 }}>
-            MYCV
-          </div>
+          <Link to='/'>
+            <div className='app-logo' style={{ fontSize: 30 }}>
+              MYCV
+            </div>
+          </Link>
         </Navbar.Brand>
         <Nav className='mr-auto'>
           <Link to='/todos'>
@@ -18,11 +24,14 @@ export function NavBar() {
         </Nav>
         <Nav>
           <Link to='/login'>
-            <Nav.Link as='span'>Login</Nav.Link>
+            <Nav.Link as='span'>Đăng nhập</Nav.Link>
           </Link>
           <Link to='/register'>
-            <Nav.Link as='span'>Register</Nav.Link>
+            <Nav.Link as='span'>Đăng ký</Nav.Link>
           </Link>
+          <Nav.Link as='span' style={{ cursor: 'pointer' }} onClick={logout}>
+            Đăng xuất
+          </Nav.Link>
         </Nav>
       </Navbar>
     </>

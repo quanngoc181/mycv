@@ -33,7 +33,7 @@ export function EditTodoForm() {
 
   return (
     <Container>
-      <Form className='mt-5'>
+      <Form className='my-5'>
         <Form.Group controlId='title'>
           <Form.Label>Title</Form.Label>
           <Form.Control type='text' value={title} onChange={handleTitleChange} />

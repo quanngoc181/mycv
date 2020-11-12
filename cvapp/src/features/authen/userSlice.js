@@ -3,8 +3,16 @@ const axios = require('axios')
 
 export const registerUser = createAsyncThunk('user/register', async ({ email, username, password }) => {
   let user = await axios.post('http://localhost:8080/user', { email, username, password })
-
   return user.data
+})
+
+export const loginUser = createAsyncThunk('user/login', async ({ username, password }, { rejectWithValue }) => {
+  try {
+    let response = await axios.post('http://localhost:8080/login', { username, password })
+    return response.headers
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
 })
 
 export const userSlice = createSlice({
@@ -16,6 +24,12 @@ export const userSlice = createSlice({
   extraReducers: {
     [registerUser.fulfilled]: (state, action) => {
       console.log('Register successfully', action.payload)
+    },
+    [loginUser.fulfilled]: (state, action) => {
+      localStorage.setItem('my-cv-token', action.payload.token)
+    },
+    [loginUser.rejected]: (state, action) => {
+      console.log(action.payload)
     },
   },
 })

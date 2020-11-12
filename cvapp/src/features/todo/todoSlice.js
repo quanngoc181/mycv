@@ -1,21 +1,24 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { GetToken } from '../../utilities/authenUtility'
 const axios = require('axios')
 
-export const fetchTodo = createAsyncThunk('todo/fetchTodo', async () => {
-  let todos = await axios.get('http://localhost:8080/todo')
-
-  return todos.data
+export const fetchTodo = createAsyncThunk('todo/fetchTodo', async (arg, { rejectWithValue }) => {
+  try {
+    let todos = await axios.get('http://localhost:8080/todo', { headers: GetToken() })
+    return todos.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
 })
 
 export const addTodo = createAsyncThunk('todo/addTodo', async ({ title, content }) => {
-  let todos = await axios.post('http://localhost:8080/todo', { title, content })
-
+  let todos = await axios.post('http://localhost:8080/todo', { title, content }, { headers: GetToken() })
   return todos.data
 })
 
 export const deleteTodo = createAsyncThunk('todo/deleteTodo', async ({ id }, { rejectWithValue }) => {
   try {
-    let todos = await axios.delete('http://localhost:8080/todo/' + id)
+    let todos = await axios.delete('http://localhost:8080/todo/' + id, { headers: GetToken() })
     return todos.data
   } catch (error) {
     return rejectWithValue(error.response.data)
@@ -24,21 +27,17 @@ export const deleteTodo = createAsyncThunk('todo/deleteTodo', async ({ id }, { r
 
 export const toggleTodo = createAsyncThunk('todo/toggleTodo', async ({ id }, { getState }) => {
   let todo = getState().todo.items.find((td) => td.id === id)
-
   if (!todo) return
 
-  let todos = await axios.put('http://localhost:8080/todo', { ...todo, done: !todo.done })
-
+  let todos = await axios.put('http://localhost:8080/todo', { ...todo, done: !todo.done }, { headers: GetToken() })
   return todos.data
 })
 
 export const updateTodo = createAsyncThunk('todo/updateTodo', async ({ id, title, content }, { getState }) => {
   let todo = getState().todo.items.find((td) => td.id === id)
-
   if (!todo) return
 
-  let todos = await axios.put('http://localhost:8080/todo', { ...todo, title, content })
-
+  let todos = await axios.put('http://localhost:8080/todo', { ...todo, title, content }, { headers: GetToken() })
   return todos.data
 })
 
@@ -60,6 +59,9 @@ export const todoSlice = createSlice({
     [fetchTodo.fulfilled]: (state, action) => {
       state.items = action.payload
     },
+    [fetchTodo.rejected]: (state, action) => {
+      console.log(action.payload)
+    },
     [addTodo.fulfilled]: (state, action) => {
       state.items.push(action.payload)
     },
@@ -68,7 +70,7 @@ export const todoSlice = createSlice({
       if (index !== -1) state.items.splice(index, 1)
     },
     [deleteTodo.rejected]: (state, action) => {
-      console.log(action.payload.message)
+      console.log(action.payload)
     },
     [toggleTodo.fulfilled]: (state, action) => {
       let item = state.items.find((todo) => todo.id === action.payload.id)

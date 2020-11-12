@@ -45,7 +45,9 @@ export function Register() {
       <Card>
         <Card.Body>
           <div className='text-center' style={{ marginBottom: 20 }}>
-            <div className='app-logo'>MYCV</div>
+            <Link to='/'>
+              <div className='app-logo'>MYCV</div>
+            </Link>
           </div>
           <Form>
             <Form.Group controlId='email'>
