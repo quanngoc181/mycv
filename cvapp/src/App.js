@@ -7,15 +7,13 @@ import { EditTodoForm } from './features/todo/EditTodoForm'
 import { Login } from './features/authen/Login'
 import { Footer } from './Footer'
 import { Register } from './features/authen/Register'
+// import { useSelector } from 'react-redux'
 
 function App() {
-
-  console.log('app component')
+  // const user = useSelector(state => state.user.user)
 
   return (
     <Router>
-      <NavBar />
-
       <Switch>
         <Route path='/todos/edit/:todoId'>
           <EditTodoForm></EditTodoForm>
@@ -29,7 +27,9 @@ function App() {
         <Route path='/register'>
           <Register></Register>
         </Route>
-        <Route path='/'></Route>
+        <Route path='/'>
+          <NavBar></NavBar>
+        </Route>
       </Switch>
 
       <Footer></Footer>

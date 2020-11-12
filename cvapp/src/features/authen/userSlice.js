@@ -9,7 +9,9 @@ export const registerUser = createAsyncThunk('user/register', async ({ email, us
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState: {},
+  initialState: {
+    user: null,
+  },
   reducers: {},
   extraReducers: {
     [registerUser.fulfilled]: (state, action) => {
