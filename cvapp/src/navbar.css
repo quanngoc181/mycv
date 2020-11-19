@@ -1,0 +1,12 @@
+.right-dropdown .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+.nav-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 4px;
+  margin-right: 4px;
+}

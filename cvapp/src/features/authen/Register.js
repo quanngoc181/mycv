@@ -6,10 +6,20 @@ import { registerUser } from './userSlice'
 
 export function Register() {
   const dispatch = useDispatch()
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [repassword, setRepassword] = useState('')
+
+  const handleFirstNameChange = (e) => {
+    setFirstName(e.target.value)
+  }
+
+  const handleLastNameChange = (e) => {
+    setLastName(e.target.value)
+  }
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value.trim())
@@ -32,8 +42,10 @@ export function Register() {
 
     if (password !== repassword) return
 
-    dispatch(registerUser({ email, username, password }))
+    dispatch(registerUser({ firstName, lastName, email, username, password }))
 
+    setFirstName('')
+    setLastName('')
     setEmail('')
     setUsername('')
     setPassword('')
@@ -50,6 +62,12 @@ export function Register() {
             </Link>
           </div>
           <Form>
+            <Form.Group controlId='firstname'>
+              <Form.Control type='text' value={firstName} onChange={handleFirstNameChange} placeholder='Họ và tên đệm' />
+            </Form.Group>
+            <Form.Group controlId='lastname'>
+              <Form.Control type='text' value={lastName} onChange={handleLastNameChange} placeholder='Tên' />
+            </Form.Group>
             <Form.Group controlId='email'>
               <Form.Control type='email' value={email} onChange={handleEmailChange} placeholder='Email' />
             </Form.Group>

@@ -1,14 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useHistory } from 'react-router-dom'
 import './login.css'
 import { loginUser } from './userSlice'
 
 export function Login() {
   const dispatch = useDispatch()
+  const history = useHistory()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  const loginStatus = useSelector(state => state.user.loginStatus)
+
+  useEffect(() => {
+    if(loginStatus === 'success') history.push('/')
+  }, [history, loginStatus])
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value.trim())
