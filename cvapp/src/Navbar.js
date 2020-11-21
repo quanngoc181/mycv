@@ -1,68 +1,79 @@
-import React from 'react'
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
-import { logout } from './features/authen/userSlice'
+import { fetchAccount, logout } from './features/authen/userSlice'
 import './navbar.css'
 import defaultAvatar from './image/default-avatar.png'
+import { Dropdown, Menu } from 'antd'
+import { CaretDownFilled } from '@ant-design/icons'
 
 export function NavBar() {
   const history = useHistory()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user.user)
 
+  useEffect(() => {
+    dispatch(fetchAccount())
+  }, [dispatch])
+
   const logoutHandler = () => {
     dispatch(logout())
     history.push('/login')
   }
 
+  const menu = (
+    <Menu>
+      <Menu.Item onClick={logoutHandler}>Đăng xuất</Menu.Item>
+    </Menu>
+  )
+
   let rightNav, centerNav
   if (user === null) {
-    centerNav = <Nav variant='pills' className='mr-auto ml-auto'></Nav>
+    centerNav = <div className='my-nav mr-auto ml-auto'></div>
     rightNav = (
-      <Nav>
+      <div className='my-nav'>
         <Link to='/login'>
-          <Nav.Link as='span'>Đăng nhập</Nav.Link>
+          <div className='my-nav-link'>Đăng nhập</div>
         </Link>
         <Link to='/register'>
-          <Nav.Link as='span'>Đăng ký</Nav.Link>
+          <div className='my-nav-link'>Đăng ký</div>
         </Link>
-      </Nav>
+      </div>
     )
   } else {
     centerNav = (
-      <Nav variant='pills' className='mr-auto ml-auto'>
+      <div className='my-nav mr-auto ml-auto'>
         <Link to='/todos'>
-          <Nav.Link as='span'>Todo</Nav.Link>
+          <div className='my-nav-link'>Todo</div>
         </Link>
-      </Nav>
+      </div>
     )
     rightNav = (
-      <Nav>
+      <div className='my-nav'>
         <img src={defaultAvatar} className='nav-avatar' alt='Avatar' />
-        <Nav.Link as='span' style={{ cursor: 'pointer' }}>
-          {user.lastName}
-        </Nav.Link>
-        <NavDropdown title='' id='user-dropdown' className='right-dropdown'>
-          <NavDropdown.Item onClick={logoutHandler}>Đăng xuất</NavDropdown.Item>
-        </NavDropdown>
-      </Nav>
+        <div className='my-nav-link'>{user.lastName}</div>
+        <Dropdown overlay={menu} placement='bottomRight' trigger={['click']}>
+          <div className='my-nav-link'>
+            <CaretDownFilled style={{ verticalAlign: 1 }} />
+          </div>
+        </Dropdown>
+      </div>
     )
   }
 
   return (
     <>
-      <Navbar bg='primary' variant='dark'>
-        <Navbar.Brand>
+      <div className='my-navbar'>
+        <div className='my-navbar-brand'>
           <Link to='/'>
             <div className='app-logo' style={{ fontSize: 30 }}>
               MYCV
             </div>
           </Link>
-        </Navbar.Brand>
+        </div>
         {centerNav}
         {rightNav}
-      </Navbar>
+      </div>
     </>
   )
 }

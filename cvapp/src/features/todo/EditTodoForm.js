@@ -1,53 +1,46 @@
-import React, { useState } from 'react'
-import { Button, Container, Form } from 'react-bootstrap'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { updateTodo } from './todoSlice'
+import { Button, Form, Input } from 'antd'
 
 export function EditTodoForm() {
   const dispatch = useDispatch()
   const history = useHistory()
-
+  const [form] = Form.useForm()
   const { todoId } = useParams()
 
   const todo = useSelector((state) => state.todo.items.find((t) => t.id + '' === todoId))
+  useEffect(() => {
+    form.setFieldsValue({ title: todo.title, content: todo.content })
+  }, [form, todo])
 
-  const [title, setTitle] = useState(todo.title)
-  const [content, setContent] = useState(todo.content)
-
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value)
-  }
-
-  const handleContentChange = (e) => {
-    setContent(e.target.value)
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const onFinish = (values) => {
+    let title = values.title.trim()
+    let content = values.content.trim()
 
     dispatch(updateTodo({ id: todo.id, title, content }))
+
+    form.resetFields()
 
     history.push('/todos')
   }
 
   return (
-    <Container>
-      <Form className='my-5'>
-        <Form.Group controlId='title'>
-          <Form.Label>Title</Form.Label>
-          <Form.Control type='text' value={title} onChange={handleTitleChange} />
-        </Form.Group>
+    <div style={{ padding: '0px 200px' }}>
+      <Form form={form} onFinish={onFinish} className='my-5'>
+        <Form.Item name='title'>
+          <Input type='text' placeholder='Title' />
+        </Form.Item>
 
-        <Form.Group controlId='content'>
-          <Form.Label>Content</Form.Label>
-          <Form.Control type='text' value={content} onChange={handleContentChange} />
-        </Form.Group>
+        <Form.Item name='content'>
+          <Input type='text' placeholder='Content' />
+        </Form.Item>
 
-        <Button variant='outline-primary' size='sm' type='submit' onClick={handleSubmit}>
-          Save
+        <Button type='primary' htmlType='submit'>
+          Update
         </Button>
       </Form>
-    </Container>
+    </div>
   )
 }

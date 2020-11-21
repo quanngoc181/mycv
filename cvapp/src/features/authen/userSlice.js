@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { GetToken } from '../../utilities/authenUtility'
 const axios = require('axios')
 
 export const registerUser = createAsyncThunk('user/register', async ({ firstName, lastName, email, username, password }) => {
@@ -9,11 +10,16 @@ export const registerUser = createAsyncThunk('user/register', async ({ firstName
 export const loginUser = createAsyncThunk('user/login', async ({ username, password }, { dispatch, rejectWithValue }) => {
   try {
     let response = await axios.post('http://localhost:8080/login', { username, password })
-    let userInfo = await axios.get('http://localhost:8080/user', {
-      params: { username },
-      headers: { Authorization: `${response.headers.token}` },
-    })
-    return { ...response.headers, user: userInfo.data }
+    return response.headers
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const fetchAccount = createAsyncThunk('user/fetchAccount', async (arg, { rejectWithValue }) => {
+  try {
+    let account = await axios.get('http://localhost:8080/user', { headers: GetToken() })
+    return account.data
   } catch (error) {
     return rejectWithValue(error.response.data)
   }
@@ -38,16 +44,23 @@ export const userSlice = createSlice({
     },
     [loginUser.pending]: (state, action) => {
       state.loginStatus = 'pending'
-      state.user = null
     },
     [loginUser.fulfilled]: (state, action) => {
       localStorage.setItem('my-cv-token', action.payload.token)
-      state.user = action.payload.user
       state.loginStatus = 'success'
     },
     [loginUser.rejected]: (state, action) => {
-      console.log(action.payload)
+      localStorage.removeItem('my-cv-token')
       state.loginStatus = 'failed'
+    },
+    [fetchAccount.pending]: (state, action) => {
+      state.user = null
+    },
+    [fetchAccount.fulfilled]: (state, action) => {
+      state.user = action.payload
+    },
+    [fetchAccount.rejected]: (state, action) => {
+      state.user = null
     },
   },
 })

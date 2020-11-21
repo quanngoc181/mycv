@@ -4,9 +4,36 @@
 }
 
 .nav-avatar {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   padding: 4px;
   margin-right: 4px;
+}
+
+.my-navbar {
+  background-color: #007bff;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.my-navbar .my-navbar-brand {
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.my-navbar .my-nav {
+  display: flex;
+}
+
+.my-navbar .my-nav-link {
+  padding: 8px;
+  transition: color 0.3s;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.my-navbar .my-nav-link:hover {
+  color: rgba(255, 255, 255, 1);
 }

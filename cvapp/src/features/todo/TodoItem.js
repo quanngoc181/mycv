@@ -1,10 +1,9 @@
-import { faCheckSquare, faWindowClose } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import { Button, ListGroup } from 'react-bootstrap'
+import { List, Button } from 'antd'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { deleteTodo, toggleTodo } from './todoSlice'
+import { CheckSquareOutlined, CloseSquareOutlined } from '@ant-design/icons'
 
 export function TodoItem({ todo }) {
   const dispatch = useDispatch()
@@ -18,10 +17,10 @@ export function TodoItem({ todo }) {
   }
 
   return (
-    <ListGroup.Item>
-      <div className='d-flex justify-content-between align-items-center' style={{ opacity: todo.done ? 0.5 : 1 }}>
+    <List.Item style={{backgroundColor: '#ffffff'}}>
+      <div className='d-flex justify-content-between align-items-center' style={{ opacity: todo.done ? 0.5 : 1, width: '100%' }}>
         <div className='content'>
-          <FontAwesomeIcon icon={todo.done ? faCheckSquare : faWindowClose} onClick={handleToggleStatus} />
+          {todo.done ? <CheckSquareOutlined onClick={handleToggleStatus} style={{ verticalAlign: 2 }} /> : <CloseSquareOutlined onClick={handleToggleStatus} style={{ verticalAlign: 2 }} />}
           <span> - </span>
           <b>{todo.title}</b>
           <span> - </span>
@@ -29,16 +28,16 @@ export function TodoItem({ todo }) {
         </div>
         <div className='action'>
           <Link to={`/todos/edit/${todo.id}`}>
-            <Button variant='outline-primary' size='sm'>
+            <Button size='small'>
               Update
             </Button>
           </Link>
           &nbsp;
-          <Button variant='outline-primary' size='sm' onClick={handleDelete}>
+          <Button size='small' onClick={handleDelete}>
             Delete
           </Button>
         </div>
       </div>
-    </ListGroup.Item>
+    </List.Item>
   )
 }
