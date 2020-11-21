@@ -16,12 +16,7 @@ export function Login() {
     if (loginStatus === 'success') history.push('/')
   }, [history, loginStatus])
 
-  const onFinish = (values) => {
-    let username = values.username.trim()
-    let password = values.password.trim()
-
-    if (!username || !password) return
-
+  const onFinish = ({ username, password }) => {
     dispatch(loginUser({ username, password }))
 
     loginForm.resetFields()
@@ -36,10 +31,10 @@ export function Login() {
           </Link>
         </div>
         <Form form={loginForm} onFinish={onFinish}>
-          <Form.Item name='username'>
+          <Form.Item name='username' rules={[{ required: true, message: 'Hãy nhập tài khoản' }]}>
             <Input type='text' placeholder='Tài khoản' />
           </Form.Item>
-          <Form.Item name='password'>
+          <Form.Item name='password' rules={[{ required: true, message: 'Hãy nhập mật khẩu' }]}>
             <Input type='password' placeholder='Mật khẩu' />
           </Form.Item>
           <Form.Item>

@@ -3,7 +3,7 @@ import { GetToken } from '../../utilities/authenUtility'
 const axios = require('axios')
 
 export const registerUser = createAsyncThunk('user/register', async ({ firstName, lastName, email, username, password }) => {
-  let user = await axios.post('http://localhost:8080/user', { firstName: firstName.trim(), lastName: lastName.trim(), email, username, password })
+  let user = await axios.post('http://localhost:8080/user', { firstName, lastName, email, username, password })
   return user.data
 })
 
