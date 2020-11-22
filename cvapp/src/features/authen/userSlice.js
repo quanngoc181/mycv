@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { GetToken } from '../../utilities/authenUtility'
 const axios = require('axios')
 
-export const registerUser = createAsyncThunk('user/register', async ({ firstName, lastName, email, username, password }) => {
-  let user = await axios.post('http://localhost:8080/user', { firstName, lastName, email, username, password })
-  return user.data
+export const registerUser = createAsyncThunk('user/register', async ({ firstName, lastName, email, username, password }, { rejectWithValue }) => {
+  try {
+    let user = await axios.post('http://localhost:8080/user', { firstName, lastName, email, username, password })
+    return user.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
 })
 
-export const loginUser = createAsyncThunk('user/login', async ({ username, password }, { dispatch, rejectWithValue }) => {
+export const loginUser = createAsyncThunk('user/login', async ({ username, password }, { rejectWithValue }) => {
   try {
     let response = await axios.post('http://localhost:8080/login', { username, password })
     return response.headers
@@ -16,31 +19,29 @@ export const loginUser = createAsyncThunk('user/login', async ({ username, passw
   }
 })
 
-export const fetchAccount = createAsyncThunk('user/fetchAccount', async (arg, { rejectWithValue }) => {
-  try {
-    let account = await axios.get('http://localhost:8080/user', { headers: GetToken() })
-    return account.data
-  } catch (error) {
-    return rejectWithValue(error.response.data)
-  }
-})
-
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: null,
     loginStatus: 'pending',
+    registerStatus: 'pending',
+    registerError: '',
   },
   reducers: {
-    logout(state, action) {
+    resetToken(state, action) {
       localStorage.removeItem('my-cv-token')
       state.loginStatus = 'pending'
-      state.user = null
     },
   },
   extraReducers: {
+    [registerUser.pending]: (state, action) => {
+      state.registerStatus = 'pending'
+    },
     [registerUser.fulfilled]: (state, action) => {
-      console.log('Register successfully', action.payload)
+      state.registerStatus = 'success'
+    },
+    [registerUser.rejected]: (state, action) => {
+      state.registerStatus = 'failed'
+      state.registerError = action.payload.message
     },
     [loginUser.pending]: (state, action) => {
       state.loginStatus = 'pending'
@@ -53,18 +54,9 @@ export const userSlice = createSlice({
       localStorage.removeItem('my-cv-token')
       state.loginStatus = 'failed'
     },
-    [fetchAccount.pending]: (state, action) => {
-      state.user = null
-    },
-    [fetchAccount.fulfilled]: (state, action) => {
-      state.user = action.payload
-    },
-    [fetchAccount.rejected]: (state, action) => {
-      state.user = null
-    },
   },
 })
 
-export const { logout } = userSlice.actions
+export const { resetToken } = userSlice.actions
 
 export default userSlice.reducer

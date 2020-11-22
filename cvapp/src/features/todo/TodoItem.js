@@ -20,7 +20,7 @@ export function TodoItem({ todo }) {
     <List.Item style={{backgroundColor: '#ffffff'}}>
       <div className='d-flex justify-content-between align-items-center' style={{ opacity: todo.done ? 0.5 : 1, width: '100%' }}>
         <div className='content'>
-          {todo.done ? <CheckSquareOutlined onClick={handleToggleStatus} style={{ verticalAlign: 2 }} /> : <CloseSquareOutlined onClick={handleToggleStatus} style={{ verticalAlign: 2 }} />}
+          {todo.done ? <CheckSquareOutlined onClick={handleToggleStatus} /> : <CloseSquareOutlined onClick={handleToggleStatus} />}
           <span> - </span>
           <b>{todo.title}</b>
           <span> - </span>

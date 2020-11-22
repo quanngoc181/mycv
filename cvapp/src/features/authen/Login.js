@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Button, Card, Form, Input } from 'antd'
+import { Button, Card, Divider, Form, Input } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import './login.css'
@@ -37,12 +37,12 @@ export function Login() {
           <Form.Item name='password' rules={[{ required: true, message: 'Hãy nhập mật khẩu' }]}>
             <Input type='password' placeholder='Mật khẩu' />
           </Form.Item>
-          <Form.Item>
+          <Form.Item validateStatus={loginStatus === 'failed' ? 'error' : undefined} help={loginStatus === 'failed' ? 'Tài khoản hoặc mật khẩu không đúng' : undefined}>
             <Button type='primary' htmlType='submit' block>
               Đăng nhập
             </Button>
           </Form.Item>
-          <hr />
+          <Divider />
           <div className='text-center'>
             <Link to='/'>Quên mật khẩu?</Link>
           </div>

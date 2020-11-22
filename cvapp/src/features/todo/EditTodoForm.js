@@ -27,7 +27,7 @@ export function EditTodoForm() {
   }
 
   return (
-    <div style={{ padding: '0px 200px' }}>
+    <div className='container'>
       <Form form={form} onFinish={onFinish} className='my-5'>
         <Form.Item name='title'>
           <Input type='text' placeholder='Title' />

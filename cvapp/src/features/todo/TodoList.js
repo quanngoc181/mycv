@@ -15,7 +15,7 @@ export function TodoList() {
   const todoList = useSelector((state) => state.todo.items)
 
   return (
-    <div style={{ padding: '0px 200px' }}>
+    <div className='container'>
       <List className='mt-5' bordered dataSource={todoList} renderItem={(todo) => <TodoItem todo={todo} />} />
 
       <div className='my-5'>

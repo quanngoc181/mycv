@@ -1,5 +1,5 @@
-import { Button, Card, Form, Input } from 'antd'
-import { useDispatch } from 'react-redux'
+import { Button, Card, Divider, Form, Input } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { registerUser } from './userSlice'
 
@@ -7,11 +7,17 @@ export function Register() {
   const dispatch = useDispatch()
   const [registerForm] = Form.useForm()
 
+  const registerStatus = useSelector((state) => state.user.registerStatus)
+  const registerError = useSelector((state) => state.user.registerError)
+
   const onFinish = ({ firstName, lastName, email, username, password }) => {
     dispatch(registerUser({ firstName, lastName, email, username, password }))
 
     registerForm.resetFields()
   }
+
+  const validateStatus = { pending: undefined, success: 'success', failed: 'error' }
+  const help = { pending: undefined, success: 'Đăng ký thành công', failed: registerError }
 
   return (
     <div className='login-form'>
@@ -73,12 +79,12 @@ export function Register() {
           >
             <Input type='password' placeholder='Nhập lại mật khẩu' />
           </Form.Item>
-          <Form.Item>
+          <Form.Item validateStatus={validateStatus[registerStatus]} help={help[registerStatus]}>
             <Button type='primary' htmlType='submit' block>
               Đăng ký
             </Button>
           </Form.Item>
-          <hr />
+          <Divider />
           <div className='text-center'>
             <Link to='/login'>Đã có tài khoản?</Link>
           </div>

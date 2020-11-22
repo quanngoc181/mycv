@@ -1,0 +1,29 @@
+    Tên
+    Vị trí ứng tuyển
+    Số điện thoại
+    Email
+    Website
+    Ngày sinh
+    Địa chỉ
+    Quốc tịch
+    Giới tính
+    Tình trạng hôn nhân
+    Số con
+    Tôn giáo
+    Ảnh
+    Sở thích
+    Học vấn
+    Kỹ năng
+    Kinh nghiệm làm việc
+    Kinh nghiệm nghiên cứu
+    Kinh nghiệm giảng dạy
+    Dự án
+    Xuất bản, bài thuyết trình
+    Luận văn, luận án
+    Học bổng, giải thưởng, danh hiệu
+    Chứng chỉ, giấy phép
+    Thành viên
+    Hoạt động ngoại khóa
+    Thông tin thêm
+    Profile
+    Dự án

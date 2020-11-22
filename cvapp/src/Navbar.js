@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
-import { fetchAccount, logout } from './features/authen/userSlice'
+import { fetchAccount, resetUser } from './features/information/infoSlice'
+import { resetToken } from './features/authen/userSlice'
 import './navbar.css'
 import defaultAvatar from './image/default-avatar.png'
 import { Dropdown, Menu } from 'antd'
@@ -10,14 +11,15 @@ import { CaretDownFilled } from '@ant-design/icons'
 export function NavBar() {
   const history = useHistory()
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user.user)
+  const user = useSelector((state) => state.info.user)
 
   useEffect(() => {
     dispatch(fetchAccount())
   }, [dispatch])
 
   const logoutHandler = () => {
-    dispatch(logout())
+    dispatch(resetToken())
+    dispatch(resetUser())
     history.push('/login')
   }
 
@@ -46,6 +48,9 @@ export function NavBar() {
         <Link to='/todos'>
           <div className='my-nav-link'>Todo</div>
         </Link>
+        <Link to='/my-info'>
+          <div className='my-nav-link'>Thông tin</div>
+        </Link>
       </div>
     )
     rightNav = (
@@ -54,7 +59,7 @@ export function NavBar() {
         <div className='my-nav-link'>{user.lastName}</div>
         <Dropdown overlay={menu} placement='bottomRight' trigger={['click']}>
           <div className='my-nav-link'>
-            <CaretDownFilled style={{ verticalAlign: 1 }} />
+            <CaretDownFilled />
           </div>
         </Dropdown>
       </div>
