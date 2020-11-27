@@ -1,17 +1,17 @@
-    Tên
+-    Tên
     Vị trí ứng tuyển
-    Số điện thoại
-    Email
-    Website
-    Ngày sinh
-    Địa chỉ
-    Quốc tịch
-    Giới tính
-    Tình trạng hôn nhân
-    Số con
-    Tôn giáo
-    Ảnh
-    Sở thích
+-    Số điện thoại
+-    Email
+-    Website
+-    Ngày sinh
+-    Địa chỉ
+-    Giới tính
+-    Tình trạng hôn nhân
+-    Số con
+-    Quốc tịch
+-    Tôn giáo
+-    Ảnh
+-    Sở thích
     Học vấn
     Kỹ năng
     Kinh nghiệm làm việc
@@ -24,6 +24,6 @@
     Chứng chỉ, giấy phép
     Thành viên
     Hoạt động ngoại khóa
-    Thông tin thêm
+-    Thông tin thêm
     Profile
     Dự án

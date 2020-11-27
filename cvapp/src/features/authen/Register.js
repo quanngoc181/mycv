@@ -10,8 +10,8 @@ export function Register() {
   const registerStatus = useSelector((state) => state.user.registerStatus)
   const registerError = useSelector((state) => state.user.registerError)
 
-  const onFinish = ({ firstName, lastName, email, username, password }) => {
-    dispatch(registerUser({ firstName, lastName, email, username, password }))
+  const onFinish = ({ fullName, email, username, password }) => {
+    dispatch(registerUser({ fullName, email, username, password }))
 
     registerForm.resetFields()
   }
@@ -28,11 +28,8 @@ export function Register() {
           </Link>
         </div>
         <Form form={registerForm} onFinish={onFinish}>
-          <Form.Item name='firstName' rules={[{ required: true, message: 'Hãy nhập họ' }]}>
-            <Input type='text' placeholder='Họ' />
-          </Form.Item>
-          <Form.Item name='lastName' rules={[{ required: true, message: 'Hãy nhập tên' }]}>
-            <Input type='text' placeholder='Tên' />
+          <Form.Item name='fullName' rules={[{ required: true, message: 'Hãy nhập họ tên' }]}>
+            <Input placeholder='Họ tên' />
           </Form.Item>
           <Form.Item
             name='email'
@@ -41,7 +38,7 @@ export function Register() {
               { type: 'email', message: 'Email không hợp lệ' },
             ]}
           >
-            <Input type='email' placeholder='Email' />
+            <Input placeholder='Email' />
           </Form.Item>
           <Form.Item
             name='username'
@@ -51,7 +48,7 @@ export function Register() {
               { pattern: /^[a-zA-Z0-9_]+$/, message: 'Tài khoản chứa ký tự không hợp lệ' },
             ]}
           >
-            <Input type='text' placeholder='Tài khoản' />
+            <Input placeholder='Tài khoản' />
           </Form.Item>
           <Form.Item
             name='password'
@@ -60,7 +57,7 @@ export function Register() {
               { pattern: /^[a-zA-Z0-9_]+$/, message: 'Mật khẩu chứa ký tự không hợp lệ' },
             ]}
           >
-            <Input type='password' placeholder='Mật khẩu' />
+            <Input.Password placeholder='Mật khẩu' />
           </Form.Item>
           <Form.Item
             name='repassword'
@@ -77,7 +74,7 @@ export function Register() {
               }),
             ]}
           >
-            <Input type='password' placeholder='Nhập lại mật khẩu' />
+            <Input.Password placeholder='Nhập lại mật khẩu' />
           </Form.Item>
           <Form.Item validateStatus={validateStatus[registerStatus]} help={help[registerStatus]}>
             <Button type='primary' htmlType='submit' block>

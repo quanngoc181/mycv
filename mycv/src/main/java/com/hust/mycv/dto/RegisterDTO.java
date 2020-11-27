@@ -6,9 +6,7 @@ public class RegisterDTO {
 
 	public String password;
 
-	public String firstName;
-
-	public String lastName;
+	public String fullName;
 
 	public String email;
 
@@ -16,12 +14,11 @@ public class RegisterDTO {
 		super();
 	}
 
-	public RegisterDTO(String username, String password, String firstName, String lastName, String email) {
+	public RegisterDTO(String username, String password, String fullName, String email) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.fullName = fullName;
 		this.email = email;
 	}
 }

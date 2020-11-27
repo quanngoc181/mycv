@@ -42,8 +42,7 @@ public class UserController {
 
 		UserInfo info = new UserInfo();
 		info.setUsername(dto.username);
-		info.setFirstName(dto.firstName);
-		info.setLastName(dto.lastName);
+		info.setFullName(dto.fullName);
 		info.setEmail(dto.email);
 		userInfoRepository.save(info);
 

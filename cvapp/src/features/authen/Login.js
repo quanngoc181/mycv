@@ -32,10 +32,10 @@ export function Login() {
         </div>
         <Form form={loginForm} onFinish={onFinish}>
           <Form.Item name='username' rules={[{ required: true, message: 'Hãy nhập tài khoản' }]}>
-            <Input type='text' placeholder='Tài khoản' />
+            <Input placeholder='Tài khoản' />
           </Form.Item>
           <Form.Item name='password' rules={[{ required: true, message: 'Hãy nhập mật khẩu' }]}>
-            <Input type='password' placeholder='Mật khẩu' />
+            <Input.Password placeholder='Mật khẩu' />
           </Form.Item>
           <Form.Item validateStatus={loginStatus === 'failed' ? 'error' : undefined} help={loginStatus === 'failed' ? 'Tài khoản hoặc mật khẩu không đúng' : undefined}>
             <Button type='primary' htmlType='submit' block>

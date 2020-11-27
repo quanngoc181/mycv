@@ -14,9 +14,7 @@ public class UserInfo {
 	
 	private String username;
 	
-	private String firstName;
-
-	private String lastName;
+	private String fullName;
 	
 	private String email;
 
@@ -26,12 +24,11 @@ public class UserInfo {
 		super();
 	}
 
-	public UserInfo(Integer id, String username, String firstName, String lastName, String email, String avatar) {
+	public UserInfo(Integer id, String username, String fullName, String email, String avatar) {
 		super();
 		this.id = id;
 		this.username = username;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.fullName = fullName;
 		this.email = email;
 		this.avatar = avatar;
 	}
@@ -52,20 +49,12 @@ public class UserInfo {
 		this.username = username;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getEmail() {
