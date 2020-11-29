@@ -1,5 +1,5 @@
 -    Tên
-    Vị trí ứng tuyển
+-    Vị trí ứng tuyển
 -    Số điện thoại
 -    Email
 -    Website
@@ -13,17 +13,37 @@
 -    Ảnh
 -    Sở thích
     Học vấn
-    Kỹ năng
     Kinh nghiệm làm việc
     Kinh nghiệm nghiên cứu
     Kinh nghiệm giảng dạy
+	Các khóa đào tạo
     Dự án
-    Xuất bản, bài thuyết trình
+	Kỹ năng
+-    Xuất bản, bài thuyết trình
+	
+		Present: “The Rise of the Easton Railroad Company.” History of America Conference. Philadelphia, PA, 20XX.
+	
+		APA:
+			journal:
+			Last name, First initial. Middle initial. (Year of publication). Article title. Journal title, Volume (Issue), Page range.
+			Koy, J. C., Parker, B. V., & Lopez, D. A. (2015). A comparison of German and oriental cockroach habitats. Journal of Insect Science, 20(1), 8-12.
+			book:
+			Last name, First initial. Middle initial. (Year of publication). Book title: Subtitle. Location: Publisher.
+			Garcia, L. O. (2017). Cognition operation: A psychological review. New York City: American Association of University Presses.
+	
+		MLA:
+			journal:
+			Author’s name. “Article Title.” Journal Title, Volume, Issue, Date, Pages.
+			Harlow, Alexander. “The Origin of Life on Mars.” International Journal of Astrobiology, vol. 30, no. 2, 2012, pp. 100-106.
+			book:
+			Author’s name. _Title of Book: Subtitle. _Publisher, Year.
+			Terry, Jon. Equine Metabolic Disorders: Differentiating between PPID and EMS. Cambridge University Press, 2014.
+	
     Luận văn, luận án
-    Học bổng, giải thưởng, danh hiệu
-    Chứng chỉ, giấy phép
+-    Học bổng, trợ cấp
+-	 Giải thưởng, danh hiệu
+-    Chứng chỉ, giấy phép
     Thành viên
     Hoạt động ngoại khóa
 -    Thông tin thêm
-    Profile
-    Dự án
+-    Profile
