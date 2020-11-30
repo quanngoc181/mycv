@@ -12,13 +12,12 @@
 -    Tôn giáo
 -    Ảnh
 -    Sở thích
-    Học vấn
-    Kinh nghiệm làm việc
-    Kinh nghiệm nghiên cứu
-    Kinh nghiệm giảng dạy
-	Các khóa đào tạo
-    Dự án
-	Kỹ năng
+-    Học vấn, đào tạo
+-    Kinh nghiệm làm việc
+-    Kinh nghiệm nghiên cứu
+-    Kinh nghiệm giảng dạy
+-    Dự án
+-	 Kỹ năng
 -    Xuất bản, bài thuyết trình
 	
 		Present: “The Rise of the Easton Railroad Company.” History of America Conference. Philadelphia, PA, 20XX.
@@ -39,11 +38,11 @@
 			Author’s name. _Title of Book: Subtitle. _Publisher, Year.
 			Terry, Jon. Equine Metabolic Disorders: Differentiating between PPID and EMS. Cambridge University Press, 2014.
 	
-    Luận văn, luận án
+-    Luận văn, luận án
 -    Học bổng, trợ cấp
 -	 Giải thưởng, danh hiệu
 -    Chứng chỉ, giấy phép
-    Thành viên
-    Hoạt động ngoại khóa
+-    Thành viên
+-    Hoạt động ngoại khóa
 -    Thông tin thêm
 -    Profile

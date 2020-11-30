@@ -1,5 +1,5 @@
 import { CameraOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { Button, Radio, Tabs, Form, Input, DatePicker, InputNumber } from 'antd'
+import { Button, Radio, Tabs, Form, Input, DatePicker, InputNumber, Rate } from 'antd'
 import React, { useState } from 'react'
 import TagGroup from './TagGroup'
 import VN from 'antd/es/date-picker/locale/vi_VN'
@@ -44,6 +44,25 @@ export function UserInfo() {
       </div>
 
       <Tabs className='info-menu' tabPosition='left'>
+        <Tabs.TabPane tab='Profile' key='5'>
+          <div style={{ padding: '16px 24px 16px 0' }}>
+            <Form {...layout}>
+              <Form.Item label='Vị trí ứng tuyển' name='position'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Profile' name='profile'>
+                <Input.TextArea />
+              </Form.Item>
+
+              <Form.Item {...tailLayout}>
+                <Button type='primary' htmlType='submit'>
+                  Lưu
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </Tabs.TabPane>
         <Tabs.TabPane tab='Thông tin cá nhân' key='1'>
           <div style={{ padding: '16px 24px 16px 0' }}>
             <Form {...layout}>
@@ -142,44 +161,35 @@ export function UserInfo() {
             </Form>
           </div>
         </Tabs.TabPane>
-        <Tabs.TabPane tab='Sở thích' key='3'>
+        <Tabs.TabPane tab='Thông tin thêm' key='4'>
           <div style={{ padding: '16px 24px 16px 0' }}>
             <Form {...layout}>
               <Form.Item label='Sở thích' name='hobbies'>
                 <TagGroup />
               </Form.Item>
 
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Thông tin thêm' key='4'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
+              <Form.List name='activities'>
+                {(fields, { add, remove }) => (
+                  <>
+                    <Form.Item {...layout} label={'Hoạt động ngoại khóa'} required={false}>
+                      <Form.Item noStyle>
+                        <Input style={{ width: 'calc(100% - 40px)' }} />
+                      </Form.Item>
+                      <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} />
+                    </Form.Item>
+                    {fields.map((field) => (
+                      <Form.Item {...tailLayout} label={''} required={false} key={field.key}>
+                        <Form.Item {...field} noStyle>
+                          <Input style={{ width: 'calc(100% - 40px)' }} />
+                        </Form.Item>
+                        <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />
+                      </Form.Item>
+                    ))}
+                  </>
+                )}
+              </Form.List>
+
               <Form.Item label='Thông tin thêm' name='additional'>
-                <Input.TextArea />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Profile' key='5'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Vị trí ứng tuyển' name='position'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Profile' name='profile'>
                 <Input.TextArea />
               </Form.Item>
 
@@ -388,6 +398,152 @@ export function UserInfo() {
 
               <Form.Item label='Năm nhận' name='year'>
                 <DatePicker locale={VN} picker='year' />
+              </Form.Item>
+
+              <Form.Item {...tailLayout}>
+                <Button type='primary' htmlType='submit'>
+                  Lưu
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab='Luận văn, luận án' key='10'>
+          <div style={{ padding: '16px 24px 16px 0' }}>
+            <Form {...layout}>
+              <Form.Item label='Luận văn' name='thesis'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Người hướng dẫn' name='advisor'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Mô tả ngắn' name='description'>
+                <Input.TextArea />
+              </Form.Item>
+
+              <Form.Item {...tailLayout}>
+                <Button type='primary' htmlType='submit'>
+                  Lưu
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab='Thành viên tổ chức' key='11'>
+          <div style={{ padding: '16px 24px 16px 0' }}>
+            <Form {...layout}>
+              <Form.Item label='Tổ chức' name='association'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Vai trò' name='role'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Thời gian' name='time'>
+                <DatePicker.RangePicker locale={VN} picker='month' format={'MM-YYYY'} />
+              </Form.Item>
+
+              <Form.Item {...tailLayout}>
+                <Button type='primary' htmlType='submit'>
+                  Lưu
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab='Kỹ năng' key='12'>
+          <div style={{ padding: '16px 24px 16px 0' }}>
+            <Form {...layout}>
+              <Form.Item label='Kỹ năng' name='skill'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Đánh giá' name='rate'>
+                <Rate allowHalf />
+              </Form.Item>
+
+              <Form.Item {...tailLayout}>
+                <Button type='primary' htmlType='submit'>
+                  Lưu
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab='Giáo dục, đào tạo' key='13'>
+          <div style={{ padding: '16px 24px 16px 0' }}>
+            <Form {...layout}>
+              <Form.Item label='Trường học, trung tâm' name='school'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Ngành, nội dung đào tạo' name='field'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Thời gian' name='duration'>
+                <DatePicker.RangePicker locale={VN} picker='month' format={'MM-YYYY'} />
+              </Form.Item>
+
+              <Form.Item label='Thông tin khác' name='description'>
+                <Input.TextArea />
+              </Form.Item>
+
+              <Form.Item {...tailLayout}>
+                <Button type='primary' htmlType='submit'>
+                  Lưu
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab='Kinh nghiệm làm việc' key='14'>
+          <div style={{ padding: '16px 24px 16px 0' }}>
+            <Form {...layout}>
+              <Form.Item label='Nơi làm việc' name='company'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Vị trí' name='position'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Thời gian' name='duration'>
+                <DatePicker.RangePicker locale={VN} picker='month' format={'MM-YYYY'} />
+              </Form.Item>
+
+              <Form.Item label='Mô tả' name='description'>
+                <Input.TextArea />
+              </Form.Item>
+
+              <Form.Item {...tailLayout}>
+                <Button type='primary' htmlType='submit'>
+                  Lưu
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab='Dự án' key='15'>
+          <div style={{ padding: '16px 24px 16px 0' }}>
+            <Form {...layout}>
+              <Form.Item label='Tên dự án' name='project'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Nơi thực hiện' name='company'>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label='Thời gian' name='duration'>
+                <DatePicker.RangePicker locale={VN} picker='month' format={'MM-YYYY'} />
+              </Form.Item>
+
+              <Form.Item label='Mô tả' name='description'>
+                <Input.TextArea />
               </Form.Item>
 
               <Form.Item {...tailLayout}>
