@@ -12,7 +12,12 @@ export function NavBar() {
   const history = useHistory()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.info.user)
-  const words = user === null ? null : user.fullName.split(' ')
+
+  const words = user ? user.fullName.split(' ') : null
+  const lastName = words ? words[words.length - 1] : ''
+
+  const avatar = user ? user.avatar : null
+  const avatarUrl = avatar ? 'data:image/png;base64,' + avatar : defaultAvatar
 
   useEffect(() => {
     dispatch(fetchAccount())
@@ -56,8 +61,8 @@ export function NavBar() {
     )
     rightNav = (
       <div className='my-nav'>
-        <img src={defaultAvatar} className='nav-avatar' alt='Avatar' />
-        <div className='my-nav-link'>{words ? words[words.length - 1] : ''}</div>
+        <img src={avatarUrl} className='nav-avatar' alt='Avatar' />
+        <div className='my-nav-link'>{lastName}</div>
         <Dropdown overlay={menu} placement='bottomRight' trigger={['click']}>
           <div className='my-nav-link'>
             <CaretDownFilled />

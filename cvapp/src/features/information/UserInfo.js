@@ -1,11 +1,16 @@
-import { CameraOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Radio, Tabs, Form, Input, DatePicker, InputNumber, Rate } from 'antd'
 import React, { useState } from 'react'
-import TagGroup from './TagGroup'
 import VN from 'antd/es/date-picker/locale/vi_VN'
 import coverImage from '../../image/cover-image.jpg'
 import defaultAvatar from '../../image/default-avatar.png'
 import './information.css'
+import { Profile } from './Profile'
+import { PersonalInformation } from './PersonalInformation'
+import { ContactInformation } from './ContactInformation'
+import { UploadAvatar } from './UploadAvatar'
+import { useSelector } from 'react-redux'
+import { AdditionalInformation } from './AdditionalInformation'
 
 const layout = {
   labelCol: { span: 6 },
@@ -17,6 +22,10 @@ const tailLayout = {
 
 export function UserInfo() {
   const [language, setLanguage] = useState('vi')
+  const info = useSelector((state) => state.info.user)
+
+  const avatar = info ? info.avatar : null
+  const avatarUrl = avatar ? 'data:image/png;base64,' + avatar : defaultAvatar
 
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value)
@@ -27,8 +36,8 @@ export function UserInfo() {
       <div className='homepage-region'>
         <img className='cover-image' src={coverImage} alt='Anh bia' />
         <div className='avatar-region'>
-          <img className='avatar-image' src={defaultAvatar} alt='Anh dai dien' />
-          <Button className='change-avatar' shape='circle' icon={<CameraOutlined />} />
+          <img className='avatar-image' src={avatarUrl} alt='Anh dai dien' />
+          <UploadAvatar />
         </div>
       </div>
 
@@ -46,159 +55,22 @@ export function UserInfo() {
       <Tabs className='info-menu' tabPosition='left'>
         <Tabs.TabPane tab='Profile' key='5'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Vị trí ứng tuyển' name='position'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Profile' name='profile'>
-                <Input.TextArea />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <Profile info={info} layout={layout} tailLayout={tailLayout} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Thông tin cá nhân' key='1'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Họ tên' name='fullName'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Giới tính' name='gender'>
-                <Radio.Group buttonStyle='solid'>
-                  <Radio.Button value='male'>Nam</Radio.Button>
-                  <Radio.Button value='female'>Nữ</Radio.Button>
-                </Radio.Group>
-              </Form.Item>
-
-              <Form.Item label='Ngày sinh' name='dob'>
-                <DatePicker locale={VN} format={'DD-MM-YYYY'} />
-              </Form.Item>
-
-              <Form.Item label='Địa chỉ' name='address'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Tình trạng hôn nhân' name='marital'>
-                <Radio.Group buttonStyle='solid'>
-                  <Radio.Button value='single'>Độc thân</Radio.Button>
-                  <Radio.Button value='married'>Kết hôn</Radio.Button>
-                  <Radio.Button value='divorced'>Ly hôn</Radio.Button>
-                  <Radio.Button value='widowed'>Góa</Radio.Button>
-                </Radio.Group>
-              </Form.Item>
-
-              <Form.Item label='Số con' name='childs'>
-                <InputNumber min={0} />
-              </Form.Item>
-
-              <Form.Item label='Quốc tịch' name='nationality'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Tôn giáo' name='religion'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <PersonalInformation info={info} layout={layout} tailLayout={tailLayout} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Thông tin liên hệ' key='2'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Email' name='email' rules={[{ type: 'email', message: 'Email không hợp lệ' }]}>
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label='Số điện thoại'
-                name='phone'
-                rules={[
-                  { len: 10, message: 'Số điện thoại không hợp lệ' },
-                  { pattern: /^[0-9]+$/, message: 'Số điện thoại không hợp lệ' },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.List name='socials'>
-                {(fields, { add, remove }) => (
-                  <>
-                    <Form.Item {...layout} label={'Mạng xã hội'} required={false}>
-                      <Form.Item noStyle>
-                        <Input placeholder='Facebook, LinkedIn...' style={{ width: 'calc(100% - 40px)' }} />
-                      </Form.Item>
-                      <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} />
-                    </Form.Item>
-                    {fields.map((field) => (
-                      <Form.Item {...tailLayout} label={''} required={false} key={field.key}>
-                        <Form.Item {...field} noStyle>
-                          <Input style={{ width: 'calc(100% - 40px)' }} />
-                        </Form.Item>
-                        <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />
-                      </Form.Item>
-                    ))}
-                  </>
-                )}
-              </Form.List>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <ContactInformation info={info} layout={layout} tailLayout={tailLayout} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Thông tin thêm' key='4'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Sở thích' name='hobbies'>
-                <TagGroup />
-              </Form.Item>
-
-              <Form.List name='activities'>
-                {(fields, { add, remove }) => (
-                  <>
-                    <Form.Item {...layout} label={'Hoạt động ngoại khóa'} required={false}>
-                      <Form.Item noStyle>
-                        <Input style={{ width: 'calc(100% - 40px)' }} />
-                      </Form.Item>
-                      <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} />
-                    </Form.Item>
-                    {fields.map((field) => (
-                      <Form.Item {...tailLayout} label={''} required={false} key={field.key}>
-                        <Form.Item {...field} noStyle>
-                          <Input style={{ width: 'calc(100% - 40px)' }} />
-                        </Form.Item>
-                        <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />
-                      </Form.Item>
-                    ))}
-                  </>
-                )}
-              </Form.List>
-
-              <Form.Item label='Thông tin thêm' name='additional'>
-                <Input.TextArea />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <AdditionalInformation info={info} layout={layout} tailLayout={tailLayout} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Xuất bản, thuyết trình' key='6'>

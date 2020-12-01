@@ -11,6 +11,50 @@ export const fetchAccount = createAsyncThunk('user/fetchAccount', async (arg, { 
   }
 })
 
+export const updateProfile = createAsyncThunk('user/updateProfile', async ({ position, profile }, { getState, rejectWithValue }) => {
+  try {
+    let info = getState().info.user
+
+    let account = await axios.put('http://localhost:8080/user-info', { ...info, position, profile }, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const updatePersonal = createAsyncThunk('user/updatePersonal', async ({ fullName, childs, address, nationality, religion, gender, marital, dob }, { getState, rejectWithValue }) => {
+  try {
+    let info = getState().info.user
+
+    let account = await axios.put('http://localhost:8080/user-info', { ...info, fullName, childs, address, nationality, religion, gender, marital, dob }, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const updateContact = createAsyncThunk('user/updateContact', async ({ email, phone, socials }, { getState, rejectWithValue }) => {
+  try {
+    let info = getState().info.user
+
+    let account = await axios.put('http://localhost:8080/user-info', { ...info, email, phone, socials }, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const updateAdditional = createAsyncThunk('user/updateAdditional', async ({ additional }, { getState, rejectWithValue }) => {
+  try {
+    let info = getState().info.user
+
+    let account = await axios.put('http://localhost:8080/user-info', { ...info, additional }, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const infoSlice = createSlice({
   name: 'info',
   initialState: {
@@ -19,6 +63,9 @@ export const infoSlice = createSlice({
   reducers: {
     resetUser(state, action) {
       state.user = null
+    },
+    updateAvatar(state, action) {
+      state.user.avatar = action.payload
     },
   },
   extraReducers: {
@@ -31,9 +78,15 @@ export const infoSlice = createSlice({
     [fetchAccount.rejected]: (state, action) => {
       state.user = null
     },
+    [updateProfile.fulfilled]: (state, action) => {
+      state.user = action.payload
+    },
+    [updatePersonal.fulfilled]: (state, action) => {
+      state.user = action.payload
+    },
   },
 })
 
-export const { resetUser } = infoSlice.actions
+export const { resetUser, updateAvatar } = infoSlice.actions
 
 export default infoSlice.reducer
