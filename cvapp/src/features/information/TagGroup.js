@@ -17,6 +17,7 @@ class TagGroup extends React.Component {
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter((tag) => tag !== removedTag)
     this.setState({ tags })
+    this.props.onChange(tags)
   }
 
   showInput = () => {
@@ -33,11 +34,8 @@ class TagGroup extends React.Component {
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue]
     }
-    this.setState({
-      tags,
-      inputVisible: false,
-      inputValue: '',
-    })
+    this.setState({ tags, inputVisible: false, inputValue: '' })
+    this.props.onChange(tags)
   }
 
   handleEditInputChange = (e) => {
@@ -48,12 +46,8 @@ class TagGroup extends React.Component {
     this.setState(({ tags, editInputIndex, editInputValue }) => {
       const newTags = [...tags]
       newTags[editInputIndex] = editInputValue
-
-      return {
-        tags: newTags,
-        editInputIndex: -1,
-        editInputValue: '',
-      }
+      this.props.onChange(newTags)
+      return { tags: newTags, editInputIndex: -1, editInputValue: '' }
     })
   }
 

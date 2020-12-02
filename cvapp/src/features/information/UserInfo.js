@@ -132,13 +132,6 @@ export function UserInfo() {
                     <InputNumber min={0} name='end' placeholder='Đến' style={{ marginLeft: 8 }} />
                   </Form.Item>
 
-                  <Form.Item label='Định dạng' name='format'>
-                    <Radio.Group buttonStyle='solid'>
-                      <Radio.Button value='APA'>APA</Radio.Button>
-                      <Radio.Button value='MLA'>MLA</Radio.Button>
-                    </Radio.Group>
-                  </Form.Item>
-
                   <Form.Item {...tailLayout}>
                     <Button type='primary' htmlType='submit'>
                       Lưu

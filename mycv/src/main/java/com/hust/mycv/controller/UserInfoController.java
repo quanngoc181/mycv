@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.hust.mycv.entity.Award;
+import com.hust.mycv.entity.Book;
 import com.hust.mycv.entity.Certificate;
 import com.hust.mycv.entity.Membership;
 import com.hust.mycv.entity.Presentation;
@@ -42,12 +43,14 @@ public class UserInfoController {
 		UserInfo membership = userInfoRepository.fetchMembershipsByUsername(username);
 		UserInfo thesis = userInfoRepository.fetchThesesByUsername(username);
 		UserInfo presentation = userInfoRepository.fetchPresentationsByUsername(username);
+		UserInfo book = userInfoRepository.fetchBooksByUsername(username);
 		info.setScholarships(scholarship.getScholarships());
 		info.setAwards(award.getAwards());
 		info.setCertificates(certificate.getCertificates());
 		info.setMemberships(membership.getMemberships());
 		info.setTheses(thesis.getTheses());
 		info.setPresentations(presentation.getPresentations());
+		info.setBooks(book.getBooks());
 		return info;
 	}
 
@@ -139,6 +142,18 @@ public class UserInfoController {
 		UserInfo ret = userInfoRepository.save(info);
 
 		return ret.getPresentations();
+	}
+	
+	@PutMapping("/user-info/books")
+	public List<Book> updateBooks(Authentication auth, @RequestBody List<Book> books) {
+		String username = StringUtility.getUserName(auth.getName());
+		UserInfo info = userInfoRepository.fetchBooksByUsername(username);
+		
+		info.setBooks(books);
+		
+		UserInfo ret = userInfoRepository.save(info);
+
+		return ret.getBooks();
 	}
 
 	@PostMapping("/user-info/avatar")
