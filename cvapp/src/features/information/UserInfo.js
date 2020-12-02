@@ -14,6 +14,7 @@ import { AdditionalInformation } from './AdditionalInformation'
 import { Skill } from './Skill'
 import { Scholarship } from './Scholarship'
 import { Award } from './Award'
+import { Certificate } from './Certificate'
 
 const layout = {
   labelCol: { span: 6 },
@@ -226,25 +227,7 @@ export function UserInfo() {
         </Tabs.TabPane>
         <Tabs.TabPane tab='Chứng nhận, giấy phép' key='9'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Chứng nhận' name='certification'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Nơi cấp' name='from'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Năm nhận' name='year'>
-                <DatePicker locale={VN} picker='year' />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <Certificate info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Luận văn, luận án' key='10'>

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.hust.mycv.entity.Award;
+import com.hust.mycv.entity.Certificate;
 import com.hust.mycv.entity.Scholarship;
 import com.hust.mycv.entity.Skill;
 import com.hust.mycv.entity.UserInfo;
@@ -34,8 +35,10 @@ public class UserInfoController {
 		UserInfo info = userInfoRepository.fetchSkillsByUsername(username);
 		UserInfo scholarship = userInfoRepository.fetchScholarshipsByUsername(username);
 		UserInfo award = userInfoRepository.fetchAwardsByUsername(username);
+		UserInfo certificate = userInfoRepository.fetchCertificatesByUsername(username);
 		info.setScholarships(scholarship.getScholarships());
 		info.setAwards(award.getAwards());
+		info.setCertificates(certificate.getCertificates());
 		return info;
 	}
 
@@ -80,6 +83,18 @@ public class UserInfoController {
 
 		return ret.getAwards();
 	}
+	
+	@PutMapping("/user-info/certificates")
+	public List<Certificate> updateCertificates(Authentication auth, @RequestBody List<Certificate> certificates) {
+		String username = StringUtility.getUserName(auth.getName());
+		UserInfo info = userInfoRepository.fetchCertificatesByUsername(username);
+		
+		info.setCertificates(certificates);
+		
+		UserInfo ret = userInfoRepository.save(info);
+
+		return ret.getCertificates();
+	}
 
 	@PostMapping("/user-info/avatar")
 	public String updateAvatar(Authentication auth, @RequestParam("file") MultipartFile file) {
@@ -95,7 +110,6 @@ public class UserInfoController {
 
 			return Base64.getEncoder().encodeToString(bytes);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot update avatar.");
 		}
 	}

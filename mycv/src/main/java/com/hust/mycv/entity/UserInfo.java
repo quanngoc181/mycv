@@ -69,6 +69,10 @@ public class UserInfo {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Award> awards = new ArrayList<>();
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Certificate> certificates = new ArrayList<>();
 
 	public UserInfo() {
 		super();
@@ -279,6 +283,17 @@ public class UserInfo {
 		this.awards = awards;
 		for (Award award : awards) {
 			award.setInfo(this);
+		}
+	}
+
+	public List<Certificate> getCertificates() {
+		return certificates;
+	}
+
+	public void setCertificates(List<Certificate> certificates) {
+		this.certificates = certificates;
+		for (Certificate certificate : certificates) {
+			certificate.setInfo(this);
 		}
 	}
 
