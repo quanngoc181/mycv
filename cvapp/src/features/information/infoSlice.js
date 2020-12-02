@@ -91,6 +91,15 @@ export const updateCertificates = createAsyncThunk('user/updateCertificates', as
   }
 })
 
+export const updateMemberships = createAsyncThunk('user/updateMemberships', async ({ memberships }, { rejectWithValue }) => {
+  try {
+    let account = await axios.put('http://localhost:8080/user-info/memberships', memberships, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const infoSlice = createSlice({
   name: 'info',
   initialState: {
@@ -137,6 +146,9 @@ export const infoSlice = createSlice({
     },
     [updateCertificates.fulfilled]: (state, action) => {
       state.user.certificates = action.payload
+    },
+    [updateMemberships.fulfilled]: (state, action) => {
+      state.user.memberships = action.payload
     },
   },
 })

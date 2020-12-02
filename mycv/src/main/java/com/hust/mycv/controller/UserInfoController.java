@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.hust.mycv.entity.Award;
 import com.hust.mycv.entity.Certificate;
+import com.hust.mycv.entity.Membership;
 import com.hust.mycv.entity.Scholarship;
 import com.hust.mycv.entity.Skill;
 import com.hust.mycv.entity.UserInfo;
@@ -36,9 +37,11 @@ public class UserInfoController {
 		UserInfo scholarship = userInfoRepository.fetchScholarshipsByUsername(username);
 		UserInfo award = userInfoRepository.fetchAwardsByUsername(username);
 		UserInfo certificate = userInfoRepository.fetchCertificatesByUsername(username);
+		UserInfo membership = userInfoRepository.fetchMembershipsByUsername(username);
 		info.setScholarships(scholarship.getScholarships());
 		info.setAwards(award.getAwards());
 		info.setCertificates(certificate.getCertificates());
+		info.setMemberships(membership.getMemberships());
 		return info;
 	}
 
@@ -94,6 +97,18 @@ public class UserInfoController {
 		UserInfo ret = userInfoRepository.save(info);
 
 		return ret.getCertificates();
+	}
+	
+	@PutMapping("/user-info/memberships")
+	public List<Membership> updateMemberships(Authentication auth, @RequestBody List<Membership> memberships) {
+		String username = StringUtility.getUserName(auth.getName());
+		UserInfo info = userInfoRepository.fetchMembershipsByUsername(username);
+		
+		info.setMemberships(memberships);
+		
+		UserInfo ret = userInfoRepository.save(info);
+
+		return ret.getMemberships();
 	}
 
 	@PostMapping("/user-info/avatar")
