@@ -13,4 +13,7 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
 	
 	@Query(value = "select u from UserInfo u LEFT JOIN FETCH u.scholarships s where u.username = :username")
 	UserInfo fetchScholarshipsByUsername(String username);
+	
+	@Query(value = "select u from UserInfo u LEFT JOIN FETCH u.awards s where u.username = :username")
+	UserInfo fetchAwardsByUsername(String username);
 }

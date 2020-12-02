@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.hust.mycv.entity.Award;
 import com.hust.mycv.entity.Scholarship;
 import com.hust.mycv.entity.Skill;
 import com.hust.mycv.entity.UserInfo;
@@ -31,8 +32,10 @@ public class UserInfoController {
 	public UserInfo getInfo(Authentication auth) {
 		String username = StringUtility.getUserName(auth.getName());
 		UserInfo info = userInfoRepository.fetchSkillsByUsername(username);
-		UserInfo info1 = userInfoRepository.fetchScholarshipsByUsername(username);
-		info.setScholarships(info1.getScholarships());
+		UserInfo scholarship = userInfoRepository.fetchScholarshipsByUsername(username);
+		UserInfo award = userInfoRepository.fetchAwardsByUsername(username);
+		info.setScholarships(scholarship.getScholarships());
+		info.setAwards(award.getAwards());
 		return info;
 	}
 
@@ -64,6 +67,18 @@ public class UserInfoController {
 		UserInfo ret = userInfoRepository.save(info);
 
 		return ret.getScholarships();
+	}
+	
+	@PutMapping("/user-info/awards")
+	public List<Award> updateAwards(Authentication auth, @RequestBody List<Award> awards) {
+		String username = StringUtility.getUserName(auth.getName());
+		UserInfo info = userInfoRepository.fetchAwardsByUsername(username);
+		
+		info.setAwards(awards);
+		
+		UserInfo ret = userInfoRepository.save(info);
+
+		return ret.getAwards();
 	}
 
 	@PostMapping("/user-info/avatar")

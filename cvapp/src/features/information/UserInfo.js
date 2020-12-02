@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux'
 import { AdditionalInformation } from './AdditionalInformation'
 import { Skill } from './Skill'
 import { Scholarship } from './Scholarship'
+import { Award } from './Award'
 
 const layout = {
   labelCol: { span: 6 },
@@ -220,25 +221,7 @@ export function UserInfo() {
         </Tabs.TabPane>
         <Tabs.TabPane tab='Giải thưởng, danh hiệu' key='8'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Giải thưởng' name='award'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Trao bởi' name='from'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Năm nhận' name='year'>
-                <DatePicker locale={VN} picker='year' />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <Award info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Chứng nhận, giấy phép' key='9'>
