@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.hust.mycv.entity.Award;
 import com.hust.mycv.entity.Certificate;
 import com.hust.mycv.entity.Membership;
+import com.hust.mycv.entity.Presentation;
 import com.hust.mycv.entity.Scholarship;
 import com.hust.mycv.entity.Skill;
 import com.hust.mycv.entity.Thesis;
@@ -40,11 +41,13 @@ public class UserInfoController {
 		UserInfo certificate = userInfoRepository.fetchCertificatesByUsername(username);
 		UserInfo membership = userInfoRepository.fetchMembershipsByUsername(username);
 		UserInfo thesis = userInfoRepository.fetchThesesByUsername(username);
+		UserInfo presentation = userInfoRepository.fetchPresentationsByUsername(username);
 		info.setScholarships(scholarship.getScholarships());
 		info.setAwards(award.getAwards());
 		info.setCertificates(certificate.getCertificates());
 		info.setMemberships(membership.getMemberships());
 		info.setTheses(thesis.getTheses());
+		info.setPresentations(presentation.getPresentations());
 		return info;
 	}
 
@@ -124,6 +127,18 @@ public class UserInfoController {
 		UserInfo ret = userInfoRepository.save(info);
 
 		return ret.getTheses();
+	}
+	
+	@PutMapping("/user-info/presentations")
+	public List<Presentation> updatePresentations(Authentication auth, @RequestBody List<Presentation> presentations) {
+		String username = StringUtility.getUserName(auth.getName());
+		UserInfo info = userInfoRepository.fetchPresentationsByUsername(username);
+		
+		info.setPresentations(presentations);
+		
+		UserInfo ret = userInfoRepository.save(info);
+
+		return ret.getPresentations();
 	}
 
 	@PostMapping("/user-info/avatar")

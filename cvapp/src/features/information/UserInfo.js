@@ -17,6 +17,8 @@ import { Award } from './Award'
 import { Certificate } from './Certificate'
 import { Membership } from './Membership'
 import { Thesis } from './Thesis'
+import { Presentation } from './Presentation'
+import { Book } from './Book'
 
 const layout = {
   labelCol: { span: 6 },
@@ -83,57 +85,7 @@ export function UserInfo() {
           <div style={{ padding: '16px 24px 16px 0' }}>
             <Tabs defaultActiveKey='61' centered>
               <Tabs.TabPane tab='Sách' key='61'>
-                <Form {...layout}>
-                  <Form.List name='authors'>
-                    {(fields, { add, remove }) => (
-                      <>
-                        <Form.Item {...layout} label={'Tác giả'} required={false}>
-                          <Form.Item noStyle>
-                            <Input style={{ width: 'calc(100% - 40px)' }} />
-                          </Form.Item>
-                          <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} />
-                        </Form.Item>
-                        {fields.map((field) => (
-                          <Form.Item {...tailLayout} label={''} required={false} key={field.key}>
-                            <Form.Item {...field} noStyle>
-                              <Input style={{ width: 'calc(100% - 40px)' }} />
-                            </Form.Item>
-                            <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />
-                          </Form.Item>
-                        ))}
-                      </>
-                    )}
-                  </Form.List>
-
-                  <Form.Item label='Tiêu đề' name='title'>
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label='Nhà xuất bản' name='publisher'>
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label='Năm xuất bản' name='year'>
-                    <DatePicker locale={VN} picker='year' />
-                  </Form.Item>
-
-                  <Form.Item label='Nơi xuất bản' name='location'>
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label='Định dạng' name='format'>
-                    <Radio.Group buttonStyle='solid'>
-                      <Radio.Button value='APA'>APA</Radio.Button>
-                      <Radio.Button value='MLA'>MLA</Radio.Button>
-                    </Radio.Group>
-                  </Form.Item>
-
-                  <Form.Item {...tailLayout}>
-                    <Button type='primary' htmlType='submit'>
-                      Lưu
-                    </Button>
-                  </Form.Item>
-                </Form>
+                <Book info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
               </Tabs.TabPane>
               <Tabs.TabPane tab='Tạp chí' key='62'>
                 <Form {...layout}>
@@ -175,6 +127,11 @@ export function UserInfo() {
                     <InputNumber min={0} name='issue' placeholder='Kỳ' style={{ marginLeft: 8 }} />
                   </Form.Item>
 
+                  <Form.Item label='Trang'>
+                    <InputNumber min={0} name='start' placeholder='Từ' />
+                    <InputNumber min={0} name='end' placeholder='Đến' style={{ marginLeft: 8 }} />
+                  </Form.Item>
+
                   <Form.Item label='Định dạng' name='format'>
                     <Radio.Group buttonStyle='solid'>
                       <Radio.Button value='APA'>APA</Radio.Button>
@@ -190,29 +147,7 @@ export function UserInfo() {
                 </Form>
               </Tabs.TabPane>
               <Tabs.TabPane tab='Bài thuyết trình' key='63'>
-                <Form {...layout}>
-                  <Form.Item label='Tiêu đề' name='title'>
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label='Tên hội nghị' name='conference'>
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label='Nơi diễn ra' name='location'>
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label='Năm diễn ra' name='year'>
-                    <DatePicker locale={VN} picker='year' />
-                  </Form.Item>
-
-                  <Form.Item {...tailLayout}>
-                    <Button type='primary' htmlType='submit'>
-                      Lưu
-                    </Button>
-                  </Form.Item>
-                </Form>
+                <Presentation info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
               </Tabs.TabPane>
             </Tabs>
           </div>
