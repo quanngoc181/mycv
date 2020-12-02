@@ -3,12 +3,15 @@ import { Tag, Input, Tooltip } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 
 class TagGroup extends React.Component {
-  state = {
-    tags: [],
-    inputVisible: false,
-    inputValue: '',
-    editInputIndex: -1,
-    editInputValue: '',
+  constructor(props) {
+    super(props)
+    this.state = {
+      tags: props.tags,
+      inputVisible: false,
+      inputValue: '',
+      editInputIndex: -1,
+      editInputValue: '',
+    }
   }
 
   handleClose = (removedTag) => {
@@ -68,7 +71,7 @@ class TagGroup extends React.Component {
       <>
         {tags.map((tag, index) => {
           if (editInputIndex === index) {
-            return <Input ref={this.saveEditInputRef} key={tag} size='small' className='tag-input' value={editInputValue} onChange={this.handleEditInputChange} onBlur={this.handleEditInputConfirm} onPressEnter={this.handleEditInputConfirm} />
+            return <Input ref={this.saveEditInputRef} key={tag} style={{ margin: '5px 10px 5px 0' }} size='small' className='tag-input' value={editInputValue} onChange={this.handleEditInputChange} onBlur={this.handleEditInputConfirm} onPressEnter={this.handleEditInputConfirm} />
           }
 
           const isLongTag = tag.length > 20

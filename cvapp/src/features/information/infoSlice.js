@@ -44,11 +44,29 @@ export const updateContact = createAsyncThunk('user/updateContact', async ({ ema
   }
 })
 
-export const updateAdditional = createAsyncThunk('user/updateAdditional', async ({ additional }, { getState, rejectWithValue }) => {
+export const updateAdditional = createAsyncThunk('user/updateAdditional', async ({ additional, activities, hobbies }, { getState, rejectWithValue }) => {
   try {
     let info = getState().info.user
 
-    let account = await axios.put('http://localhost:8080/user-info', { ...info, additional }, { headers: GetToken() })
+    let account = await axios.put('http://localhost:8080/user-info', { ...info, additional, activities, hobbies }, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const updateSkills = createAsyncThunk('user/updateSkills', async ({ skills }, { rejectWithValue }) => {
+  try {
+    let account = await axios.put('http://localhost:8080/user-info/skills', skills, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const updateScholarships = createAsyncThunk('user/updateScholarships', async ({ scholarships }, { rejectWithValue }) => {
+  try {
+    let account = await axios.put('http://localhost:8080/user-info/scholarships', scholarships, { headers: GetToken() })
     return account.data
   } catch (error) {
     return rejectWithValue(error.response.data)
@@ -83,6 +101,18 @@ export const infoSlice = createSlice({
     },
     [updatePersonal.fulfilled]: (state, action) => {
       state.user = action.payload
+    },
+    [updateContact.fulfilled]: (state, action) => {
+      state.user = action.payload
+    },
+    [updateAdditional.fulfilled]: (state, action) => {
+      state.user = action.payload
+    },
+    [updateSkills.fulfilled]: (state, action) => {
+      state.user.skills = action.payload
+    },
+    [updateScholarships.fulfilled]: (state, action) => {
+      state.user.scholarships = action.payload
     },
   },
 })

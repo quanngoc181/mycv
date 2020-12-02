@@ -1,5 +1,5 @@
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { Button, Radio, Tabs, Form, Input, DatePicker, InputNumber, Rate } from 'antd'
+import { Button, Radio, Tabs, Form, Input, DatePicker, InputNumber } from 'antd'
 import React, { useState } from 'react'
 import VN from 'antd/es/date-picker/locale/vi_VN'
 import coverImage from '../../image/cover-image.jpg'
@@ -11,6 +11,8 @@ import { ContactInformation } from './ContactInformation'
 import { UploadAvatar } from './UploadAvatar'
 import { useSelector } from 'react-redux'
 import { AdditionalInformation } from './AdditionalInformation'
+import { Skill } from './Skill'
+import { Scholarship } from './Scholarship'
 
 const layout = {
   labelCol: { span: 6 },
@@ -213,25 +215,7 @@ export function UserInfo() {
         </Tabs.TabPane>
         <Tabs.TabPane tab='Học bổng, tài trợ' key='7'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Học bổng' name='scholarship'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Trao bởi' name='from'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Năm nhận' name='year'>
-                <DatePicker locale={VN} picker='year' />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <Scholarship info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Giải thưởng, danh hiệu' key='8'>
@@ -328,21 +312,7 @@ export function UserInfo() {
         </Tabs.TabPane>
         <Tabs.TabPane tab='Kỹ năng' key='12'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Kỹ năng' name='skill'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Đánh giá' name='rate'>
-                <Rate allowHalf />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <Skill info={info} layout={layout} tailLayout={tailLayout} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Giáo dục, đào tạo' key='13'>

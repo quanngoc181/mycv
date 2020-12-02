@@ -1,10 +1,18 @@
 package com.hust.mycv.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class UserInfo {
@@ -43,14 +51,26 @@ public class UserInfo {
 	private String phone;
 
 	private String socials;
-	
+
 	private String additional;
+
+	private String activities;
+
+	private String hobbies;
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Skill> skills = new ArrayList<>();
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Scholarship> scholarships = new ArrayList<>();
 
 	public UserInfo() {
 		super();
 	}
 
-	public UserInfo(Integer id, String username, String fullName, String email, byte[] avatar, String position, String profile, String gender, String address, String marital, int childs, String nationality, String religion, String dob, String phone, String socials, String additional) {
+	public UserInfo(Integer id, String username, String fullName, String email, byte[] avatar, String position, String profile, String gender, String address, String marital, int childs, String nationality, String religion, String dob, String phone, String socials, String additional, String activities, String hobbies) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -69,6 +89,8 @@ public class UserInfo {
 		this.phone = phone;
 		this.socials = socials;
 		this.additional = additional;
+		this.activities = activities;
+		this.hobbies = hobbies;
 	}
 
 	public Integer getId() {
@@ -206,4 +228,43 @@ public class UserInfo {
 	public void setAdditional(String additional) {
 		this.additional = additional;
 	}
+
+	public String getActivities() {
+		return activities;
+	}
+
+	public void setActivities(String activities) {
+		this.activities = activities;
+	}
+
+	public String getHobbies() {
+		return hobbies;
+	}
+
+	public void setHobbies(String hobbies) {
+		this.hobbies = hobbies;
+	}
+
+	public List<Skill> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
+		for (Skill skill : skills) {
+			skill.setInfo(this);
+		}
+	}
+
+	public List<Scholarship> getScholarships() {
+		return scholarships;
+	}
+
+	public void setScholarships(List<Scholarship> scholarships) {
+		this.scholarships = scholarships;
+		for (Scholarship scholarship : scholarships) {
+			scholarship.setInfo(this);
+		}
+	}
+
 }

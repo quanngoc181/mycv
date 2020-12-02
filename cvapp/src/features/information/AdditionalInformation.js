@@ -1,7 +1,7 @@
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Form, Input } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import TagGroup from './TagGroup'
 import { updateAdditional } from './infoSlice'
@@ -9,6 +9,9 @@ import { updateAdditional } from './infoSlice'
 export function AdditionalInformation({ info, layout, tailLayout }) {
   const [form] = useForm()
   const dispatch = useDispatch()
+  const tagGroup = useRef(null)
+
+  const hobbies = info.hobbies ? JSON.parse(info.hobbies) : []
 
   useEffect(() => {
     if (info) {
@@ -18,13 +21,13 @@ export function AdditionalInformation({ info, layout, tailLayout }) {
   }, [form, info])
 
   const onFinish = (values) => {
-    dispatch(updateAdditional(values))
+    dispatch(updateAdditional({ ...values, activities: JSON.stringify(values.activities), hobbies: JSON.stringify(tagGroup.current.state.tags) }))
   }
 
   return (
     <Form form={form} onFinish={onFinish} {...layout}>
       <Form.Item label='Sở thích' name='hobbies'>
-        <TagGroup />
+        <TagGroup tags={hobbies} ref={tagGroup} />
       </Form.Item>
 
       <Form.List name='activities'>
