@@ -127,6 +127,15 @@ export const updateBooks = createAsyncThunk('user/updateBooks', async ({ books }
   }
 })
 
+export const updateJournals = createAsyncThunk('user/updateJournals', async ({ journals }, { rejectWithValue }) => {
+  try {
+    let account = await axios.put('http://localhost:8080/user-info/journals', journals, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const infoSlice = createSlice({
   name: 'info',
   initialState: {
@@ -185,6 +194,9 @@ export const infoSlice = createSlice({
     },
     [updateBooks.fulfilled]: (state, action) => {
       state.user.books = action.payload
+    },
+    [updateJournals.fulfilled]: (state, action) => {
+      state.user.journals = action.payload
     },
   },
 })

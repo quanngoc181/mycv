@@ -81,14 +81,18 @@ public class UserInfo {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Thesis> theses = new ArrayList<>();
-	
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Presentation> presentations = new ArrayList<>();
-	
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private List<Book> books= new ArrayList<>();
+	private List<Book> books = new ArrayList<>();
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Journal> journals = new ArrayList<>();
 
 	public UserInfo() {
 		super();
@@ -330,7 +334,7 @@ public class UserInfo {
 
 	public void setTheses(List<Thesis> theses) {
 		this.theses = theses;
-		for (Thesis thesis: theses) {
+		for (Thesis thesis : theses) {
 			thesis.setInfo(this);
 		}
 	}
@@ -341,7 +345,7 @@ public class UserInfo {
 
 	public void setPresentations(List<Presentation> presentations) {
 		this.presentations = presentations;
-		for (Presentation presentation: presentations) {
+		for (Presentation presentation : presentations) {
 			presentation.setInfo(this);
 		}
 	}
@@ -352,8 +356,19 @@ public class UserInfo {
 
 	public void setBooks(List<Book> books) {
 		this.books = books;
-		for (Book book: books) {
+		for (Book book : books) {
 			book.setInfo(this);
+		}
+	}
+
+	public List<Journal> getJournals() {
+		return journals;
+	}
+
+	public void setJournals(List<Journal> journals) {
+		this.journals = journals;
+		for (Journal journal : journals) {
+			journal.setInfo(this);
 		}
 	}
 

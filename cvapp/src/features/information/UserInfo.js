@@ -1,5 +1,4 @@
-import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { Button, Radio, Tabs, Form, Input, DatePicker, InputNumber } from 'antd'
+import { Button, Radio, Tabs, Form, Input, DatePicker } from 'antd'
 import React, { useState } from 'react'
 import VN from 'antd/es/date-picker/locale/vi_VN'
 import coverImage from '../../image/cover-image.jpg'
@@ -19,6 +18,7 @@ import { Membership } from './Membership'
 import { Thesis } from './Thesis'
 import { Presentation } from './Presentation'
 import { Book } from './Book'
+import { Journal } from './Journal'
 
 const layout = {
   labelCol: { span: 6 },
@@ -88,56 +88,7 @@ export function UserInfo() {
                 <Book info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
               </Tabs.TabPane>
               <Tabs.TabPane tab='Tạp chí' key='62'>
-                <Form {...layout}>
-                  <Form.List name='authors'>
-                    {(fields, { add, remove }) => (
-                      <>
-                        <Form.Item {...layout} label={'Tác giả'} required={false}>
-                          <Form.Item noStyle>
-                            <Input style={{ width: 'calc(100% - 40px)' }} />
-                          </Form.Item>
-                          <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} />
-                        </Form.Item>
-                        {fields.map((field) => (
-                          <Form.Item {...tailLayout} label={''} required={false} key={field.key}>
-                            <Form.Item {...field} noStyle>
-                              <Input style={{ width: 'calc(100% - 40px)' }} />
-                            </Form.Item>
-                            <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />
-                          </Form.Item>
-                        ))}
-                      </>
-                    )}
-                  </Form.List>
-
-                  <Form.Item label='Tiêu đề' name='title'>
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label='Tên tạp chí' name='journal'>
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label='Năm xuất bản' name='year'>
-                    <DatePicker locale={VN} picker='year' />
-                  </Form.Item>
-
-                  <Form.Item label='Tập, Kỳ'>
-                    <InputNumber min={0} name='volume' placeholder='Tập' />
-                    <InputNumber min={0} name='issue' placeholder='Kỳ' style={{ marginLeft: 8 }} />
-                  </Form.Item>
-
-                  <Form.Item label='Trang'>
-                    <InputNumber min={0} name='start' placeholder='Từ' />
-                    <InputNumber min={0} name='end' placeholder='Đến' style={{ marginLeft: 8 }} />
-                  </Form.Item>
-
-                  <Form.Item {...tailLayout}>
-                    <Button type='primary' htmlType='submit'>
-                      Lưu
-                    </Button>
-                  </Form.Item>
-                </Form>
+                <Journal info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
               </Tabs.TabPane>
               <Tabs.TabPane tab='Bài thuyết trình' key='63'>
                 <Presentation info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
