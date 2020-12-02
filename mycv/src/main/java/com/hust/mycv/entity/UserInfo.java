@@ -61,22 +61,26 @@ public class UserInfo {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Skill> skills = new ArrayList<>();
-	
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Scholarship> scholarships = new ArrayList<>();
-	
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Award> awards = new ArrayList<>();
-	
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Certificate> certificates = new ArrayList<>();
-	
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Membership> memberships = new ArrayList<>();
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Thesis> theses = new ArrayList<>();
 
 	public UserInfo() {
 		super();
@@ -309,6 +313,17 @@ public class UserInfo {
 		this.memberships = memberships;
 		for (Membership membership : memberships) {
 			membership.setInfo(this);
+		}
+	}
+
+	public List<Thesis> getTheses() {
+		return theses;
+	}
+
+	public void setTheses(List<Thesis> theses) {
+		this.theses = theses;
+		for (Thesis thesis: theses) {
+			thesis.setInfo(this);
 		}
 	}
 

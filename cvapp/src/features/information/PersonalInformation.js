@@ -18,7 +18,7 @@ export function PersonalInformation({ info, layout, tailLayout }) {
   }, [form, info])
 
   const onFinish = (values) => {
-    dispatch(updatePersonal({ ...values, dob: values.dob.format('YYYY-MM-DD') }))
+    dispatch(updatePersonal({ ...values, dob: values.dob ? values.dob.format('YYYY-MM-DD') : null }))
   }
 
   return (

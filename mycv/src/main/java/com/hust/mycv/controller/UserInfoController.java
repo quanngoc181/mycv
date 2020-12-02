@@ -20,6 +20,7 @@ import com.hust.mycv.entity.Certificate;
 import com.hust.mycv.entity.Membership;
 import com.hust.mycv.entity.Scholarship;
 import com.hust.mycv.entity.Skill;
+import com.hust.mycv.entity.Thesis;
 import com.hust.mycv.entity.UserInfo;
 import com.hust.mycv.repository.UserInfoRepository;
 import com.hust.mycv.utility.StringUtility;
@@ -38,10 +39,12 @@ public class UserInfoController {
 		UserInfo award = userInfoRepository.fetchAwardsByUsername(username);
 		UserInfo certificate = userInfoRepository.fetchCertificatesByUsername(username);
 		UserInfo membership = userInfoRepository.fetchMembershipsByUsername(username);
+		UserInfo thesis = userInfoRepository.fetchThesesByUsername(username);
 		info.setScholarships(scholarship.getScholarships());
 		info.setAwards(award.getAwards());
 		info.setCertificates(certificate.getCertificates());
 		info.setMemberships(membership.getMemberships());
+		info.setTheses(thesis.getTheses());
 		return info;
 	}
 
@@ -109,6 +112,18 @@ public class UserInfoController {
 		UserInfo ret = userInfoRepository.save(info);
 
 		return ret.getMemberships();
+	}
+	
+	@PutMapping("/user-info/theses")
+	public List<Thesis> updateTheses(Authentication auth, @RequestBody List<Thesis> theses) {
+		String username = StringUtility.getUserName(auth.getName());
+		UserInfo info = userInfoRepository.fetchThesesByUsername(username);
+		
+		info.setTheses(theses);
+		
+		UserInfo ret = userInfoRepository.save(info);
+
+		return ret.getTheses();
 	}
 
 	@PostMapping("/user-info/avatar")

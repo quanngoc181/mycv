@@ -16,6 +16,7 @@ import { Scholarship } from './Scholarship'
 import { Award } from './Award'
 import { Certificate } from './Certificate'
 import { Membership } from './Membership'
+import { Thesis } from './Thesis'
 
 const layout = {
   labelCol: { span: 6 },
@@ -233,25 +234,7 @@ export function UserInfo() {
         </Tabs.TabPane>
         <Tabs.TabPane tab='Luận văn, luận án' key='10'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Luận văn' name='thesis'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Người hướng dẫn' name='advisor'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Mô tả ngắn' name='description'>
-                <Input.TextArea />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <Thesis info={info} layout={layout} tailLayout={tailLayout} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Thành viên tổ chức' key='11'>
