@@ -1,6 +1,9 @@
 package com.hust.mycv.controller;
 
-import java.util.Base64;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -219,17 +222,22 @@ public class UserInfoController {
 	@PostMapping("/user-info/avatar")
 	public String updateAvatar(Authentication auth, @RequestParam("file") MultipartFile file) {
 		try {
-			byte[] bytes = file.getBytes();
-
 			String username = StringUtility.getUserName(auth.getName());
 			UserInfo info = userInfoRepository.findByUsername(username);
+			
+			Path path = Paths.get("uploads");
+			
+			String filename = info.getId() + file.getOriginalFilename();
+			
+			Files.copy(file.getInputStream(), path.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
 
-			info.setAvatar(bytes);
+			info.setAvatar(filename);
 
 			userInfoRepository.save(info);
 
-			return Base64.getEncoder().encodeToString(bytes);
+			return filename;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot update avatar.");
 		}
 	}

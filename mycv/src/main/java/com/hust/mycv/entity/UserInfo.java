@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,8 +26,7 @@ public class UserInfo {
 
 	private String email;
 
-	@Column(columnDefinition = "MEDIUMBLOB")
-	private byte[] avatar;
+	private String avatar;
 
 	private String position;
 
@@ -110,7 +108,7 @@ public class UserInfo {
 		super();
 	}
 
-	public UserInfo(Integer id, String username, String fullName, String email, byte[] avatar, String position, String profile, String gender, String address, String marital, int childs, String nationality, String religion, String dob, String phone, String socials, String additional, String activities, String hobbies) {
+	public UserInfo(Integer id, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, int childs, String nationality, String religion, String dob, String phone, String socials, String additional, String activities, String hobbies) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -165,11 +163,11 @@ public class UserInfo {
 		this.email = email;
 	}
 
-	public byte[] getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(byte[] avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
 

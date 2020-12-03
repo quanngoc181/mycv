@@ -2,7 +2,6 @@ import { Radio, Tabs } from 'antd'
 import React, { useState } from 'react'
 import VN from 'antd/es/date-picker/locale/vi_VN'
 import coverImage from '../../image/cover-image.jpg'
-import defaultAvatar from '../../image/default-avatar.png'
 import './information.css'
 import { Profile } from './Profile'
 import { PersonalInformation } from './PersonalInformation'
@@ -36,7 +35,7 @@ export function UserInfo() {
   const info = useSelector((state) => state.info.user)
 
   const avatar = info ? info.avatar : null
-  const avatarUrl = avatar ? 'data:image/png;base64,' + avatar : defaultAvatar
+  const avatarUrl = avatar ? avatar : 'default-avatar.png'
 
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value)
@@ -47,7 +46,7 @@ export function UserInfo() {
       <div className='homepage-region'>
         <img className='cover-image' src={coverImage} alt='Anh bia' />
         <div className='avatar-region'>
-          <img className='avatar-image' src={avatarUrl} alt='Anh dai dien' />
+          <img className='avatar-image' src={'http://localhost:8080/resources/' + avatarUrl} alt='Anh dai dien' />
           <UploadAvatar />
         </div>
       </div>

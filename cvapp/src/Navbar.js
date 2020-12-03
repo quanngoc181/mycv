@@ -4,7 +4,6 @@ import { Link, useHistory } from 'react-router-dom'
 import { fetchAccount, resetUser } from './features/information/infoSlice'
 import { resetToken } from './features/authen/userSlice'
 import './navbar.css'
-import defaultAvatar from './image/default-avatar.png'
 import { Dropdown, Menu } from 'antd'
 import { CaretDownFilled } from '@ant-design/icons'
 
@@ -17,7 +16,7 @@ export function NavBar() {
   const lastName = words ? words[words.length - 1] : ''
 
   const avatar = user ? user.avatar : null
-  const avatarUrl = avatar ? 'data:image/png;base64,' + avatar : defaultAvatar
+  const avatarUrl = avatar ? avatar : 'default-avatar.png'
 
   useEffect(() => {
     dispatch(fetchAccount())
@@ -61,7 +60,7 @@ export function NavBar() {
     )
     rightNav = (
       <div className='my-nav'>
-        <img src={avatarUrl} className='nav-avatar' alt='Avatar' />
+        <img src={'http://localhost:8080/resources/' + avatarUrl} className='nav-avatar' alt='Avatar' />
         <div className='my-nav-link'>{lastName}</div>
         <Dropdown overlay={menu} placement='bottomRight' trigger={['click']}>
           <div className='my-nav-link'>
