@@ -136,6 +136,33 @@ export const updateJournals = createAsyncThunk('user/updateJournals', async ({ j
   }
 })
 
+export const updateEducations = createAsyncThunk('user/updateEducations', async ({ educations }, { rejectWithValue }) => {
+  try {
+    let account = await axios.put('http://localhost:8080/user-info/educations', educations, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const updateWorks = createAsyncThunk('user/updateWorks', async ({ works }, { rejectWithValue }) => {
+  try {
+    let account = await axios.put('http://localhost:8080/user-info/works', works, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const updateProjects = createAsyncThunk('user/updateProjects', async ({ projects }, { rejectWithValue }) => {
+  try {
+    let account = await axios.put('http://localhost:8080/user-info/projects', projects, { headers: GetToken() })
+    return account.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const infoSlice = createSlice({
   name: 'info',
   initialState: {
@@ -197,6 +224,15 @@ export const infoSlice = createSlice({
     },
     [updateJournals.fulfilled]: (state, action) => {
       state.user.journals = action.payload
+    },
+    [updateEducations.fulfilled]: (state, action) => {
+      state.user.educations = action.payload
+    },
+    [updateWorks.fulfilled]: (state, action) => {
+      state.user.works = action.payload
+    },
+    [updateProjects.fulfilled]: (state, action) => {
+      state.user.projects = action.payload
     },
   },
 })

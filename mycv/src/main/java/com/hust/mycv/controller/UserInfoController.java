@@ -18,13 +18,16 @@ import org.springframework.web.server.ResponseStatusException;
 import com.hust.mycv.entity.Award;
 import com.hust.mycv.entity.Book;
 import com.hust.mycv.entity.Certificate;
+import com.hust.mycv.entity.Education;
 import com.hust.mycv.entity.Journal;
 import com.hust.mycv.entity.Membership;
 import com.hust.mycv.entity.Presentation;
+import com.hust.mycv.entity.Project;
 import com.hust.mycv.entity.Scholarship;
 import com.hust.mycv.entity.Skill;
 import com.hust.mycv.entity.Thesis;
 import com.hust.mycv.entity.UserInfo;
+import com.hust.mycv.entity.Work;
 import com.hust.mycv.repository.UserInfoRepository;
 import com.hust.mycv.utility.StringUtility;
 
@@ -46,6 +49,9 @@ public class UserInfoController {
 		UserInfo presentation = userInfoRepository.fetchPresentationsByUsername(username);
 		UserInfo book = userInfoRepository.fetchBooksByUsername(username);
 		UserInfo journal = userInfoRepository.fetchJournalsByUsername(username);
+		UserInfo education = userInfoRepository.fetchEducationsByUsername(username);
+		UserInfo work = userInfoRepository.fetchWorksByUsername(username);
+		UserInfo project = userInfoRepository.fetchProjectsByUsername(username);
 		info.setScholarships(scholarship.getScholarships());
 		info.setAwards(award.getAwards());
 		info.setCertificates(certificate.getCertificates());
@@ -54,6 +60,9 @@ public class UserInfoController {
 		info.setPresentations(presentation.getPresentations());
 		info.setBooks(book.getBooks());
 		info.setJournals(journal.getJournals());
+		info.setEducations(education.getEducations());
+		info.setWorks(work.getWorks());
+		info.setProjects(project.getProjects());
 		return info;
 	}
 
@@ -169,6 +178,42 @@ public class UserInfoController {
 		UserInfo ret = userInfoRepository.save(info);
 
 		return ret.getJournals();
+	}
+	
+	@PutMapping("/user-info/educations")
+	public List<Education> updateEducations(Authentication auth, @RequestBody List<Education> educations) {
+		String username = StringUtility.getUserName(auth.getName());
+		UserInfo info = userInfoRepository.fetchEducationsByUsername(username);
+
+		info.setEducations(educations);
+
+		UserInfo ret = userInfoRepository.save(info);
+
+		return ret.getEducations();
+	}
+	
+	@PutMapping("/user-info/works")
+	public List<Work> updateWorks(Authentication auth, @RequestBody List<Work> works) {
+		String username = StringUtility.getUserName(auth.getName());
+		UserInfo info = userInfoRepository.fetchWorksByUsername(username);
+
+		info.setWorks(works);
+
+		UserInfo ret = userInfoRepository.save(info);
+
+		return ret.getWorks();
+	}
+	
+	@PutMapping("/user-info/projects")
+	public List<Project> updateProjects(Authentication auth, @RequestBody List<Project> projects) {
+		String username = StringUtility.getUserName(auth.getName());
+		UserInfo info = userInfoRepository.fetchProjectsByUsername(username);
+
+		info.setProjects(projects);
+
+		UserInfo ret = userInfoRepository.save(info);
+
+		return ret.getProjects();
 	}
 
 	@PostMapping("/user-info/avatar")

@@ -93,6 +93,18 @@ public class UserInfo {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Journal> journals = new ArrayList<>();
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Education> educations = new ArrayList<>();
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Work> works = new ArrayList<>();
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Project> projects = new ArrayList<>();
 
 	public UserInfo() {
 		super();
@@ -369,6 +381,39 @@ public class UserInfo {
 		this.journals = journals;
 		for (Journal journal : journals) {
 			journal.setInfo(this);
+		}
+	}
+
+	public List<Education> getEducations() {
+		return educations;
+	}
+
+	public void setEducations(List<Education> educations) {
+		this.educations = educations;
+		for (Education education : educations) {
+			education.setInfo(this);
+		}
+	}
+
+	public List<Work> getWorks() {
+		return works;
+	}
+
+	public void setWorks(List<Work> works) {
+		this.works = works;
+		for (Work work : works) {
+			work.setInfo(this);
+		}
+	}
+
+	public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+		for (Project project : projects) {
+			project.setInfo(this);
 		}
 	}
 

@@ -1,4 +1,4 @@
-import { Button, Radio, Tabs, Form, Input, DatePicker } from 'antd'
+import { Radio, Tabs } from 'antd'
 import React, { useState } from 'react'
 import VN from 'antd/es/date-picker/locale/vi_VN'
 import coverImage from '../../image/cover-image.jpg'
@@ -19,6 +19,9 @@ import { Thesis } from './Thesis'
 import { Presentation } from './Presentation'
 import { Book } from './Book'
 import { Journal } from './Journal'
+import { Education } from './Education'
+import { Work } from './Work'
+import { Project } from './Project'
 
 const layout = {
   labelCol: { span: 6 },
@@ -128,83 +131,17 @@ export function UserInfo() {
         </Tabs.TabPane>
         <Tabs.TabPane tab='Giáo dục, đào tạo' key='13'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Trường học, trung tâm' name='school'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Ngành, nội dung đào tạo' name='field'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Thời gian' name='duration'>
-                <DatePicker.RangePicker locale={VN} picker='month' format={'MM-YYYY'} />
-              </Form.Item>
-
-              <Form.Item label='Thông tin khác' name='description'>
-                <Input.TextArea />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <Education info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Kinh nghiệm làm việc' key='14'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Nơi làm việc' name='company'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Vị trí' name='position'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Thời gian' name='duration'>
-                <DatePicker.RangePicker locale={VN} picker='month' format={'MM-YYYY'} />
-              </Form.Item>
-
-              <Form.Item label='Mô tả' name='description'>
-                <Input.TextArea />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <Work info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Dự án' key='15'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Form {...layout}>
-              <Form.Item label='Tên dự án' name='project'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Nơi thực hiện' name='company'>
-                <Input />
-              </Form.Item>
-
-              <Form.Item label='Thời gian' name='duration'>
-                <DatePicker.RangePicker locale={VN} picker='month' format={'MM-YYYY'} />
-              </Form.Item>
-
-              <Form.Item label='Mô tả' name='description'>
-                <Input.TextArea />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type='primary' htmlType='submit'>
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+            <Project info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
           </div>
         </Tabs.TabPane>
       </Tabs>
