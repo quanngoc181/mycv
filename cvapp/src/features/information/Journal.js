@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, InputNumber, Space } from 'antd'
+import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Space } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -68,18 +68,30 @@ export function Journal({ info, layout, tailLayout, locale }) {
                 <Form.Item {...field} name={[field.name, 'year']} fieldKey={[field.fieldKey, 'year']} label='Năm xuất bản'>
                   <DatePicker locale={locale} picker='year' />
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'volume']} fieldKey={[field.fieldKey, 'volume']} label='Tập, Kỳ'>
-                  <InputNumber min={0} placeholder='Tập' />
-                </Form.Item>
-                <Form.Item {...field} name={[field.name, 'issue']} fieldKey={[field.fieldKey, 'issue']} label='Tập, Kỳ'>
-                  <InputNumber min={0} placeholder='Kỳ' />
-                </Form.Item>
-                <Form.Item {...field} name={[field.name, 'start']} fieldKey={[field.fieldKey, 'start']} label='Trang'>
-                  <InputNumber min={0} placeholder='Từ' />
-                </Form.Item>
-                <Form.Item {...field} name={[field.name, 'end']} fieldKey={[field.fieldKey, 'end']} label='Trang'>
-                  <InputNumber min={0} placeholder='Đến' />
-                </Form.Item>
+                <Row>
+                  <Col span={12}>
+                    <Form.Item {...field} name={[field.name, 'volume']} fieldKey={[field.fieldKey, 'volume']} label='Tập, Kỳ' labelCol={{ span: 12 }} wrapperCol={{ span: 12 }}>
+                      <InputNumber min={0} placeholder='Tập' style={{ width: 'calc(100% - 40px)' }} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item {...field} name={[field.name, 'issue']} fieldKey={[field.fieldKey, 'issue']} wrapperCol={{ span: 12 }}>
+                      <InputNumber min={0} placeholder='Kỳ' style={{ width: 'calc(100% - 40px)' }} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12}>
+                    <Form.Item {...field} name={[field.name, 'start']} fieldKey={[field.fieldKey, 'start']} label='Trang' labelCol={{ span: 12 }} wrapperCol={{ span: 12 }}>
+                      <InputNumber min={0} placeholder='Từ' style={{ width: 'calc(100% - 40px)' }} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item {...field} name={[field.name, 'end']} fieldKey={[field.fieldKey, 'end']} wrapperCol={{ span: 12 }}>
+                      <InputNumber min={0} placeholder='Đến' style={{ width: 'calc(100% - 40px)' }} />
+                    </Form.Item>
+                  </Col>
+                </Row>
               </Space>
             ))}
           </>
