@@ -46,7 +46,7 @@ export function UserInfo() {
       <div className='homepage-region'>
         <img className='cover-image' src={coverImage} alt='Anh bia' />
         <div className='avatar-region'>
-          <img className='avatar-image' src={'http://localhost:8080/resources/' + avatarUrl} alt='Anh dai dien' />
+          <img className='avatar-image' src={'http://localhost:8080/resources/avatar/' + avatarUrl} alt='Anh dai dien' />
           <UploadAvatar />
         </div>
       </div>
@@ -92,7 +92,7 @@ export function UserInfo() {
               <Tabs.TabPane tab='Tạp chí' key='62'>
                 <Journal info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
               </Tabs.TabPane>
-              <Tabs.TabPane tab='Bài thuyết trình' key='63'>
+              <Tabs.TabPane tab='Thuyết trình' key='63'>
                 <Presentation info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
               </Tabs.TabPane>
             </Tabs>

@@ -71,7 +71,7 @@ class TagGroup extends React.Component {
           const isLongTag = tag.length > 20
 
           const tagElem = (
-            <Tag className='edit-tag' key={tag} style={{ margin: '5px 10px 5px 0' }} closable={true} onClose={() => this.handleClose(tag)}>
+            <Tag className='edit-tag' key={tag} style={{ margin: '5px 10px 5px 0' }} closable onClose={() => this.handleClose(tag)}>
               <span
                 onDoubleClick={(e) => {
                   this.setState({ editInputIndex: index, editInputValue: tag }, () => {

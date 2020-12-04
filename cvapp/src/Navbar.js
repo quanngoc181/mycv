@@ -56,11 +56,17 @@ export function NavBar() {
         <Link to='/my-info'>
           <div className='my-nav-link'>Thông tin</div>
         </Link>
+        <Link to='/template1'>
+          <div className='my-nav-link'>Template1</div>
+        </Link>
+        <Link to='/template2'>
+          <div className='my-nav-link'>Template2</div>
+        </Link>
       </div>
     )
     rightNav = (
       <div className='my-nav'>
-        <img src={'http://localhost:8080/resources/' + avatarUrl} className='nav-avatar' alt='Avatar' />
+        <img src={'http://localhost:8080/resources/avatar/' + avatarUrl} className='nav-avatar' alt='Avatar' />
         <div className='my-nav-link'>{lastName}</div>
         <Dropdown overlay={menu} placement='bottomRight' trigger={['click']}>
           <div className='my-nav-link'>

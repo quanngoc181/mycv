@@ -225,7 +225,7 @@ public class UserInfoController {
 			String username = StringUtility.getUserName(auth.getName());
 			UserInfo info = userInfoRepository.findByUsername(username);
 			
-			Path path = Paths.get("uploads");
+			Path path = Paths.get("uploads/avatar");
 			
 			String filename = info.getId() + file.getOriginalFilename();
 			

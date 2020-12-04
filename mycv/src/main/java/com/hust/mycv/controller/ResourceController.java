@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ResourceController {
 
-	@GetMapping(value = "/resources/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(value = "/resources/avatar/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<Resource> serveAvatar(@PathVariable String filename) throws IOException {
 		try {
-			Path file = Paths.get("uploads").resolve(filename);
+			Path file = Paths.get("uploads/avatar").resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
 
 			if (resource.exists() || resource.isReadable()) {

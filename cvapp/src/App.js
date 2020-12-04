@@ -8,6 +8,8 @@ import { Login } from './features/authen/Login'
 import { Footer } from './Footer'
 import { Register } from './features/authen/Register'
 import { UserInfo } from './features/information/UserInfo'
+import { Template1 } from './templates/Template1'
+import { Template2 } from './templates/Template2'
 
 function App() {
   return (
@@ -31,6 +33,12 @@ function App() {
             </Route>
             <Route path='/my-info'>
               <UserInfo></UserInfo>
+            </Route>
+            <Route path='/template1'>
+              <Template1></Template1>
+            </Route>
+            <Route path='/template2'>
+              <Template2></Template2>
             </Route>
           </Switch>
         </Route>
