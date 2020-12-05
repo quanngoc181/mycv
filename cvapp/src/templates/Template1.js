@@ -1,78 +1,84 @@
+import { Fragment } from 'react'
 import './template1.css'
 
-export function Template1() {
+export function Template1({ info, fontFamily, fontSize, lineHeight }) {
   return (
     <>
-      <div className='cv-container1'>
+      <div className='cv-container1' spellCheck={false} style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
         <div className='cv-section d-flex'>
-          <img className='cv-avatar' src='http://localhost:8080/resources/avatar/default-avatar.png' alt='Anh dai dien' />
+          <img className='cv-avatar' src={'http://localhost:8080/resources/avatar/' + info.avatar} alt='Anh dai dien' />
           <div className='flex-grow'>
-            <div className='cv-fullname' contentEditable spellCheck={false} suppressContentEditableWarning>
-              Nguyễn Văn Anh
+            <div className='cv-fullname' contentEditable suppressContentEditableWarning>
+              {info.fullName}
             </div>
-            <div className='cv-position' contentEditable spellCheck={false} suppressContentEditableWarning>
-              Thực tập sinh
+            <div className='cv-position' contentEditable suppressContentEditableWarning>
+              {info.position}
             </div>
             <table>
               <tbody>
                 <tr>
                   <td className='font-bold width-100'>Giới tính:</td>
-                  <td contentEditable spellCheck={false} suppressContentEditableWarning>
-                    Nam
+                  <td contentEditable suppressContentEditableWarning>
+                    {info.gender}
                   </td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Ngày sinh:</td>
-                  <td contentEditable spellCheck={false} suppressContentEditableWarning>
-                    01/01/1998
+                  <td contentEditable suppressContentEditableWarning>
+                    {info.dob}
                   </td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Địa chỉ:</td>
-                  <td contentEditable spellCheck={false} suppressContentEditableWarning>
-                    Tân Hòa - Quốc Oai - Hà Nội
+                  <td contentEditable suppressContentEditableWarning>
+                    {info.address}
                   </td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Hôn nhân:</td>
-                  <td contentEditable spellCheck={false} suppressContentEditableWarning>
-                    Độc thân
+                  <td contentEditable suppressContentEditableWarning>
+                    {info.marital}
                   </td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Số con:</td>
-                  <td contentEditable spellCheck={false} suppressContentEditableWarning>
-                    0
+                  <td contentEditable suppressContentEditableWarning>
+                    {info.childs}
                   </td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Quốc tịch:</td>
-                  <td contentEditable spellCheck={false} suppressContentEditableWarning>
-                    Việt Nam
+                  <td contentEditable suppressContentEditableWarning>
+                    {info.nationality}
                   </td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Tôn giáo:</td>
-                  <td contentEditable spellCheck={false} suppressContentEditableWarning>
-                    Không
+                  <td contentEditable suppressContentEditableWarning>
+                    {info.religion}
                   </td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Điện thoại:</td>
-                  <td contentEditable spellCheck={false} suppressContentEditableWarning>
-                    0123456789
+                  <td contentEditable suppressContentEditableWarning>
+                    {info.phone}
                   </td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Email:</td>
-                  <td contentEditable spellCheck={false} suppressContentEditableWarning>
-                    anhnv@gmail.com
+                  <td contentEditable suppressContentEditableWarning>
+                    {info.email}
                   </td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Website:</td>
-                  <td contentEditable spellCheck={false} suppressContentEditableWarning>
-                    facebook.com/anh.nv
+                  <td contentEditable suppressContentEditableWarning>
+                    {info.socials.map((social, index) => (
+                      <Fragment key={index}>
+                        {index !== 0 ? <br /> : null}
+                        {social}
+                      </Fragment>
+                    ))}
                   </td>
                 </tr>
               </tbody>
@@ -82,662 +88,359 @@ export function Template1() {
 
         <div className='cv-section'>
           <div className='cv-section-header'>Giới Thiệu</div>
-          <p className='cv-page text-justify' contentEditable spellCheck={false} suppressContentEditableWarning>
-            Mong muốn được thực tập tại công ty, học hỏi thêm nhiều kiến thức và kinh nghiệm lập trình, kết hợp với những kiến thức đã học được để đóng góp cho công ty trong quá trình thực tập hè. Hơn thế nữa là được trở thành nhân viên chính thức của công ty.
+          <p className='cv-page text-justify' contentEditable suppressContentEditableWarning>
+            {info.profile}
           </p>
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Học vấn</div>
-          <div className='cv-section-item cv-education-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2016
-                    </span>
-                    <span> - </span>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Đại học Bách Khoa Hà Nội
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Cử nhân công nghệ thông tin
-                    </div>
-                    <div className='cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      - CPA hiện tại: 3.5
-                      <br />- Dự kiến ra trường: 01/2021
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className='cv-section-item cv-education-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2016
-                    </span>
-                    <span> - </span>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Đại học Bách Khoa Hà Nội
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Cử nhân công nghệ thông tin
-                    </div>
-                    <div className='cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      - CPA hiện tại: 3.5
-                      <br />- Dự kiến ra trường: 01/2021
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {info.educations.map((education, index) => (
+            <div className='cv-section-item cv-education-item' key={index}>
+              <table>
+                <tbody>
+                  <tr>
+                    <td className='width-150'>
+                      <span contentEditable suppressContentEditableWarning>
+                        {education.start}
+                      </span>
+                      <span> - </span>
+                      <span contentEditable suppressContentEditableWarning>
+                        {education.end}
+                      </span>
+                    </td>
+                    <td>
+                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                        {education.school}
+                      </div>
+                      <div contentEditable suppressContentEditableWarning>
+                        {education.field}
+                      </div>
+                      <div className='cv-page' contentEditable suppressContentEditableWarning>
+                        {education.description.map((des, index) => (
+                          <Fragment key={index}>
+                            {index !== 0 ? <br /> : null}
+                            {des}
+                          </Fragment>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Kinh nghiệm làm việc</div>
-          <div className='cv-section-item cv-work-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2016
-                    </span>
-                    <span> - </span>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Công ty ABC
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Lập trình viên
-                    </div>
-                    <div className='cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      - Lập trình viên chính trong các dự án của công ty
-                      <br />- Hướng dẫn cho các bạn thực tập sinh mới vào công ty
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className='cv-section-item cv-work-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2016
-                    </span>
-                    <span> - </span>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Công ty ABC
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Lập trình viên
-                    </div>
-                    <div className='cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      - Lập trình viên chính trong các dự án của công ty
-                      <br />- Hướng dẫn cho các bạn thực tập sinh mới vào công ty
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {info.works.map((work, index) => (
+            <div className='cv-section-item cv-work-item' key={index}>
+              <table>
+                <tbody>
+                  <tr>
+                    <td className='width-150'>
+                      <span contentEditable suppressContentEditableWarning>
+                        {work.start}
+                      </span>
+                      <span> - </span>
+                      <span contentEditable suppressContentEditableWarning>
+                        {work.end}
+                      </span>
+                    </td>
+                    <td>
+                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                        {work.company}
+                      </div>
+                      <div contentEditable suppressContentEditableWarning>
+                        {work.position}
+                      </div>
+                      <div className='cv-page' contentEditable suppressContentEditableWarning>
+                        {work.description.map((des, index) => (
+                          <Fragment key={index}>
+                            {index !== 0 ? <br /> : null}
+                            {des}
+                          </Fragment>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Dự án</div>
-          <div className='cv-section-item cv-project-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2016
-                    </span>
-                    <span> - </span>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Đồ án 1
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Đại học Bách Khoa Hà Nội
-                    </div>
-                    <div className='cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      - Xây dựng ứng dụng tạo CV
-                      <br />- Công nghệ sử dụng: Java
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className='cv-section-item cv-project-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2016
-                    </span>
-                    <span> - </span>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Đồ án 1
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Đại học Bách Khoa Hà Nội
-                    </div>
-                    <div className='cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      - Xây dựng ứng dụng tạo CV
-                      <br />- Công nghệ sử dụng: Java
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {info.projects.map((project, index) => (
+            <div className='cv-section-item cv-project-item' key={index}>
+              <table>
+                <tbody>
+                  <tr>
+                    <td className='width-150'>
+                      <span contentEditable suppressContentEditableWarning>
+                        {project.start}
+                      </span>
+                      <span> - </span>
+                      <span contentEditable suppressContentEditableWarning>
+                        {project.end}
+                      </span>
+                    </td>
+                    <td>
+                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                        {project.name}
+                      </div>
+                      <div contentEditable suppressContentEditableWarning>
+                        {project.company}
+                      </div>
+                      <div className='cv-page' contentEditable suppressContentEditableWarning>
+                        {project.description.map((des, index) => (
+                          <Fragment key={index}>
+                            {index !== 0 ? <br /> : null}
+                            {des}
+                          </Fragment>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Tổ chức</div>
-          <div className='cv-section-item cv-membership-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2016
-                    </span>
-                    <span> - </span>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Hội lập trình viên Hà Nội
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Thành viên
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className='cv-section-item cv-membership-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2016
-                    </span>
-                    <span> - </span>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      01/2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Hội lập trình viên Hà Nội
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Thành viên
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {info.memberships.map((membership, index) => (
+            <div className='cv-section-item cv-membership-item' key={index}>
+              <table>
+                <tbody>
+                  <tr>
+                    <td className='width-150'>
+                      <span contentEditable suppressContentEditableWarning>
+                        {membership.start}
+                      </span>
+                      <span> - </span>
+                      <span contentEditable suppressContentEditableWarning>
+                        {membership.end}
+                      </span>
+                    </td>
+                    <td>
+                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                        {membership.organization}
+                      </div>
+                      <div contentEditable suppressContentEditableWarning>
+                        {membership.role}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Hoạt động</div>
-          <div contentEditable spellCheck={false} suppressContentEditableWarning>
+          <div contentEditable suppressContentEditableWarning>
             <ul>
-              <li>Đảm nhận vị trí chủ tịch hội sinh viên khóa 61 Đại học Bách Khoa Hà Nội</li>
-              <li>Đảm nhận vị trí chủ tịch hội sinh viên khóa 61 Đại học Bách Khoa Hà Nội</li>
+              {info.activities.map((activity, index) => (
+                <li key={index}>{activity}</li>
+              ))}
             </ul>
           </div>
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Thông tin thêm</div>
-          <p className='cv-page text-justify' contentEditable spellCheck={false} suppressContentEditableWarning>
-            Mong muốn được thực tập tại công ty, học hỏi thêm nhiều kiến thức và kinh nghiệm lập trình, kết hợp với những kiến thức đã học được để đóng góp cho công ty trong quá trình thực tập hè. Hơn thế nữa là được trở thành nhân viên chính thức của công ty.{' '}
+          <p className='cv-page text-justify' contentEditable suppressContentEditableWarning>
+            {info.additional}
           </p>
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Giải thưởng</div>
-          <div className='cv-section-item cv-award-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Quán quân MR & MISS
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Đại học Bách Khoa Hà Nội
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className='cv-section-item cv-award-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Quán quân MR & MISS
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Đại học Bách Khoa Hà Nội
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {info.awards.map((award, index) => (
+            <div className='cv-section-item cv-award-item' key={index}>
+              <table>
+                <tbody>
+                  <tr>
+                    <td className='width-150'>
+                      <span contentEditable suppressContentEditableWarning>
+                        {award.year}
+                      </span>
+                    </td>
+                    <td>
+                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                        {award.name}
+                      </div>
+                      <div contentEditable suppressContentEditableWarning>
+                        {award.organization}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Chứng nhận</div>
-          <div className='cv-section-item cv-certificate-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      TOEIC 450
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      IIG Việt Nam
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className='cv-section-item cv-certificate-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      TOEIC 450
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      IIG Việt Nam
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {info.certificates.map((certificate, index) => (
+            <div className='cv-section-item cv-certificate-item' key={index}>
+              <table>
+                <tbody>
+                  <tr>
+                    <td className='width-150'>
+                      <span contentEditable suppressContentEditableWarning>
+                        {certificate.year}
+                      </span>
+                    </td>
+                    <td>
+                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                        {certificate.name}
+                      </div>
+                      <div contentEditable suppressContentEditableWarning>
+                        {certificate.organization}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Học bổng</div>
-          <div className='cv-section-item cv-scholarship-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Học bổng tài năng
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Đại học Bách Khoa Hà Nội
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className='cv-section-item cv-scholarship-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                      2020
-                    </span>
-                  </td>
-                  <td>
-                    <div className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Học bổng tài năng
-                    </div>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Đại học Bách Khoa Hà Nội
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {info.scholarships.map((scholarship, index) => (
+            <div className='cv-section-item cv-scholarship-item' key={index}>
+              <table>
+                <tbody>
+                  <tr>
+                    <td className='width-150'>
+                      <span contentEditable suppressContentEditableWarning>
+                        {scholarship.year}
+                      </span>
+                    </td>
+                    <td>
+                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                        {scholarship.name}
+                      </div>
+                      <div contentEditable suppressContentEditableWarning>
+                        {scholarship.organization}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Luận văn</div>
-          <div className='cv-section-item cv-thesis-item'>
-            <div className='d-flex justify-content-between'>
-              <span className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                Luận văn thạc sĩ
-              </span>
-              <span>
-                <span>GVHD: </span>
-                <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                  Nguyễn Văn Anh
+          {info.theses.map((thesis, index) => (
+            <div className='cv-section-item cv-thesis-item' key={index}>
+              <div className='d-flex justify-content-between'>
+                <span className='font-bold' contentEditable suppressContentEditableWarning>
+                  {thesis.title}
                 </span>
-              </span>
-            </div>
-            <div className='cv-page text-justify' contentEditable spellCheck={false} suppressContentEditableWarning>
-              Nghiên cứu về lĩnh vực Trí tuệ nhân tạo và Học máy, xây dựng chương trình nhận diện ảnh chân dung người, sử dụng bởi các phần mềm có tính năng tải lên tập tin ảnh.
-            </div>
-          </div>
-          <div className='cv-section-item cv-thesis-item'>
-            <div className='d-flex justify-content-between'>
-              <span className='font-bold' contentEditable spellCheck={false} suppressContentEditableWarning>
-                Luận văn thạc sĩ
-              </span>
-              <span>
-                <span>GVHD: </span>
-                <span contentEditable spellCheck={false} suppressContentEditableWarning>
-                  Nguyễn Văn Anh
+                <span>
+                  <span>GVHD: </span>
+                  <span contentEditable suppressContentEditableWarning>
+                    {thesis.advisor}
+                  </span>
                 </span>
-              </span>
+              </div>
+              <div className='cv-page text-justify' contentEditable suppressContentEditableWarning>
+                {thesis.description.map((des, index) => (
+                  <Fragment key={index}>
+                    {index !== 0 ? <br /> : null}
+                    {des}
+                  </Fragment>
+                ))}
+              </div>
             </div>
-            <div className='cv-page text-justify' contentEditable spellCheck={false} suppressContentEditableWarning>
-              Nghiên cứu về lĩnh vực Trí tuệ nhân tạo và Học máy, xây dựng chương trình nhận diện ảnh chân dung người, sử dụng bởi các phần mềm có tính năng tải lên tập tin ảnh.
-            </div>
-          </div>
+          ))}
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Xuất bản, thuyết trình</div>
           <div className='cv-section-item cv-book-item'>
             <div className='font-bold'>Sách</div>
-            <div className='font-italic cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-              Anh, N. V. (2020). Phân tích và nhận diện ảnh. Hà Nội: Kim Đồng.
-            </div>
-            <div className='font-italic cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-              Anh, N. V. (2020). Phân tích và nhận diện ảnh. Hà Nội: Kim Đồng.
-            </div>
+            {info.books.map((book, index) => (
+              <div className='font-italic cv-page' contentEditable suppressContentEditableWarning key={index}>
+                {book}
+              </div>
+            ))}
           </div>
           <div className='cv-section-item cv-journal-item'>
             <div className='font-bold'>Tạp chí</div>
-            <div className='font-italic cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-              Anh, N. V. (2020). Lập trình hướng đối tượng. Tạp chí công nghệ, 20(1), 8-12.
-            </div>
-            <div className='font-italic cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-              Anh, N. V. (2020). Lập trình hướng đối tượng. Tạp chí công nghệ, 20(1), 8-12.
-            </div>
+            {info.journals.map((journal, index) => (
+              <div className='font-italic cv-page' contentEditable suppressContentEditableWarning key={index}>
+                {journal}
+              </div>
+            ))}
           </div>
           <div className='cv-section-item cv-book-item'>
             <div className='font-bold'>Thuyết trình</div>
-            <div className='font-italic cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-              "Lập trình Java." Hội nghị công nghệ. Hà Nội, 2020.
-            </div>
-            <div className='font-italic cv-page' contentEditable spellCheck={false} suppressContentEditableWarning>
-              "Lập trình Java." Hội nghị công nghệ. Hà Nội, 2020.
-            </div>
+            {info.presentations.map((presentation, index) => (
+              <div className='font-italic cv-page' contentEditable suppressContentEditableWarning key={index}>
+                {presentation}
+              </div>
+            ))}
           </div>
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Sở thích</div>
-          <div className='cv-hobby-tag' contentEditable spellCheck={false} suppressContentEditableWarning>
-            Nghe nhạc
-          </div>
-          <div className='cv-hobby-tag' contentEditable spellCheck={false} suppressContentEditableWarning>
-            Nghe nhạc
-          </div>
-          <div className='cv-hobby-tag' contentEditable spellCheck={false} suppressContentEditableWarning>
-            Nghe nhạc
-          </div>
+          {info.hobbies.map((hobby, index) => (
+            <div key={index} className='cv-hobby-tag' contentEditable suppressContentEditableWarning>
+              {hobby}
+            </div>
+          ))}
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Kỹ năng</div>
-          <div className='cv-section-item cv-skill-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Tiếng Anh
-                    </div>
-                  </td>
-                  <td>
-                    <ul className='rating'>
-                      <li>
-                        <div style={{ position: 'relative' }}>
-                          <div style={{ position: 'absolute', overflow: 'hidden', width: '100%' }}>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                          <div>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div style={{ position: 'relative' }}>
-                          <div style={{ position: 'absolute', overflow: 'hidden', width: '100%' }}>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                          <div>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div style={{ position: 'relative' }}>
-                          <div style={{ position: 'absolute', overflow: 'hidden', width: '50%' }}>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                          <div>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div style={{ position: 'relative' }}>
-                          <div style={{ position: 'absolute', overflow: 'hidden', width: '0%' }}>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                          <div>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div style={{ position: 'relative' }}>
-                          <div style={{ position: 'absolute', overflow: 'hidden', width: '0%' }}>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                          <div>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className='cv-section-item cv-skill-item'>
-            <table>
-              <tbody>
-                <tr>
-                  <td className='width-150'>
-                    <div contentEditable spellCheck={false} suppressContentEditableWarning>
-                      Tiếng Anh
-                    </div>
-                  </td>
-                  <td>
-                    <ul className='rating'>
-                      <li>
-                        <div style={{ position: 'relative' }}>
-                          <div style={{ position: 'absolute', overflow: 'hidden', width: '100%' }}>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                          <div>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div style={{ position: 'relative' }}>
-                          <div style={{ position: 'absolute', overflow: 'hidden', width: '100%' }}>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                          <div>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div style={{ position: 'relative' }}>
-                          <div style={{ position: 'absolute', overflow: 'hidden', width: '50%' }}>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                          <div>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div style={{ position: 'relative' }}>
-                          <div style={{ position: 'absolute', overflow: 'hidden', width: '0%' }}>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                          <div>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div style={{ position: 'relative' }}>
-                          <div style={{ position: 'absolute', overflow: 'hidden', width: '0%' }}>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                          <div>
-                            <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
-                              <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
-                            </svg>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {info.skills.map((skill, index) => (
+            <div className='cv-section-item cv-skill-item' key={index}>
+              <table>
+                <tbody>
+                  <tr>
+                    <td className='width-150'>
+                      <div contentEditable suppressContentEditableWarning>
+                        {skill.name}
+                      </div>
+                    </td>
+                    <td>
+                      <ul className='rating'>
+                        {[0, 1, 2, 3, 4].map((number, index) => (
+                          <li key={index}>
+                            <div style={{ position: 'relative' }}>
+                              <div style={{ position: 'absolute', overflow: 'hidden', width: `${skill.rate - number >= 1 ? 100 : skill.rate - number <= 0 ? 0 : 50}%` }}>
+                                <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#fadb14'>
+                                  <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
+                                </svg>
+                              </div>
+                              <div>
+                                <svg viewBox='64 64 896 896' width='20px' height='20px' fill='#ddd'>
+                                  <path d='M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3z'></path>
+                                </svg>
+                              </div>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
       </div>
     </>

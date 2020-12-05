@@ -38,7 +38,7 @@ public class UserInfo {
 
 	private String marital;
 
-	private int childs;
+	private Integer childs;
 
 	private String nationality;
 
@@ -108,7 +108,7 @@ public class UserInfo {
 		super();
 	}
 
-	public UserInfo(Integer id, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, int childs, String nationality, String religion, String dob, String phone, String socials, String additional, String activities, String hobbies) {
+	public UserInfo(Integer id, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, Integer childs, String nationality, String religion, String dob, String phone, String socials, String additional, String activities, String hobbies) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -211,11 +211,11 @@ public class UserInfo {
 		this.marital = marital;
 	}
 
-	public int getChilds() {
+	public Integer getChilds() {
 		return childs;
 	}
 
-	public void setChilds(int childs) {
+	public void setChilds(Integer childs) {
 		this.childs = childs;
 	}
 

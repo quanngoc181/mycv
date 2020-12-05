@@ -14,7 +14,7 @@ export function AdditionalInformation({ info, layout, tailLayout }) {
 
   useEffect(() => {
     if (info) {
-      let activities = info.activities ? JSON.parse(info.activities) : ['']
+      let activities = info.activities ? JSON.parse(info.activities) : [null]
       form.setFieldsValue({ additional: info.additional, activities })
     }
   }, [form, info])

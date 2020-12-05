@@ -56,12 +56,15 @@ export function NavBar() {
         <Link to='/my-info'>
           <div className='my-nav-link'>Thông tin</div>
         </Link>
-        <Link to='/template1'>
+        <Link to='/create-cv'>
+          <div className='my-nav-link'>Tạo CV</div>
+        </Link>
+        {/* <Link to='/template1'>
           <div className='my-nav-link'>Template1</div>
         </Link>
         <Link to='/template2'>
           <div className='my-nav-link'>Template2</div>
-        </Link>
+        </Link> */}
       </div>
     )
     rightNav = (

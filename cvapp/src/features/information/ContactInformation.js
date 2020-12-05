@@ -11,7 +11,7 @@ export function ContactInformation({ info, layout, tailLayout }) {
 
   useEffect(() => {
     if (info) {
-      let socials = info.socials ? JSON.parse(info.socials) : ['']
+      let socials = info.socials ? JSON.parse(info.socials) : [null]
       form.setFieldsValue({ email: info.email, phone: info.phone, socials })
     }
   }, [form, info])

@@ -1,5 +1,5 @@
-import { Radio, Tabs } from 'antd'
-import React, { useState } from 'react'
+import { message, Radio, Tabs } from 'antd'
+import React, { useEffect, useState } from 'react'
 import VN from 'antd/es/date-picker/locale/vi_VN'
 import coverImage from '../../image/cover-image.jpg'
 import './information.css'
@@ -7,7 +7,7 @@ import { Profile } from './Profile'
 import { PersonalInformation } from './PersonalInformation'
 import { ContactInformation } from './ContactInformation'
 import { UploadAvatar } from './UploadAvatar'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AdditionalInformation } from './AdditionalInformation'
 import { Skill } from './Skill'
 import { Scholarship } from './Scholarship'
@@ -21,6 +21,7 @@ import { Journal } from './Journal'
 import { Education } from './Education'
 import { Work } from './Work'
 import { Project } from './Project'
+import { resetStatus } from './infoSlice'
 
 const layout = {
   labelCol: { span: 6 },
@@ -32,7 +33,23 @@ const tailLayout = {
 
 export function UserInfo() {
   const [language, setLanguage] = useState('vi')
+  const dispatch = useDispatch()
   const info = useSelector((state) => state.info.user)
+  const updateStatus = useSelector((state) => state.info.updateStatus)
+
+  useEffect(() => {
+    if (updateStatus === 'success') {
+      message.success('Thành công')
+    } else if (updateStatus === 'error') {
+      message.success('Thất bại')
+    }
+  }, [updateStatus])
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetStatus())
+    }
+  }, [dispatch])
 
   const avatar = info ? info.avatar : null
   const avatarUrl = avatar ? avatar : 'default-avatar.png'

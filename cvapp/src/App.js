@@ -8,8 +8,9 @@ import { Login } from './features/authen/Login'
 import { Footer } from './Footer'
 import { Register } from './features/authen/Register'
 import { UserInfo } from './features/information/UserInfo'
-import { Template1 } from './templates/Template1'
-import { Template2 } from './templates/Template2'
+import { CreateCV } from './features/create-cv/CreateCV'
+// import { Template1 } from './templates/Template1'
+// import { Template2 } from './templates/Template2'
 
 function App() {
   return (
@@ -34,12 +35,15 @@ function App() {
             <Route path='/my-info'>
               <UserInfo></UserInfo>
             </Route>
-            <Route path='/template1'>
+            <Route path='/create-cv'>
+              <CreateCV></CreateCV>
+            </Route>
+            {/* <Route path='/template1'>
               <Template1></Template1>
             </Route>
             <Route path='/template2'>
               <Template2></Template2>
-            </Route>
+            </Route> */}
           </Switch>
         </Route>
       </Switch>
