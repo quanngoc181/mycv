@@ -21,6 +21,10 @@ export function ListCV() {
     history.push('/create-cv')
   }
 
+  const handleView = (identifier) => {
+    history.push('/cvwr/' + identifier)
+  }
+
   const handleUpdate = (id) => {
     dispatch(editCvInfo({ id }))
     history.push('/create-cv')
@@ -54,7 +58,14 @@ export function ListCV() {
                   <div className='button-group'>
                     <Space>
                       <Button type='primary' size='small' icon={<DownloadOutlined />}></Button>
-                      <Button type='primary' size='small' icon={<EyeOutlined />}></Button>
+                      <Button
+                        type='primary'
+                        size='small'
+                        icon={<EyeOutlined />}
+                        onClick={() => {
+                          handleView(item.identifier)
+                        }}
+                      ></Button>
                       <Button
                         type='primary'
                         size='small'

@@ -75,7 +75,11 @@ export function CreateCV() {
   let status = useSelector((state) => state.create.updateStatus)
 
   useEffect(() => {
-    if (status === 'success') message.success('Thành công')
+    if (status === 'success') {
+      message.success({ content: 'Thành công' })
+    } else if (status === 'error') {
+      message.error({ content: 'Thất bại' })
+    }
   }, [status])
   useEffect(() => {
     return () => {
@@ -234,7 +238,7 @@ export function CreateCV() {
           </div>
         </div>
         <div className='my-body' style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
-          <TemplateComponent uploadImage={uploadImage} info={useData === 'original' ? info : defaultInfo} />
+          <TemplateComponent viewMode={false} uploadImage={uploadImage} info={useData === 'original' ? info : defaultInfo} />
         </div>
       </div>
     </>

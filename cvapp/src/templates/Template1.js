@@ -3,15 +3,17 @@ import { useDispatch } from 'react-redux'
 import { updateCvInfo } from '../features/create-cv/createCVSlice'
 import './template1.css'
 
-export function Template1({ info, uploadImage }) {
+export function Template1({ info, uploadImage, viewMode }) {
   const dispatch = useDispatch()
-  
+
   useEffect(() => {
-    let edits = document.querySelectorAll('[field]')
-    edits.forEach((element) => {
-      element.setAttribute('contenteditable', 'true')
-    })
-  }, [])
+    if (viewMode === false) {
+      let edits = document.querySelectorAll('[field]')
+      edits.forEach((element) => {
+        element.setAttribute('contenteditable', 'true')
+      })
+    }
+  }, [viewMode])
 
   const onBlur = (e) => {
     let field = e.target.getAttribute('field')
@@ -26,7 +28,7 @@ export function Template1({ info, uploadImage }) {
     <>
       <div className='cv-container1' spellCheck={false} onBlur={onBlur}>
         <div className='cv-section d-flex'>
-          <img className='cv-avatar' src={'http://localhost:8080/resources/cv/' + info.avatar} onClick={uploadImage} alt='Anh dai dien' />
+          <img className={`cv-avatar${viewMode ? '' : ' editable'}`} src={'http://localhost:8080/resources/cv/' + info.avatar} onClick={uploadImage} alt='Anh dai dien' />
           <div className='flex-grow'>
             <div className='cv-fullname' field='fullName'>
               {info.fullName}
@@ -226,7 +228,9 @@ export function Template1({ info, uploadImage }) {
         <div className='cv-section'>
           <div className='cv-section-header'>Hoạt động</div>
           {info.activities.map((activity, index) => (
-            <div className='cv-bullet' field='activities' index={index} key={index}>{activity}</div>
+            <div className='cv-bullet' field='activities' index={index} key={index}>
+              {activity}
+            </div>
           ))}
         </div>
 

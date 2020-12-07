@@ -13,15 +13,17 @@ import { Fragment, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateCvInfo } from '../features/create-cv/createCVSlice'
 
-export function Template2({ info, uploadImage }) {
+export function Template2({ info, uploadImage, viewMode }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    let edits = document.querySelectorAll('[field]')
-    edits.forEach((element) => {
-      element.setAttribute('contenteditable', 'true')
-    })
-  }, [])
+    if (viewMode === false) {
+      let edits = document.querySelectorAll('[field]')
+      edits.forEach((element) => {
+        element.setAttribute('contenteditable', 'true')
+      })
+    }
+  }, [viewMode])
 
   const onBlur = (e) => {
     let field = e.target.getAttribute('field')

@@ -6,12 +6,14 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,6 +71,9 @@ public class CvInfoController {
 
 		info.setLastModified(LocalDateTime.now());
 
+		if (info.getIdentifier() == null)
+			info.setIdentifier(UUID.randomUUID().toString());
+
 		CvInfo ret = cvInfoRepository.save(info);
 		return ret;
 	}
@@ -95,6 +100,33 @@ public class CvInfoController {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot upload image.");
 		}
+	}
+	
+	@GetMapping("/cvwr/{identifier}")
+	public CvInfo viewCv(@PathVariable String identifier) {
+		CvInfo info = cvInfoRepository.findByIdentifier(identifier);
+
+		CvInfo skill = cvInfoRepository.fetchSkillsByIdentifier(identifier);
+		CvInfo scholarship = cvInfoRepository.fetchScholarshipsByIdentifier(identifier);
+		CvInfo award = cvInfoRepository.fetchAwardsByIdentifier(identifier);
+		CvInfo certificate = cvInfoRepository.fetchCertificatesByIdentifier(identifier);
+		CvInfo membership = cvInfoRepository.fetchMembershipsByIdentifier(identifier);
+		CvInfo thesis = cvInfoRepository.fetchThesesByIdentifier(identifier);
+		CvInfo education = cvInfoRepository.fetchEducationsByIdentifier(identifier);
+		CvInfo work = cvInfoRepository.fetchWorksByIdentifier(identifier);
+		CvInfo project = cvInfoRepository.fetchProjectsByIdentifier(identifier);
+		
+		info.setSkills(skill.getSkills());
+		info.setScholarships(scholarship.getScholarships());
+		info.setAwards(award.getAwards());
+		info.setCertificates(certificate.getCertificates());
+		info.setMemberships(membership.getMemberships());
+		info.setTheses(thesis.getTheses());
+		info.setEducations(education.getEducations());
+		info.setWorks(work.getWorks());
+		info.setProjects(project.getProjects());
+		
+		return info;
 	}
 
 }

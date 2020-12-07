@@ -5,6 +5,7 @@ import counterReducer from '../features/counter/counterSlice'
 import todoReducer from '../features/todo/todoSlice'
 import createCVReducer from '../features/create-cv/createCVSlice'
 import listCVReducer from '../features/list-cv/listCVSlice'
+import viewCVReducer from '../features/view-cv/viewCVSlice'
 
 export default configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export default configureStore({
     info: infoReducer,
     create: createCVReducer,
     list: listCVReducer,
+    view: viewCVReducer,
   },
 })

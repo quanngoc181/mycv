@@ -21,7 +21,6 @@ export function Register() {
 
   return (
     <>
-      <div style={{ height: 100 }}></div>
       <div className='login-form'>
         <Card>
           <div className='text-center' style={{ marginBottom: 20 }}>

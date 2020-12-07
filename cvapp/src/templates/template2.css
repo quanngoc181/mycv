@@ -1,6 +1,6 @@
 .cv-container2 {
   width: 794px;
-  margin: 50px auto;
+  margin: 0 auto;
   background-color: #fff;
   color: #000;
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
@@ -164,6 +164,7 @@
 
 .cv-container2 {
   color: #000000cc;
+  background: linear-gradient(to right, #f4f4f4 250px, #fff 250px);
 }
 
 .cv-container2 .font-bold {

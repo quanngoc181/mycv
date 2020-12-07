@@ -39,9 +39,9 @@ export function UserInfo() {
 
   useEffect(() => {
     if (updateStatus === 'success') {
-      message.success('Thành công')
+      message.success({ content: 'Thành công' })
     } else if (updateStatus === 'error') {
-      message.success('Thất bại')
+      message.error({ content: 'Thất bại' })
     }
   }, [updateStatus])
 
@@ -51,8 +51,9 @@ export function UserInfo() {
     }
   }, [dispatch])
 
-  const avatar = info ? info.avatar : null
-  const avatarUrl = avatar ? avatar : 'default-avatar.png'
+  if (info === null) return null
+
+  const avatarUrl = info.avatar ? info.avatar : 'default-avatar.png'
 
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value)

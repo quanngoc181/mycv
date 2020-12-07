@@ -36,4 +36,33 @@ public interface CvInfoRepository extends JpaRepository<CvInfo, Integer> {
 	
 	@Query(value = "select u from CvInfo u LEFT JOIN FETCH u.projects s where u.username = :username")
 	List<CvInfo> fetchProjectsByUsername(String username);
+	
+	CvInfo findByIdentifier(String identifier);
+	
+	@Query(value = "select u from CvInfo u LEFT JOIN FETCH u.skills s where u.identifier = :identifier")
+	CvInfo fetchSkillsByIdentifier(String identifier);
+	
+	@Query(value = "select u from CvInfo u LEFT JOIN FETCH u.scholarships s where u.identifier = :identifier")
+	CvInfo fetchScholarshipsByIdentifier(String identifier);
+	
+	@Query(value = "select u from CvInfo u LEFT JOIN FETCH u.awards s where u.identifier = :identifier")
+	CvInfo fetchAwardsByIdentifier(String identifier);
+	
+	@Query(value = "select u from CvInfo u LEFT JOIN FETCH u.certificates s where u.identifier = :identifier")
+	CvInfo fetchCertificatesByIdentifier(String identifier);
+	
+	@Query(value = "select u from CvInfo u LEFT JOIN FETCH u.memberships s where u.identifier = :identifier")
+	CvInfo fetchMembershipsByIdentifier(String identifier);
+	
+	@Query(value = "select u from CvInfo u LEFT JOIN FETCH u.theses s where u.identifier = :identifier")
+	CvInfo fetchThesesByIdentifier(String identifier);
+	
+	@Query(value = "select u from CvInfo u LEFT JOIN FETCH u.educations s where u.identifier = :identifier")
+	CvInfo fetchEducationsByIdentifier(String identifier);
+	
+	@Query(value = "select u from CvInfo u LEFT JOIN FETCH u.works s where u.identifier = :identifier")
+	CvInfo fetchWorksByIdentifier(String identifier);
+	
+	@Query(value = "select u from CvInfo u LEFT JOIN FETCH u.projects s where u.identifier = :identifier")
+	CvInfo fetchProjectsByIdentifier(String identifier);
 }
