@@ -6,6 +6,7 @@ import { resetToken } from './features/authen/userSlice'
 import './navbar.css'
 import { Dropdown, Menu } from 'antd'
 import { CaretDownFilled } from '@ant-design/icons'
+import { fetchCv } from './features/list-cv/listCVSlice'
 
 export function NavBar() {
   const history = useHistory()
@@ -13,13 +14,14 @@ export function NavBar() {
   const user = useSelector((state) => state.info.user)
 
   const words = user ? user.fullName.split(' ') : null
-  const lastName = words ? words[words.length - 1] : ''
+  const lastName = words ? words[words.length - 1] : null
 
   const avatar = user ? user.avatar : null
   const avatarUrl = avatar ? avatar : 'default-avatar.png'
 
   useEffect(() => {
     dispatch(fetchAccount())
+    dispatch(fetchCv())
   }, [dispatch])
 
   const logoutHandler = () => {
@@ -50,15 +52,18 @@ export function NavBar() {
   } else {
     centerNav = (
       <div className='my-nav mr-auto ml-auto'>
-        <Link to='/todos'>
+        {/* <Link to='/todos'>
           <div className='my-nav-link'>Todo</div>
-        </Link>
+        </Link> */}
         <Link to='/my-info'>
-          <div className='my-nav-link'>Thông tin</div>
+          <div className='my-nav-link'>Thông tin của tôi</div>
         </Link>
-        <Link to='/create-cv'>
+        <Link to='/list-cv'>
+          <div className='my-nav-link'>CV của tôi</div>
+        </Link>
+        {/* <Link to='/create-cv'>
           <div className='my-nav-link'>Tạo CV</div>
-        </Link>
+        </Link> */}
         {/* <Link to='/template1'>
           <div className='my-nav-link'>Template1</div>
         </Link>

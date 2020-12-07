@@ -75,3 +75,12 @@
   height: calc(100vh - 150px);
   overflow-y: scroll;
 }
+
+.cv-name {
+  text-align: center;
+  border-left: none;
+  border-right: none;
+}
+.cv-name:focus {
+  box-shadow: none;
+}

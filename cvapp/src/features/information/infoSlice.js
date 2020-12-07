@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { GetToken } from '../../utilities/authenUtility'
-import moment from 'moment'
 const axios = require('axios')
 
-export const fetchAccount = createAsyncThunk('user/fetchAccount', async (arg, { rejectWithValue }) => {
+export const fetchAccount = createAsyncThunk('info/fetchAccount', async (arg, { rejectWithValue }) => {
   try {
     let account = await axios.get('http://localhost:8080/user-info', { headers: GetToken() })
     return account.data
@@ -12,7 +11,7 @@ export const fetchAccount = createAsyncThunk('user/fetchAccount', async (arg, { 
   }
 })
 
-export const updateProfile = createAsyncThunk('user/updateProfile', async ({ position, profile }, { getState, rejectWithValue }) => {
+export const updateProfile = createAsyncThunk('info/updateProfile', async ({ position, profile }, { getState, rejectWithValue }) => {
   try {
     let info = getState().info.user
 
@@ -23,7 +22,7 @@ export const updateProfile = createAsyncThunk('user/updateProfile', async ({ pos
   }
 })
 
-export const updatePersonal = createAsyncThunk('user/updatePersonal', async ({ fullName, childs, address, nationality, religion, gender, marital, dob }, { getState, rejectWithValue }) => {
+export const updatePersonal = createAsyncThunk('info/updatePersonal', async ({ fullName, childs, address, nationality, religion, gender, marital, dob }, { getState, rejectWithValue }) => {
   try {
     let info = getState().info.user
 
@@ -34,7 +33,7 @@ export const updatePersonal = createAsyncThunk('user/updatePersonal', async ({ f
   }
 })
 
-export const updateContact = createAsyncThunk('user/updateContact', async ({ email, phone, socials }, { getState, rejectWithValue }) => {
+export const updateContact = createAsyncThunk('info/updateContact', async ({ email, phone, socials }, { getState, rejectWithValue }) => {
   try {
     let info = getState().info.user
 
@@ -45,7 +44,7 @@ export const updateContact = createAsyncThunk('user/updateContact', async ({ ema
   }
 })
 
-export const updateAdditional = createAsyncThunk('user/updateAdditional', async ({ additional, activities, hobbies }, { getState, rejectWithValue }) => {
+export const updateAdditional = createAsyncThunk('info/updateAdditional', async ({ additional, activities, hobbies }, { getState, rejectWithValue }) => {
   try {
     let info = getState().info.user
 
@@ -56,7 +55,7 @@ export const updateAdditional = createAsyncThunk('user/updateAdditional', async 
   }
 })
 
-export const updateSkills = createAsyncThunk('user/updateSkills', async ({ skills }, { rejectWithValue }) => {
+export const updateSkills = createAsyncThunk('info/updateSkills', async ({ skills }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/skills', skills, { headers: GetToken() })
     return account.data
@@ -65,7 +64,7 @@ export const updateSkills = createAsyncThunk('user/updateSkills', async ({ skill
   }
 })
 
-export const updateScholarships = createAsyncThunk('user/updateScholarships', async ({ scholarships }, { rejectWithValue }) => {
+export const updateScholarships = createAsyncThunk('info/updateScholarships', async ({ scholarships }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/scholarships', scholarships, { headers: GetToken() })
     return account.data
@@ -74,7 +73,7 @@ export const updateScholarships = createAsyncThunk('user/updateScholarships', as
   }
 })
 
-export const updateAwards = createAsyncThunk('user/updateAwards', async ({ awards }, { rejectWithValue }) => {
+export const updateAwards = createAsyncThunk('info/updateAwards', async ({ awards }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/awards', awards, { headers: GetToken() })
     return account.data
@@ -83,7 +82,7 @@ export const updateAwards = createAsyncThunk('user/updateAwards', async ({ award
   }
 })
 
-export const updateCertificates = createAsyncThunk('user/updateCertificates', async ({ certificates }, { rejectWithValue }) => {
+export const updateCertificates = createAsyncThunk('info/updateCertificates', async ({ certificates }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/certificates', certificates, { headers: GetToken() })
     return account.data
@@ -92,7 +91,7 @@ export const updateCertificates = createAsyncThunk('user/updateCertificates', as
   }
 })
 
-export const updateMemberships = createAsyncThunk('user/updateMemberships', async ({ memberships }, { rejectWithValue }) => {
+export const updateMemberships = createAsyncThunk('info/updateMemberships', async ({ memberships }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/memberships', memberships, { headers: GetToken() })
     return account.data
@@ -101,7 +100,7 @@ export const updateMemberships = createAsyncThunk('user/updateMemberships', asyn
   }
 })
 
-export const updateTheses = createAsyncThunk('user/updateTheses', async ({ theses }, { rejectWithValue }) => {
+export const updateTheses = createAsyncThunk('info/updateTheses', async ({ theses }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/theses', theses, { headers: GetToken() })
     return account.data
@@ -110,7 +109,7 @@ export const updateTheses = createAsyncThunk('user/updateTheses', async ({ these
   }
 })
 
-export const updatePresentations = createAsyncThunk('user/updatePresentations', async ({ presentations }, { rejectWithValue }) => {
+export const updatePresentations = createAsyncThunk('info/updatePresentations', async ({ presentations }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/presentations', presentations, { headers: GetToken() })
     return account.data
@@ -119,7 +118,7 @@ export const updatePresentations = createAsyncThunk('user/updatePresentations', 
   }
 })
 
-export const updateBooks = createAsyncThunk('user/updateBooks', async ({ books }, { rejectWithValue }) => {
+export const updateBooks = createAsyncThunk('info/updateBooks', async ({ books }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/books', books, { headers: GetToken() })
     return account.data
@@ -128,7 +127,7 @@ export const updateBooks = createAsyncThunk('user/updateBooks', async ({ books }
   }
 })
 
-export const updateJournals = createAsyncThunk('user/updateJournals', async ({ journals }, { rejectWithValue }) => {
+export const updateJournals = createAsyncThunk('info/updateJournals', async ({ journals }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/journals', journals, { headers: GetToken() })
     return account.data
@@ -137,7 +136,7 @@ export const updateJournals = createAsyncThunk('user/updateJournals', async ({ j
   }
 })
 
-export const updateEducations = createAsyncThunk('user/updateEducations', async ({ educations }, { rejectWithValue }) => {
+export const updateEducations = createAsyncThunk('info/updateEducations', async ({ educations }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/educations', educations, { headers: GetToken() })
     return account.data
@@ -146,7 +145,7 @@ export const updateEducations = createAsyncThunk('user/updateEducations', async 
   }
 })
 
-export const updateWorks = createAsyncThunk('user/updateWorks', async ({ works }, { rejectWithValue }) => {
+export const updateWorks = createAsyncThunk('info/updateWorks', async ({ works }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/works', works, { headers: GetToken() })
     return account.data
@@ -155,7 +154,7 @@ export const updateWorks = createAsyncThunk('user/updateWorks', async ({ works }
   }
 })
 
-export const updateProjects = createAsyncThunk('user/updateProjects', async ({ projects }, { rejectWithValue }) => {
+export const updateProjects = createAsyncThunk('info/updateProjects', async ({ projects }, { rejectWithValue }) => {
   try {
     let account = await axios.put('http://localhost:8080/user-info/projects', projects, { headers: GetToken() })
     return account.data
@@ -371,57 +370,5 @@ export const infoSlice = createSlice({
 })
 
 export const { resetUser, resetStatus, updateAvatar } = infoSlice.actions
-
-const maritals = {
-  single: 'Độc thân',
-  married: 'Kết hôn',
-  divorced: 'Ly hôn',
-  widowed: 'Góa',
-}
-
-export const displayInfo = (state) => {
-  let info = state.info.user
-  if (info === null) return null
-  return {
-    ...info,
-    avatar: info.avatar ? info.avatar : 'default-avatar.png',
-    gender: info.gender === 'male' ? 'Nam' : info.gender === 'female' ? 'Nữ' : null,
-    dob: info.dob ? moment(info.dob).format('DD/MM/YYYY') : null,
-    marital: maritals[info.marital],
-    socials: info.socials ? JSON.parse(info.socials) : [],
-    activities: info.activities ? JSON.parse(info.activities) : [],
-    hobbies: info.hobbies ? JSON.parse(info.hobbies) : [],
-    educations: info.educations.map((education) => ({
-      ...education,
-      start: education.start ? moment(education.start).format('MM/YYYY') : null,
-      end: education.end ? moment(education.end).format('MM/YYYY') : null,
-      description: education.description ? education.description.split('\n') : [],
-    })),
-    works: info.works.map((work) => ({
-      ...work,
-      start: work.start ? moment(work.start).format('MM/YYYY') : null,
-      end: work.end ? moment(work.end).format('MM/YYYY') : null,
-      description: work.description ? work.description.split('\n') : [],
-    })),
-    projects: info.projects.map((project) => ({
-      ...project,
-      start: project.start ? moment(project.start).format('MM/YYYY') : null,
-      end: project.end ? moment(project.end).format('MM/YYYY') : null,
-      description: project.description ? project.description.split('\n') : [],
-    })),
-    memberships: info.memberships.map((membership) => ({
-      ...membership,
-      start: membership.start ? moment(membership.start).format('MM/YYYY') : null,
-      end: membership.end ? moment(membership.end).format('MM/YYYY') : null,
-    })),
-    theses: info.theses.map((thesis) => ({
-      ...thesis,
-      description: thesis.description ? thesis.description.split('\n') : [],
-    })),
-    books: ['Day la cuon sach thu nhat', 'Day la cuon sach thu hai'],
-    journals: ['Day la tap chi thu nhat', 'Day la tap chi thu hai'],
-    presentations: ['Day la thuyet trinh thu nhat', 'Day la thuyet trinh thu hai'],
-  }
-}
 
 export default infoSlice.reducer

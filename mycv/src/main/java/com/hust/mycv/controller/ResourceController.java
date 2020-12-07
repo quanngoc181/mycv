@@ -31,5 +31,21 @@ public class ResourceController {
 			throw new RuntimeException("Error: " + e.getMessage());
 		}
 	}
+	
+	@GetMapping(value = "/resources/cv/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
+	public ResponseEntity<Resource> serveCvImage(@PathVariable String filename) throws IOException {
+		try {
+			Path file = Paths.get("uploads/cv").resolve(filename);
+			Resource resource = new UrlResource(file.toUri());
+
+			if (resource.exists() || resource.isReadable()) {
+				return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(resource);
+			} else {
+				throw new RuntimeException("Could not read the file!");
+			}
+		} catch (MalformedURLException e) {
+			throw new RuntimeException("Error: " + e.getMessage());
+		}
+	}
 
 }

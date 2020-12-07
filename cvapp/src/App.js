@@ -8,6 +8,7 @@ import { Login } from './features/authen/Login'
 import { Footer } from './Footer'
 import { Register } from './features/authen/Register'
 import { UserInfo } from './features/information/UserInfo'
+import { ListCV } from './features/list-cv/ListCV'
 import { CreateCV } from './features/create-cv/CreateCV'
 // import { Template1 } from './templates/Template1'
 // import { Template2 } from './templates/Template2'
@@ -34,6 +35,9 @@ function App() {
             </Route>
             <Route path='/my-info'>
               <UserInfo></UserInfo>
+            </Route>
+            <Route path='/list-cv'>
+              <ListCV></ListCV>
             </Route>
             <Route path='/create-cv'>
               <CreateCV></CreateCV>

@@ -43,7 +43,9 @@ public class UserInfoController {
 	@GetMapping("/user-info")
 	public UserInfo getInfo(Authentication auth) {
 		String username = StringUtility.getUserName(auth.getName());
-		UserInfo info = userInfoRepository.fetchSkillsByUsername(username);
+		UserInfo info = userInfoRepository.findByUsername(username);
+		
+		UserInfo skill = userInfoRepository.fetchSkillsByUsername(username);
 		UserInfo scholarship = userInfoRepository.fetchScholarshipsByUsername(username);
 		UserInfo award = userInfoRepository.fetchAwardsByUsername(username);
 		UserInfo certificate = userInfoRepository.fetchCertificatesByUsername(username);
@@ -55,6 +57,8 @@ public class UserInfoController {
 		UserInfo education = userInfoRepository.fetchEducationsByUsername(username);
 		UserInfo work = userInfoRepository.fetchWorksByUsername(username);
 		UserInfo project = userInfoRepository.fetchProjectsByUsername(username);
+		
+		info.setSkills(skill.getSkills());
 		info.setScholarships(scholarship.getScholarships());
 		info.setAwards(award.getAwards());
 		info.setCertificates(certificate.getCertificates());
@@ -66,6 +70,7 @@ public class UserInfoController {
 		info.setEducations(education.getEducations());
 		info.setWorks(work.getWorks());
 		info.setProjects(project.getProjects());
+		
 		return info;
 	}
 
@@ -226,10 +231,12 @@ public class UserInfoController {
 			UserInfo info = userInfoRepository.findByUsername(username);
 			
 			Path path = Paths.get("uploads/avatar");
+			Path path1 = Paths.get("uploads/cv");
 			
 			String filename = info.getId() + file.getOriginalFilename();
 			
 			Files.copy(file.getInputStream(), path.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(file.getInputStream(), path1.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
 
 			info.setAvatar(filename);
 

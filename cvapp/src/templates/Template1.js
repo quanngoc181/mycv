@@ -1,84 +1,81 @@
-import { Fragment } from 'react'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { updateCvInfo } from '../features/create-cv/createCVSlice'
 import './template1.css'
 
-export function Template1({ info, fontFamily, fontSize, lineHeight }) {
+export function Template1({ info, uploadImage }) {
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    let edits = document.querySelectorAll('[field]')
+    edits.forEach((element) => {
+      element.setAttribute('contenteditable', 'true')
+    })
+  }, [])
+
+  const onBlur = (e) => {
+    let field = e.target.getAttribute('field')
+    if (!field) return
+    let index = e.target.getAttribute('index')
+    let subfield = e.target.getAttribute('subfield')
+    let value = e.target.innerText
+    dispatch(updateCvInfo({ field, index, subfield, value }))
+  }
+
   return (
     <>
-      <div className='cv-container1' spellCheck={false} style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
+      <div className='cv-container1' spellCheck={false} onBlur={onBlur}>
         <div className='cv-section d-flex'>
-          <img className='cv-avatar' src={'http://localhost:8080/resources/avatar/' + info.avatar} alt='Anh dai dien' />
+          <img className='cv-avatar' src={'http://localhost:8080/resources/cv/' + info.avatar} onClick={uploadImage} alt='Anh dai dien' />
           <div className='flex-grow'>
-            <div className='cv-fullname' contentEditable suppressContentEditableWarning>
+            <div className='cv-fullname' field='fullName'>
               {info.fullName}
             </div>
-            <div className='cv-position' contentEditable suppressContentEditableWarning>
+            <div className='cv-position' field='position'>
               {info.position}
             </div>
             <table>
               <tbody>
                 <tr>
                   <td className='font-bold width-100'>Giới tính:</td>
-                  <td contentEditable suppressContentEditableWarning>
-                    {info.gender}
-                  </td>
+                  <td field='gender'>{info.gender}</td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Ngày sinh:</td>
-                  <td contentEditable suppressContentEditableWarning>
-                    {info.dob}
-                  </td>
+                  <td field='dob'>{info.dob}</td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Địa chỉ:</td>
-                  <td contentEditable suppressContentEditableWarning>
-                    {info.address}
-                  </td>
+                  <td field='address'>{info.address}</td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Hôn nhân:</td>
-                  <td contentEditable suppressContentEditableWarning>
-                    {info.marital}
-                  </td>
+                  <td field='marital'>{info.marital}</td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Số con:</td>
-                  <td contentEditable suppressContentEditableWarning>
-                    {info.childs}
-                  </td>
+                  <td field='childs'>{info.childs}</td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Quốc tịch:</td>
-                  <td contentEditable suppressContentEditableWarning>
-                    {info.nationality}
-                  </td>
+                  <td field='nationality'>{info.nationality}</td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Tôn giáo:</td>
-                  <td contentEditable suppressContentEditableWarning>
-                    {info.religion}
-                  </td>
+                  <td field='religion'>{info.religion}</td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Điện thoại:</td>
-                  <td contentEditable suppressContentEditableWarning>
-                    {info.phone}
-                  </td>
+                  <td field='phone'>{info.phone}</td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Email:</td>
-                  <td contentEditable suppressContentEditableWarning>
-                    {info.email}
-                  </td>
+                  <td field='email'>{info.email}</td>
                 </tr>
                 <tr>
                   <td className='font-bold width-100'>Website:</td>
-                  <td contentEditable suppressContentEditableWarning>
-                    {info.socials.map((social, index) => (
-                      <Fragment key={index}>
-                        {index !== 0 ? <br /> : null}
-                        {social}
-                      </Fragment>
-                    ))}
+                  <td field='socials' className='pre-line'>
+                    {info.socials}
                   </td>
                 </tr>
               </tbody>
@@ -88,7 +85,7 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
 
         <div className='cv-section'>
           <div className='cv-section-header'>Giới Thiệu</div>
-          <p className='cv-page text-justify' contentEditable suppressContentEditableWarning>
+          <p className='cv-page text-justify pre-line' field='profile'>
             {info.profile}
           </p>
         </div>
@@ -101,28 +98,23 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
                 <tbody>
                   <tr>
                     <td className='width-150'>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='educations' index={index} subfield='start'>
                         {education.start}
                       </span>
                       <span> - </span>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='educations' index={index} subfield='end'>
                         {education.end}
                       </span>
                     </td>
                     <td>
-                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                      <div className='font-bold' field='educations' index={index} subfield='school'>
                         {education.school}
                       </div>
-                      <div contentEditable suppressContentEditableWarning>
+                      <div field='educations' index={index} subfield='field'>
                         {education.field}
                       </div>
-                      <div className='cv-page' contentEditable suppressContentEditableWarning>
-                        {education.description.map((des, index) => (
-                          <Fragment key={index}>
-                            {index !== 0 ? <br /> : null}
-                            {des}
-                          </Fragment>
-                        ))}
+                      <div className='cv-page pre-line' field='educations' index={index} subfield='description'>
+                        {education.description}
                       </div>
                     </td>
                   </tr>
@@ -140,28 +132,23 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
                 <tbody>
                   <tr>
                     <td className='width-150'>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='works' index={index} subfield='start'>
                         {work.start}
                       </span>
                       <span> - </span>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='works' index={index} subfield='end'>
                         {work.end}
                       </span>
                     </td>
                     <td>
-                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                      <div className='font-bold' field='works' index={index} subfield='company'>
                         {work.company}
                       </div>
-                      <div contentEditable suppressContentEditableWarning>
+                      <div field='works' index={index} subfield='position'>
                         {work.position}
                       </div>
-                      <div className='cv-page' contentEditable suppressContentEditableWarning>
-                        {work.description.map((des, index) => (
-                          <Fragment key={index}>
-                            {index !== 0 ? <br /> : null}
-                            {des}
-                          </Fragment>
-                        ))}
+                      <div className='cv-page pre-line' field='works' index={index} subfield='description'>
+                        {work.description}
                       </div>
                     </td>
                   </tr>
@@ -179,28 +166,23 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
                 <tbody>
                   <tr>
                     <td className='width-150'>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='projects' index={index} subfield='start'>
                         {project.start}
                       </span>
                       <span> - </span>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='projects' index={index} subfield='end'>
                         {project.end}
                       </span>
                     </td>
                     <td>
-                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                      <div className='font-bold' field='projects' index={index} subfield='name'>
                         {project.name}
                       </div>
-                      <div contentEditable suppressContentEditableWarning>
+                      <div field='projects' index={index} subfield='company'>
                         {project.company}
                       </div>
-                      <div className='cv-page' contentEditable suppressContentEditableWarning>
-                        {project.description.map((des, index) => (
-                          <Fragment key={index}>
-                            {index !== 0 ? <br /> : null}
-                            {des}
-                          </Fragment>
-                        ))}
+                      <div className='cv-page pre-line' field='projects' index={index} subfield='description'>
+                        {project.description}
                       </div>
                     </td>
                   </tr>
@@ -218,19 +200,19 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
                 <tbody>
                   <tr>
                     <td className='width-150'>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='memberships' index={index} subfield='start'>
                         {membership.start}
                       </span>
                       <span> - </span>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='memberships' index={index} subfield='end'>
                         {membership.end}
                       </span>
                     </td>
                     <td>
-                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                      <div className='font-bold' field='memberships' index={index} subfield='organization'>
                         {membership.organization}
                       </div>
-                      <div contentEditable suppressContentEditableWarning>
+                      <div field='memberships' index={index} subfield='role'>
                         {membership.role}
                       </div>
                     </td>
@@ -243,18 +225,14 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
 
         <div className='cv-section'>
           <div className='cv-section-header'>Hoạt động</div>
-          <div contentEditable suppressContentEditableWarning>
-            <ul>
-              {info.activities.map((activity, index) => (
-                <li key={index}>{activity}</li>
-              ))}
-            </ul>
-          </div>
+          {info.activities.map((activity, index) => (
+            <div className='cv-bullet' field='activities' index={index} key={index}>{activity}</div>
+          ))}
         </div>
 
         <div className='cv-section'>
           <div className='cv-section-header'>Thông tin thêm</div>
-          <p className='cv-page text-justify' contentEditable suppressContentEditableWarning>
+          <p className='cv-page text-justify pre-line' field='additional'>
             {info.additional}
           </p>
         </div>
@@ -267,15 +245,15 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
                 <tbody>
                   <tr>
                     <td className='width-150'>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='awards' index={index} subfield='year'>
                         {award.year}
                       </span>
                     </td>
                     <td>
-                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                      <div className='font-bold' field='awards' index={index} subfield='name'>
                         {award.name}
                       </div>
-                      <div contentEditable suppressContentEditableWarning>
+                      <div field='awards' index={index} subfield='organization'>
                         {award.organization}
                       </div>
                     </td>
@@ -294,15 +272,15 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
                 <tbody>
                   <tr>
                     <td className='width-150'>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='certificates' index={index} subfield='year'>
                         {certificate.year}
                       </span>
                     </td>
                     <td>
-                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                      <div className='font-bold' field='certificates' index={index} subfield='name'>
                         {certificate.name}
                       </div>
-                      <div contentEditable suppressContentEditableWarning>
+                      <div field='certificates' index={index} subfield='organization'>
                         {certificate.organization}
                       </div>
                     </td>
@@ -321,15 +299,15 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
                 <tbody>
                   <tr>
                     <td className='width-150'>
-                      <span contentEditable suppressContentEditableWarning>
+                      <span field='scholarships' index={index} subfield='year'>
                         {scholarship.year}
                       </span>
                     </td>
                     <td>
-                      <div className='font-bold' contentEditable suppressContentEditableWarning>
+                      <div className='font-bold' field='scholarships' index={index} subfield='name'>
                         {scholarship.name}
                       </div>
-                      <div contentEditable suppressContentEditableWarning>
+                      <div field='scholarships' index={index} subfield='organization'>
                         {scholarship.organization}
                       </div>
                     </td>
@@ -345,23 +323,18 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
           {info.theses.map((thesis, index) => (
             <div className='cv-section-item cv-thesis-item' key={index}>
               <div className='d-flex justify-content-between'>
-                <span className='font-bold' contentEditable suppressContentEditableWarning>
+                <span className='font-bold' field='theses' index={index} subfield='title'>
                   {thesis.title}
                 </span>
                 <span>
                   <span>GVHD: </span>
-                  <span contentEditable suppressContentEditableWarning>
+                  <span field='theses' index={index} subfield='advisor'>
                     {thesis.advisor}
                   </span>
                 </span>
               </div>
-              <div className='cv-page text-justify' contentEditable suppressContentEditableWarning>
-                {thesis.description.map((des, index) => (
-                  <Fragment key={index}>
-                    {index !== 0 ? <br /> : null}
-                    {des}
-                  </Fragment>
-                ))}
+              <div className='cv-page text-justify pre-line' field='theses' index={index} subfield='description'>
+                {thesis.description}
               </div>
             </div>
           ))}
@@ -372,7 +345,7 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
           <div className='cv-section-item cv-book-item'>
             <div className='font-bold'>Sách</div>
             {info.books.map((book, index) => (
-              <div className='font-italic cv-page' contentEditable suppressContentEditableWarning key={index}>
+              <div className='font-italic cv-page' field='books' index={index} key={index}>
                 {book}
               </div>
             ))}
@@ -380,7 +353,7 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
           <div className='cv-section-item cv-journal-item'>
             <div className='font-bold'>Tạp chí</div>
             {info.journals.map((journal, index) => (
-              <div className='font-italic cv-page' contentEditable suppressContentEditableWarning key={index}>
+              <div className='font-italic cv-page' field='journals' index={index} key={index}>
                 {journal}
               </div>
             ))}
@@ -388,7 +361,7 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
           <div className='cv-section-item cv-book-item'>
             <div className='font-bold'>Thuyết trình</div>
             {info.presentations.map((presentation, index) => (
-              <div className='font-italic cv-page' contentEditable suppressContentEditableWarning key={index}>
+              <div className='font-italic cv-page' field='presentations' index={index} key={index}>
                 {presentation}
               </div>
             ))}
@@ -398,7 +371,7 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
         <div className='cv-section'>
           <div className='cv-section-header'>Sở thích</div>
           {info.hobbies.map((hobby, index) => (
-            <div key={index} className='cv-hobby-tag' contentEditable suppressContentEditableWarning>
+            <div key={index} className='cv-hobby-tag' field='hobbies' index={index}>
               {hobby}
             </div>
           ))}
@@ -412,7 +385,7 @@ export function Template1({ info, fontFamily, fontSize, lineHeight }) {
                 <tbody>
                   <tr>
                     <td className='width-150'>
-                      <div contentEditable suppressContentEditableWarning>
+                      <div field='skills' index={index} subfield='name'>
                         {skill.name}
                       </div>
                     </td>

@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Award {
@@ -20,17 +21,21 @@ public class Award {
 	
 	private String organization;
 	
-	private Integer year;
+	private String year;
 	
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private UserInfo info;
 	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	private CvInfo cvInfo;
+	
 	public Award() {
 		super();
 	}
 
-	public Award(Integer id, String name, String organization, Integer year) {
+	public Award(Integer id, String name, String organization, String year) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -62,11 +67,11 @@ public class Award {
 		this.organization = organization;
 	}
 
-	public Integer getYear() {
+	public String getYear() {
 		return year;
 	}
 
-	public void setYear(Integer year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 	
@@ -76,6 +81,14 @@ public class Award {
 
 	public void setInfo(UserInfo info) {
 		this.info = info;
+	}
+
+	public CvInfo getCvInfo() {
+		return cvInfo;
+	}
+
+	public void setCvInfo(CvInfo cvInfo) {
+		this.cvInfo = cvInfo;
 	}
 
 	@Override

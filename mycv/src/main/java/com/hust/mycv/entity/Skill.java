@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Skill {
@@ -23,6 +24,10 @@ public class Skill {
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private UserInfo info;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	private CvInfo cvInfo;
 
 	public Skill() {
 		super();
@@ -65,6 +70,14 @@ public class Skill {
 
 	public void setInfo(UserInfo info) {
 		this.info = info;
+	}
+
+	public CvInfo getCvInfo() {
+		return cvInfo;
+	}
+
+	public void setCvInfo(CvInfo cvInfo) {
+		this.cvInfo = cvInfo;
 	}
 
 	@Override
