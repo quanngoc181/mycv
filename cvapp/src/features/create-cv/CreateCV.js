@@ -1,9 +1,6 @@
 import './create-cv.css'
-import template1Logo from '../../templates/template1.png'
-import template2Logo from '../../templates/template2.png'
+import TemplateList from '../../templates/TemplateList'
 import { useEffect, useRef, useState } from 'react'
-import { Template1 } from '../../templates/Template1'
-import { Template2 } from '../../templates/Template2'
 import { Button, Input, message, Radio, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { resetStatus, updateCv, updateCvInfo, updateFontFamily, updateFontSize, updateLanguage, updateLineHeight, updateTemplate } from '../create-cv/createCVSlice'
@@ -89,6 +86,8 @@ export function CreateCV() {
   if (info === null) return null
 
   let { template, language, fontFamily, fontSize, lineHeight } = info
+
+  const TemplateComponent = TemplateList.find((t) => t.id === template).component
 
   const saveCV = () => {
     dispatch(updateCv())
@@ -215,24 +214,18 @@ export function CreateCV() {
             <span>CHỌN MẪU</span>
           </h3>
           <div className='template-container' style={{ marginBottom: 20 }}>
-            <div
-              className={`template-item${template === 'template1' ? ' active' : ''}`}
-              onClick={() => {
-                dispatch(updateTemplate({ template: 'template1' }))
-              }}
-            >
-              <img src={template1Logo} alt='template 1' />
-              <div>Template 1</div>
-            </div>
-            <div
-              className={`template-item${template === 'template2' ? ' active' : ''}`}
-              onClick={() => {
-                dispatch(updateTemplate({ template: 'template2' }))
-              }}
-            >
-              <img src={template2Logo} alt='template 2' />
-              <div>Template 2</div>
-            </div>
+            {TemplateList.map((t, index) => (
+              <div
+                key={index}
+                className={`template-item${template === t.id ? ' active' : ''}`}
+                onClick={() => {
+                  dispatch(updateTemplate({ template: t.id }))
+                }}
+              >
+                <img src={t.logo} alt={t.name} />
+                <div>{t.name}</div>
+              </div>
+            ))}
           </div>
           <div className='action-container'>
             <Button type='primary' onClick={saveCV} block loading={status === 'pending'}>
@@ -241,8 +234,7 @@ export function CreateCV() {
           </div>
         </div>
         <div className='my-body' style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
-          {template === 'template1' ? <Template1 uploadImage={uploadImage} info={useData === 'original' ? info : defaultInfo} /> : null}
-          {template === 'template2' ? <Template2 uploadImage={uploadImage} info={useData === 'original' ? info : defaultInfo} /> : null}
+          <TemplateComponent uploadImage={uploadImage} info={useData === 'original' ? info : defaultInfo} />
         </div>
       </div>
     </>

@@ -61,15 +61,6 @@ export function NavBar() {
         <Link to='/list-cv'>
           <div className='my-nav-link'>Quản lý CV</div>
         </Link>
-        {/* <Link to='/create-cv'>
-          <div className='my-nav-link'>Tạo CV</div>
-        </Link> */}
-        {/* <Link to='/template1'>
-          <div className='my-nav-link'>Template1</div>
-        </Link>
-        <Link to='/template2'>
-          <div className='my-nav-link'>Template2</div>
-        </Link> */}
       </div>
     )
     rightNav = (

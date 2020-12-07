@@ -85,6 +85,23 @@
   white-space: pre-line;
 }
 
+.cv-container1 .cv-bullet {
+  padding-left: 12px;
+  position: relative;
+}
+.cv-container1 .cv-bullet::before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: #000;
+  border-radius: 50%;
+  left: 0;
+  top: 50%;
+  margin-top: -3px;
+}
+
 /* Template Specific */
 .cv-container1 {
   padding: 1in;
@@ -142,21 +159,4 @@
   font-style: italic;
   font-weight: bold;
   color: #0e2452;
-}
-
-.cv-container1 .cv-bullet {
-  padding-left: 12px;
-  position: relative;
-}
-.cv-container1 .cv-bullet::before {
-  content: '';
-  display: inline-block;
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background-color: #000;
-  border-radius: 50%;
-  left: 0;
-  top: 50%;
-  margin-top: -3px;
 }

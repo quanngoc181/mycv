@@ -81,6 +81,26 @@
 .cv-container2 .text-justify {
   text-align: justify;
 }
+.cv-container2 .pre-line {
+  white-space: pre-line;
+}
+
+.cv-container2 .cv-bullet {
+  padding-left: 12px;
+  position: relative;
+}
+.cv-container2 .cv-bullet::before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: #000;
+  border-radius: 50%;
+  left: 0;
+  top: 50%;
+  margin-top: -3px;
+}
 
 .cv-container2 .cv-col-1 {
   width: 250px;
