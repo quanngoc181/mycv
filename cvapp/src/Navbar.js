@@ -56,10 +56,10 @@ export function NavBar() {
           <div className='my-nav-link'>Todo</div>
         </Link> */}
         <Link to='/my-info'>
-          <div className='my-nav-link'>Thông tin của tôi</div>
+          <div className='my-nav-link'>Thông tin</div>
         </Link>
         <Link to='/list-cv'>
-          <div className='my-nav-link'>CV của tôi</div>
+          <div className='my-nav-link'>Quản lý CV</div>
         </Link>
         {/* <Link to='/create-cv'>
           <div className='my-nav-link'>Tạo CV</div>

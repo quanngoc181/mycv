@@ -53,9 +53,12 @@ export const createCVSlice = createSlice({
   name: 'create',
   initialState: {
     cvInfo: null,
-    updateStatus: 'pending',
+    updateStatus: null,
   },
   reducers: {
+    resetStatus(state, action) {
+      state.updateStatus = null
+    },
     updateTemplate(state, action) {
       state.cvInfo.template = action.payload.template
     },
@@ -144,6 +147,6 @@ export const createCVSlice = createSlice({
   },
 })
 
-export const { updateCvInfo, updateTemplate, updateLanguage, updateFontFamily, updateFontSize, updateLineHeight } = createCVSlice.actions
+export const { updateCvInfo, updateTemplate, updateLanguage, updateFontFamily, updateFontSize, updateLineHeight, resetStatus } = createCVSlice.actions
 
 export default createCVSlice.reducer

@@ -12,6 +12,18 @@ export const fetchCv = createAsyncThunk('list/fetchCv', async (arg, { rejectWith
   }
 })
 
+export const deleteCv = createAsyncThunk('list/deleteCv', async ({ id }, { getState, rejectWithValue }) => {
+  try {
+    let cv = getState().list.listCv.find((cv) => cv.id === id)
+    if (cv) {
+      await axios.delete('http://localhost:8080/cv-info', { headers: GetToken(), data: cv })
+      return id
+    }
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const listCVSlice = createSlice({
   name: 'create',
   initialState: {
@@ -27,6 +39,11 @@ export const listCVSlice = createSlice({
     },
     [fetchCv.rejected]: (state, action) => {
       state.listCv = null
+    },
+
+    [deleteCv.fulfilled]: (state, action) => {
+      let id = action.payload
+      state.listCv = state.listCv.filter(cv => cv.id !== id)
     },
   },
 })

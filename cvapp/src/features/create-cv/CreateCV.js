@@ -1,12 +1,12 @@
 import './create-cv.css'
 import template1Logo from '../../templates/template1.png'
 import template2Logo from '../../templates/template2.png'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Template1 } from '../../templates/Template1'
 import { Template2 } from '../../templates/Template2'
-import { Button, Input, Radio, Select } from 'antd'
+import { Button, Input, message, Radio, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateCv, updateCvInfo, updateFontFamily, updateFontSize, updateLanguage, updateLineHeight, updateTemplate } from '../create-cv/createCVSlice'
+import { resetStatus, updateCv, updateCvInfo, updateFontFamily, updateFontSize, updateLanguage, updateLineHeight, updateTemplate } from '../create-cv/createCVSlice'
 import { FileTextOutlined, FontSizeOutlined, LineHeightOutlined, UserOutlined } from '@ant-design/icons'
 import { UploadImage } from './UploadImage'
 
@@ -75,6 +75,16 @@ export function CreateCV() {
   const uploadRef = useRef(null)
 
   let info = useSelector((state) => state.create.cvInfo)
+  let status = useSelector((state) => state.create.updateStatus)
+
+  useEffect(() => {
+    if (status === 'success') message.success('Thành công')
+  }, [status])
+  useEffect(() => {
+    return () => {
+      dispatch(resetStatus())
+    }
+  }, [dispatch])
 
   if (info === null) return null
 
@@ -225,7 +235,7 @@ export function CreateCV() {
             </div>
           </div>
           <div className='action-container'>
-            <Button type='primary' onClick={saveCV} block>
+            <Button type='primary' onClick={saveCV} block loading={status === 'pending'}>
               Lưu
             </Button>
           </div>

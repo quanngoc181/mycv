@@ -5,6 +5,7 @@ import template1Logo from '../../templates/template1.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { initCvInfo } from '../create-cv/createCVSlice'
 import { useHistory } from 'react-router-dom'
+import { deleteCv } from './listCVSlice'
 // import template2Logo from '../../templates/template2.png'
 const moment = require('moment')
 
@@ -21,8 +22,8 @@ export function ListCV() {
     history.push('/create-cv')
   }
 
-  const deleteCv = (id) => {
-    console.log(id)
+  const handleDelete = (id) => {
+    dispatch(deleteCv({ id }))
   }
 
   return (
@@ -52,7 +53,7 @@ export function ListCV() {
                     <Popconfirm
                       title='Xóa CV này?'
                       onConfirm={() => {
-                        deleteCv(item.id)
+                        handleDelete(item.id)
                       }}
                       okText='Xóa'
                       cancelText='Hủy'
