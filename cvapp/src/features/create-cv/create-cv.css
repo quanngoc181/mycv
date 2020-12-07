@@ -72,7 +72,7 @@
 .my-body {
   padding: 20px;
   flex-grow: 1;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 158px);
   overflow-y: scroll;
 }
 

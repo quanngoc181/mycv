@@ -1,8 +1,8 @@
 .login-form {
   width: 400px;
-  margin-left: auto;
-  margin-top: 100px;
-  margin-right: auto;
-  margin-bottom: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
 }

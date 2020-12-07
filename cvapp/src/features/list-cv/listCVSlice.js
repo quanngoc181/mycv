@@ -29,7 +29,17 @@ export const listCVSlice = createSlice({
   initialState: {
     listCv: null,
   },
-  reducers: {},
+  reducers: {
+    mergeCv(state, action) {
+      let { cv } = action.payload
+      let exist = state.listCv.findIndex((item) => item.id === cv.id)
+      if (exist === -1) {
+        state.listCv.push(cv)
+      } else {
+        state.listCv[exist] = cv
+      }
+    },
+  },
   extraReducers: {
     [fetchCv.pending]: (state, action) => {
       state.listCv = null
@@ -43,11 +53,11 @@ export const listCVSlice = createSlice({
 
     [deleteCv.fulfilled]: (state, action) => {
       let id = action.payload
-      state.listCv = state.listCv.filter(cv => cv.id !== id)
+      state.listCv = state.listCv.filter((cv) => cv.id !== id)
     },
   },
 })
 
-// export const {} = listCVSlice.actions
+export const { mergeCv } = listCVSlice.actions
 
 export default listCVSlice.reducer

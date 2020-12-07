@@ -27,18 +27,18 @@ import com.hust.mycv.utility.StringUtility;
 
 @RestController
 public class CvInfoController {
-	
+
 	@Autowired
 	UserInfoRepository userInfoRepository;
-	
+
 	@Autowired
 	CvInfoRepository cvInfoRepository;
-	
+
 	@GetMapping("/cv-info")
 	public List<CvInfo> getInfo(Authentication auth) {
 		String username = StringUtility.getUserName(auth.getName());
 		List<CvInfo> infos = cvInfoRepository.findByUsername(username);
-		
+
 		List<CvInfo> skills = cvInfoRepository.fetchSkillsByUsername(username);
 		List<CvInfo> scholarships = cvInfoRepository.fetchScholarshipsByUsername(username);
 		List<CvInfo> awards = cvInfoRepository.fetchAwardsByUsername(username);
@@ -48,7 +48,7 @@ public class CvInfoController {
 		List<CvInfo> educations = cvInfoRepository.fetchEducationsByUsername(username);
 		List<CvInfo> works = cvInfoRepository.fetchWorksByUsername(username);
 		List<CvInfo> projects = cvInfoRepository.fetchProjectsByUsername(username);
-		
+
 		for (int i = 0; i < infos.size(); i++) {
 			infos.get(i).setSkills(skills.get(i).getSkills());
 			infos.get(i).setScholarships(scholarships.get(i).getScholarships());
@@ -60,34 +60,34 @@ public class CvInfoController {
 			infos.get(i).setWorks(works.get(i).getWorks());
 			infos.get(i).setProjects(projects.get(i).getProjects());
 		}
-		
+
 		return infos;
 	}
-	
+
 	@PostMapping("/cv-info")
 	public CvInfo updateInfo(@RequestBody CvInfo info) {
-		
+
 		info.setLastModified(LocalDateTime.now());
-		
+
 		CvInfo ret = cvInfoRepository.save(info);
 		return ret;
 	}
-	
+
 	@DeleteMapping("/cv-info")
 	public void deleteInfo(@RequestBody CvInfo info) {
 		cvInfoRepository.delete(info);
 	}
-	
+
 	@PostMapping("/cv-info/upload-image")
 	public String updateImage(Authentication auth, @RequestParam("file") MultipartFile file) {
 		try {
 			String username = StringUtility.getUserName(auth.getName());
 			UserInfo info = userInfoRepository.findByUsername(username);
-			
+
 			Path path = Paths.get("uploads/cv");
-			
+
 			String filename = info.getId() + file.getOriginalFilename();
-			
+
 			Files.copy(file.getInputStream(), path.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
 
 			return filename;

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import moment from 'moment'
 import { GetToken } from '../../utilities/authenUtility'
+import { mergeCv } from '../list-cv/listCVSlice'
 const axios = require('axios')
 
 const maritals = {
@@ -10,7 +11,7 @@ const maritals = {
   widowed: 'Góa',
 }
 
-export const updateCv = createAsyncThunk('create/updateCv', async (arg, { getState, rejectWithValue }) => {
+export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispatch, getState, rejectWithValue }) => {
   try {
     let cvInfo = getState().create.cvInfo
 
@@ -38,6 +39,8 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { getSta
       presentations: JSON.parse(data.presentations),
     }
 
+    dispatch(mergeCv({ cv: data }))
+
     return parsed
   } catch (error) {
     return rejectWithValue(error.response.data)
@@ -46,6 +49,11 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { getSta
 
 export const initCvInfo = createAsyncThunk('create/initCvInfo', async (arg, { getState }) => {
   let info = getState().info.user
+  return info
+})
+
+export const editCvInfo = createAsyncThunk('create/editCvInfo', async ({ id }, { getState }) => {
+  let info = getState().list.listCv.find((cv) => cv.id === id)
   return info
 })
 
@@ -132,6 +140,19 @@ export const createCVSlice = createSlice({
       let removedId = JSON.parse(JSON.stringify(mappedInfo).replaceAll('"id":', '"unknown":'))
 
       state.cvInfo = removedId
+    },
+
+    [editCvInfo.fulfilled]: (state, action) => {
+      let info = action.payload
+      let mappedInfo = {
+        ...info,
+        activities: JSON.parse(info.activities),
+        hobbies: JSON.parse(info.hobbies),
+        books: JSON.parse(info.books),
+        journals: JSON.parse(info.journals),
+        presentations: JSON.parse(info.presentations),
+      }
+      state.cvInfo = mappedInfo
     },
 
     [updateCv.pending]: (state, action) => {

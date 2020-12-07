@@ -23,34 +23,37 @@ export function Login() {
   }
 
   return (
-    <div className='login-form'>
-      <Card>
-        <div className='text-center' style={{ marginBottom: 20 }}>
-          <Link to='/'>
-            <div className='app-logo'>MYCV</div>
-          </Link>
-        </div>
-        <Form form={loginForm} onFinish={onFinish}>
-          <Form.Item name='username' rules={[{ required: true, message: 'Hãy nhập tài khoản' }]}>
-            <Input placeholder='Tài khoản' />
-          </Form.Item>
-          <Form.Item name='password' rules={[{ required: true, message: 'Hãy nhập mật khẩu' }]}>
-            <Input.Password placeholder='Mật khẩu' />
-          </Form.Item>
-          <Form.Item validateStatus={loginStatus === 'failed' ? 'error' : undefined} help={loginStatus === 'failed' ? 'Tài khoản hoặc mật khẩu không đúng' : undefined}>
-            <Button type='primary' htmlType='submit' block>
-              Đăng nhập
-            </Button>
-          </Form.Item>
-          <Divider />
-          <div className='text-center'>
-            <Link to='/'>Quên mật khẩu?</Link>
+    <>
+      <div style={{ height: 100 }}></div>
+      <div className='login-form'>
+        <Card>
+          <div className='text-center' style={{ marginBottom: 20 }}>
+            <Link to='/'>
+              <div className='app-logo'>MYCV</div>
+            </Link>
           </div>
-          <div className='text-center'>
-            <Link to='/register'>Chưa có tài khoản?</Link>
-          </div>
-        </Form>
-      </Card>
-    </div>
+          <Form form={loginForm} onFinish={onFinish}>
+            <Form.Item name='username' rules={[{ required: true, message: 'Hãy nhập tài khoản' }]}>
+              <Input placeholder='Tài khoản' />
+            </Form.Item>
+            <Form.Item name='password' rules={[{ required: true, message: 'Hãy nhập mật khẩu' }]}>
+              <Input.Password placeholder='Mật khẩu' />
+            </Form.Item>
+            <Form.Item validateStatus={loginStatus === 'failed' ? 'error' : undefined} help={loginStatus === 'failed' ? 'Tài khoản hoặc mật khẩu không đúng' : undefined}>
+              <Button type='primary' htmlType='submit' block>
+                Đăng nhập
+              </Button>
+            </Form.Item>
+            <Divider />
+            <div className='text-center'>
+              <Link to='/'>Quên mật khẩu?</Link>
+            </div>
+            <div className='text-center'>
+              <Link to='/register'>Chưa có tài khoản?</Link>
+            </div>
+          </Form>
+        </Card>
+      </div>
+    </>
   )
 }

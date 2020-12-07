@@ -3,7 +3,7 @@ import { Button, List, Popconfirm, Space } from 'antd'
 import './list-cv.css'
 import template1Logo from '../../templates/template1.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { initCvInfo } from '../create-cv/createCVSlice'
+import { initCvInfo, editCvInfo } from '../create-cv/createCVSlice'
 import { useHistory } from 'react-router-dom'
 import { deleteCv } from './listCVSlice'
 // import template2Logo from '../../templates/template2.png'
@@ -19,6 +19,11 @@ export function ListCV() {
 
   const createCV = () => {
     dispatch(initCvInfo())
+    history.push('/create-cv')
+  }
+
+  const handleUpdate = (id) => {
+    dispatch(editCvInfo({ id }))
     history.push('/create-cv')
   }
 
@@ -49,7 +54,14 @@ export function ListCV() {
                   <Space>
                     <Button type='primary' size='small' icon={<DownloadOutlined />}></Button>
                     <Button type='primary' size='small' icon={<EyeOutlined />}></Button>
-                    <Button type='primary' size='small' icon={<EditOutlined />}></Button>
+                    <Button
+                      type='primary'
+                      size='small'
+                      icon={<EditOutlined />}
+                      onClick={() => {
+                        handleUpdate(item.id)
+                      }}
+                    ></Button>
                     <Popconfirm
                       title='Xóa CV này?'
                       onConfirm={() => {
