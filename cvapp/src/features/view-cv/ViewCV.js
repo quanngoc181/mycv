@@ -6,8 +6,8 @@ import { fetchCvView } from './viewCVSlice'
 import './view-cv.css'
 import { Button } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
-// import { jsPDF } from 'jspdf'
-// import '../../templates/font/arial-normal.js'
+import html2canvas from 'html2canvas'
+import { jsPDF } from 'jspdf'
 
 function toDataUrl(url, callback) {
   let xhr = new XMLHttpRequest()
@@ -24,25 +24,36 @@ function toDataUrl(url, callback) {
 }
 
 function generatePdf(name) {
-  console.log(name);
-  // let doc = new jsPDF()
+  let cv = document.querySelector('.cv-container')
+  cv.style.boxShadow = 'unset'
+  document.body.style.overflowY = 'hidden'
 
-  // doc.setFont('arial', 'normal')
-  // doc.text('Việt Nam!', 10, 10)
+  html2canvas(cv, { backgroundColor: '#ffffff', scale: 2, scrollY: -window.scrollY }).then(function (canvas) {
+    let pdf = new jsPDF({ unit: 'px' })
+    let pdfWidth = pdf.internal.pageSize.getWidth()
+    let pdfHeight = pdf.internal.pageSize.getHeight()
+    let width = 794 * 2
+    let height = 1123 * 2
 
-  // console.log(doc.getFont())
-  // console.log(doc.getFontList())
+    for (var i = 0; i <= cv.clientHeight / 1123; i++) {
+      let tmpCanvas = document.createElement('canvas')
+      tmpCanvas.width = width
+      tmpCanvas.height = height
+      tmpCanvas.style.marginBottom = '-6px'
+      let ctx = tmpCanvas.getContext('2d')
 
-  // doc.save(name + '.pdf')
+      ctx.fillStyle = '#FFFFFF'
+      ctx.fillRect(0, 0, width, height)
+      ctx.drawImage(canvas, 0, height * i, width, height, 0, 0, width, height)
 
-  // doc.html(document.querySelector('.cv-container'), {
-  //   callback: function (doc) {
-  //     doc.save(name + '.pdf')
-  //   },
-  //   margin: [0, 0, 0, 0],
-  //   x: 0,
-  //   y: 0,
-  // })
+      if (i > 0) pdf.addPage()
+      pdf.setPage(i + 1)
+      pdf.addImage(tmpCanvas, 'JPEG', 0, 0, pdfWidth, pdfHeight, 'image' + i, 'NONE', 0)
+    }
+
+    pdf.save(name)
+    document.body.style.overflowY = 'scroll'
+  })
 }
 
 export function ViewCV() {
@@ -65,8 +76,10 @@ export function ViewCV() {
     if (img === null) {
       generatePdf(info.cvName)
     } else {
-      toDataUrl(img.src, function (myBase64) {
-        img.src = myBase64
+      let css = img.style.backgroundImage
+      let url = css.substring(5, css.length - 2)
+      toDataUrl(url, function (myBase64) {
+        img.style.backgroundImage = `url("${myBase64}")`
         generatePdf(info.cvName)
       })
     }
@@ -81,9 +94,6 @@ export function ViewCV() {
       <div style={{ backgroundColor: '#333', padding: '100px 0 50px' }}>
         <div style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
           <TemplateComponent viewMode={true} info={info} />
-          {/* <div className='cv-container cv-container1'>
-            AAA
-          </div> */}
         </div>
       </div>
     </div>

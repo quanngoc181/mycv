@@ -27,7 +27,6 @@
 }
 
 .cv-container1 .cv-avatar {
-  object-fit: cover;
   cursor: pointer;
 }
 
@@ -148,6 +147,8 @@
   width: 120px;
   height: 160px;
   margin-right: 30px;
+  background-position: center;
+  background-size: cover;
 }
 
 .cv-container1 .cv-fullname {
