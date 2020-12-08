@@ -1,14 +1,14 @@
 import './template2.css'
-import { ReactComponent as Gender } from './icon/gender.svg'
-import { ReactComponent as Birthday } from './icon/birthday.svg'
-import { ReactComponent as Address } from './icon/address.svg'
-import { ReactComponent as Marital } from './icon/marital.svg'
-import { ReactComponent as Childs } from './icon/childs.svg'
-import { ReactComponent as Nationality } from './icon/nationality.svg'
-import { ReactComponent as Religion } from './icon/religion.svg'
-import { ReactComponent as Phone } from './icon/phone.svg'
-import { ReactComponent as Email } from './icon/email.svg'
-import { ReactComponent as Website } from './icon/website.svg'
+import gender from './icon/gender.png'
+import dob from './icon/dob.png'
+import address from './icon/address.png'
+import marital from './icon/marital.png'
+import childs from './icon/childs.png'
+import nationality from './icon/nationality.png'
+import religion from './icon/religion.png'
+import phone from './icon/phone.png'
+import email from './icon/email.png'
+import website from './icon/website.png'
 import { Fragment, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateCvInfo } from '../features/create-cv/createCVSlice'
@@ -36,7 +36,7 @@ export function Template2({ info, uploadImage, viewMode }) {
 
   return (
     <>
-      <div className='cv-container2' spellCheck={false} onBlur={onBlur}>
+      <div className='cv-container cv-container2' spellCheck={false} onBlur={onBlur}>
         <div style={{ height: 30 }}></div>
         <div className='cv-top'>
           <div className='cv-fullname' field='fullName'>
@@ -51,43 +51,43 @@ export function Template2({ info, uploadImage, viewMode }) {
             <div className='cv-section'>
               <div className='cv-section-header'>Thông tin</div>
               <div className='cv-info-item'>
-                <Gender className='cv-icon' />
+                <img src={gender} alt='gender' className='cv-icon' />
                 <span field='gender'>{info.gender}</span>
               </div>
               <div className='cv-info-item'>
-                <Birthday className='cv-icon' />
+                <img src={dob} alt='dob' className='cv-icon' />
                 <span field='dob'>{info.dob}</span>
               </div>
               <div className='cv-info-item'>
-                <Address className='cv-icon' />
+                <img src={address} alt='address' className='cv-icon' />
                 <span field='address'>{info.address}</span>
               </div>
               <div className='cv-info-item'>
-                <Marital className='cv-icon' />
+                <img src={marital} alt='marital' className='cv-icon' />
                 <span field='marital'>{info.marital}</span>
               </div>
               <div className='cv-info-item'>
-                <Childs className='cv-icon' />
+                <img src={childs} alt='childs' className='cv-icon' />
                 <span field='childs'>{info.childs}</span>
               </div>
               <div className='cv-info-item'>
-                <Nationality className='cv-icon' />
+                <img src={nationality} alt='nationality' className='cv-icon' />
                 <span field='nationality'>{info.nationality}</span>
               </div>
               <div className='cv-info-item'>
-                <Religion className='cv-icon' />
+                <img src={religion} alt='religion' className='cv-icon' />
                 <span field='religion'>{info.religion}</span>
               </div>
               <div className='cv-info-item'>
-                <Phone className='cv-icon' />
+                <img src={phone} alt='phone' className='cv-icon' />
                 <span field='phone'>{info.phone}</span>
               </div>
               <div className='cv-info-item'>
-                <Email className='cv-icon' />
+                <img src={email} alt='email' className='cv-icon' />
                 <span field='email'>{info.email}</span>
               </div>
               <div className='cv-info-item'>
-                <Website className='cv-icon' />
+                <img src={website} alt='website' className='cv-icon' />
                 <span field='socials' className='pre-line'>
                   {info.socials}
                 </span>

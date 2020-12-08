@@ -1,4 +1,4 @@
-import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, List, Popconfirm, Space } from 'antd'
 import './list-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
@@ -57,7 +57,6 @@ export function ListCV() {
                   <div className='create-at'>{moment(item.lastModified).format('HH:mm:ss DD/MM/YYYY')}</div>
                   <div className='button-group'>
                     <Space>
-                      <Button type='primary' size='small' icon={<DownloadOutlined />}></Button>
                       <Button
                         type='primary'
                         size='small'

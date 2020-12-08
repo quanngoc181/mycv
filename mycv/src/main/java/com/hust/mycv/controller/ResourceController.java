@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ResourceController {
 
-	@GetMapping(value = "/resources/avatar/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(value = "/resources/avatar/{filename}")
 	public ResponseEntity<Resource> serveAvatar(@PathVariable String filename) throws IOException {
 		try {
 			Path file = Paths.get("uploads/avatar").resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
 
 			if (resource.exists() || resource.isReadable()) {
-				return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(resource);
+				return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(resource);
 			} else {
 				throw new RuntimeException("Could not read the file!");
 			}
@@ -32,14 +32,14 @@ public class ResourceController {
 		}
 	}
 	
-	@GetMapping(value = "/resources/cv/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(value = "/resources/cv/{filename}")
 	public ResponseEntity<Resource> serveCvImage(@PathVariable String filename) throws IOException {
 		try {
 			Path file = Paths.get("uploads/cv").resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
 
 			if (resource.exists() || resource.isReadable()) {
-				return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(resource);
+				return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(resource);
 			} else {
 				throw new RuntimeException("Could not read the file!");
 			}
