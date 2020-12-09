@@ -35,7 +35,7 @@ export function Template2({ info, uploadImage, viewMode }) {
       `)
       if ($(item).find('.cv-action').length === 0) item.append(action[0])
     })
-  }, [viewMode])
+  })
 
   const onBlur = (e) => {
     let field = e.target.getAttribute('field')
