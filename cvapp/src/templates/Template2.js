@@ -9,9 +9,10 @@ import religion from './icon/religion.png'
 import phone from './icon/phone.png'
 import email from './icon/email.png'
 import website from './icon/website.png'
-import { Fragment, useEffect } from 'react'
+import { useEffect } from 'react'
+import $ from 'jquery'
 import { useDispatch } from 'react-redux'
-import { updateCvInfo } from '../features/create-cv/createCVSlice'
+import { addCvInfo, deleteCvInfo, updateCvInfo } from '../features/create-cv/createCVSlice'
 
 export function Template2({ info, uploadImage, viewMode }) {
   const dispatch = useDispatch()
@@ -23,6 +24,17 @@ export function Template2({ info, uploadImage, viewMode }) {
         element.setAttribute('contenteditable', 'true')
       })
     }
+
+    let items = $('.cv-section-item')
+    items.each((index, item) => {
+      let action = $(`
+        <div class='cv-action'>
+          <button class='cv-add'>+</button>
+          <button class='cv-remove'>-</button>
+        </div>
+      `)
+      if ($(item).find('.cv-action').length === 0) item.append(action[0])
+    })
   }, [viewMode])
 
   const onBlur = (e) => {
@@ -34,9 +46,21 @@ export function Template2({ info, uploadImage, viewMode }) {
     dispatch(updateCvInfo({ field, index, subfield, value }))
   }
 
+  const onClick = (e) => {
+    let el = $(e.target)
+    let field = el.closest('.cv-section-item').find('[field]').attr('field')
+    let index = el.closest('.cv-section-item').find('[field]').attr('index')
+
+    if (el.hasClass('cv-add')) {
+      dispatch(addCvInfo({ field, index }))
+    } else if (el.hasClass('cv-remove')) {
+      dispatch(deleteCvInfo({ field, index }))
+    }
+  }
+
   return (
     <>
-      <div className='cv-container cv-container2' spellCheck={false} onBlur={onBlur}>
+      <div className='cv-container cv-container2' spellCheck={false} onBlur={onBlur} onClick={onClick}>
         <div className='cv-top'>
           <div className='cv-fullname' field='fullName'>
             {info.fullName}
@@ -119,7 +143,7 @@ export function Template2({ info, uploadImage, viewMode }) {
                     </div>
                     <div>
                       <span>(</span>
-                      <span field='certificates' index={index} subfield='year'>
+                      <span field='certificates' index={index} subfield='year' style={{ minWidth: 25, display: 'inline-block' }}>
                         {certificate.year}
                       </span>
                       <span>)</span>
@@ -142,7 +166,7 @@ export function Template2({ info, uploadImage, viewMode }) {
                     </div>
                     <div>
                       <span>(</span>
-                      <span field='awards' index={index} subfield='year'>
+                      <span field='awards' index={index} subfield='year' style={{ minWidth: 25, display: 'inline-block' }}>
                         {award.year}
                       </span>
                       <span>)</span>
@@ -165,7 +189,7 @@ export function Template2({ info, uploadImage, viewMode }) {
                     </div>
                     <div>
                       <span>(</span>
-                      <span field='scholarships' index={index} subfield='year'>
+                      <span field='scholarships' index={index} subfield='year' style={{ minWidth: 25, display: 'inline-block' }}>
                         {scholarship.year}
                       </span>
                       <span>)</span>
@@ -188,11 +212,11 @@ export function Template2({ info, uploadImage, viewMode }) {
                     </div>
                     <div>
                       <span>(</span>
-                      <span field='memberships' index={index} subfield='start'>
+                      <span field='memberships' index={index} subfield='start' style={{ minWidth: 50, display: 'inline-block' }}>
                         {membership.start}
                       </span>
                       <span> - </span>
-                      <span field='memberships' index={index} subfield='end'>
+                      <span field='memberships' index={index} subfield='end' style={{ minWidth: 50, display: 'inline-block' }}>
                         {membership.end}
                       </span>
                       <span>)</span>
@@ -208,8 +232,10 @@ export function Template2({ info, uploadImage, viewMode }) {
             <div className='cv-section'>
               <div className='cv-section-header'>Sở thích</div>
               {info.hobbies.map((hobby, index) => (
-                <div className='cv-bullet' field='hobbies' index={index} key={index}>
-                  {hobby}
+                <div className='cv-section-item' key={index}>
+                  <div className='cv-bullet' field='hobbies' index={index}>
+                    {hobby}
+                  </div>
                 </div>
               ))}
             </div>
@@ -228,20 +254,20 @@ export function Template2({ info, uploadImage, viewMode }) {
                 <div className='cv-section-item cv-education-item' key={index}>
                   <div className='d-flex justify-content-between mb-5'>
                     <div className='font-bold'>
-                      <span field='educations' index={index} subfield='school'>
+                      <span field='educations' index={index} subfield='school' style={{ minWidth: 50, display: 'inline-block' }}>
                         {education.school}
                       </span>
                       <span> - </span>
-                      <span field='educations' index={index} subfield='field'>
+                      <span field='educations' index={index} subfield='field' style={{ minWidth: 50, display: 'inline-block' }}>
                         {education.field}
                       </span>
                     </div>
                     <div className='cv-date'>
-                      <span field='educations' index={index} subfield='start'>
+                      <span field='educations' index={index} subfield='start' style={{ minWidth: 50, display: 'inline-block' }}>
                         {education.start}
                       </span>
                       <span> - </span>
-                      <span field='educations' index={index} subfield='end'>
+                      <span field='educations' index={index} subfield='end' style={{ minWidth: 50, display: 'inline-block' }}>
                         {education.end}
                       </span>
                     </div>
@@ -259,20 +285,20 @@ export function Template2({ info, uploadImage, viewMode }) {
                 <div className='cv-section-item cv-work-item' key={index}>
                   <div className='d-flex justify-content-between mb-5'>
                     <div className='font-bold'>
-                      <span field='works' index={index} subfield='company'>
+                      <span field='works' index={index} subfield='company' style={{ minWidth: 50, display: 'inline-block' }}>
                         {work.company}
                       </span>
                       <span> - </span>
-                      <span field='works' index={index} subfield='position'>
+                      <span field='works' index={index} subfield='position' style={{ minWidth: 50, display: 'inline-block' }}>
                         {work.position}
                       </span>
                     </div>
                     <div className='cv-date'>
-                      <span field='works' index={index} subfield='start'>
+                      <span field='works' index={index} subfield='start' style={{ minWidth: 50, display: 'inline-block' }}>
                         {work.start}
                       </span>
                       <span> - </span>
-                      <span field='works' index={index} subfield='end'>
+                      <span field='works' index={index} subfield='end' style={{ minWidth: 50, display: 'inline-block' }}>
                         {work.end}
                       </span>
                     </div>
@@ -290,20 +316,20 @@ export function Template2({ info, uploadImage, viewMode }) {
                 <div className='cv-section-item cv-project-item' key={index}>
                   <div className='d-flex justify-content-between mb-5'>
                     <div className='font-bold'>
-                      <span field='projects' index={index} subfield='name'>
+                      <span field='projects' index={index} subfield='name' style={{ minWidth: 50, display: 'inline-block' }}>
                         {project.name}
                       </span>
                       <span> - </span>
-                      <span field='projects' index={index} subfield='company'>
+                      <span field='projects' index={index} subfield='company' style={{ minWidth: 50, display: 'inline-block' }}>
                         {project.company}
                       </span>
                     </div>
                     <div className='cv-date'>
-                      <span field='projects' index={index} subfield='start'>
+                      <span field='projects' index={index} subfield='start' style={{ minWidth: 50, display: 'inline-block' }}>
                         {project.start}
                       </span>
                       <span> - </span>
-                      <span field='projects' index={index} subfield='end'>
+                      <span field='projects' index={index} subfield='end' style={{ minWidth: 50, display: 'inline-block' }}>
                         {project.end}
                       </span>
                     </div>
@@ -318,8 +344,10 @@ export function Template2({ info, uploadImage, viewMode }) {
             <div className='cv-section'>
               <div className='cv-section-header'>Hoạt động</div>
               {info.activities.map((activity, index) => (
-                <div className='cv-bullet' field='activities' index={index} key={index}>
-                  {activity}
+                <div className='cv-section-item' key={index}>
+                  <div className='cv-bullet' field='activities' index={index}>
+                    {activity}
+                  </div>
                 </div>
               ))}
             </div>
@@ -336,12 +364,12 @@ export function Template2({ info, uploadImage, viewMode }) {
               {info.theses.map((thesis, index) => (
                 <div className='cv-section-item cv-thesis-item' key={index}>
                   <div className='d-flex justify-content-between mb-5'>
-                    <div className='font-bold' field='theses' index={index} subfield='title'>
+                    <div className='font-bold' field='theses' index={index} subfield='title' style={{ minWidth: 50 }}>
                       {thesis.title}
                     </div>
                     <div>
                       <span>GVHD: </span>
-                      <span field='theses' index={index} subfield='advisor'>
+                      <span field='theses' index={index} subfield='advisor' style={{ minWidth: 50, display: 'inline-block' }}>
                         {thesis.advisor}
                       </span>
                     </div>
@@ -355,27 +383,33 @@ export function Template2({ info, uploadImage, viewMode }) {
 
             <div className='cv-section'>
               <div className='cv-section-header'>Xuất bản, thuyết trình</div>
-              <div className='cv-section-item cv-book-item'>
+              <div className='cv-book-item' style={{ marginBottom: 10 }}>
                 <div className='font-bold'>Sách</div>
                 {info.books.map((book, index) => (
-                  <div className='font-italic cv-page' field='books' index={index} key={index}>
-                    {book}
+                  <div className='cv-section-item mb-0' key={index}>
+                    <div className='font-italic cv-page' field='books' index={index}>
+                      {book}
+                    </div>
                   </div>
                 ))}
               </div>
-              <div className='cv-section-item cv-journal-item'>
+              <div className='cv-journal-item' style={{ marginBottom: 10 }}>
                 <div className='font-bold'>Tạp chí</div>
                 {info.journals.map((journal, index) => (
-                  <div className='font-italic cv-page' field='journals' index={index} key={index}>
-                    {journal}
+                  <div className='cv-section-item mb-0' key={index}>
+                    <div className='font-italic cv-page' field='journals' index={index}>
+                      {journal}
+                    </div>
                   </div>
                 ))}
               </div>
-              <div className='cv-section-item cv-book-item'>
+              <div className='cv-presentation-item' style={{ marginBottom: 10 }}>
                 <div className='font-bold'>Thuyết trình</div>
                 {info.presentations.map((presentation, index) => (
-                  <div className='font-italic cv-page' field='presentations' index={index} key={index}>
-                    {presentation}
+                  <div className='cv-section-item mb-0' key={index}>
+                    <div className='font-italic cv-page' field='presentations' index={index}>
+                      {presentation}
+                    </div>
                   </div>
                 ))}
               </div>

@@ -92,6 +92,20 @@ export const createCVSlice = createSlice({
         state.cvInfo[field] = value
       }
     },
+    addCvInfo(state, action) {
+      let { field, index } = action.payload
+
+      if (['activities', 'hobbies', 'books', 'journals', 'presentations'].includes(field)) {
+        state.cvInfo[field].splice(index + 1, 0, null)
+      } else {
+        state.cvInfo[field].splice(index + 1, 0, {})
+      }
+    },
+    deleteCvInfo(state, action) {
+      let { field, index } = action.payload
+
+      state.cvInfo[field].splice(index, 1)
+    },
   },
   extraReducers: {
     [initCvInfo.fulfilled]: (state, action) => {
@@ -168,6 +182,6 @@ export const createCVSlice = createSlice({
   },
 })
 
-export const { updateCvInfo, updateTemplate, updateLanguage, updateFontFamily, updateFontSize, updateLineHeight, resetStatus } = createCVSlice.actions
+export const { updateCvInfo, addCvInfo, deleteCvInfo, updateTemplate, updateLanguage, updateFontFamily, updateFontSize, updateLineHeight, resetStatus } = createCVSlice.actions
 
 export default createCVSlice.reducer

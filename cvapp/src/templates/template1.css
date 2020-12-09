@@ -56,10 +56,48 @@
 
 .cv-container1 .cv-section-item {
   margin-bottom: 10px;
+  position: relative;
+}
+.cv-container1 .cv-section-item:hover {
+  outline: 1px dashed #333;
+  outline-offset: 3px;
 }
 
 .cv-container1 .cv-section-item:last-child {
   margin-bottom: 0;
+}
+
+.cv-container1 .cv-section-item:hover .cv-action {
+  display: block;
+}
+.cv-container1 .cv-section-item .cv-action {
+  position: absolute;
+  top: -26px;
+  right: 0;
+  display: none;
+  padding-bottom: 6px;
+}
+.cv-container1 .cv-action button {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 0;
+  border: none;
+  color: white;
+  background: #1890ff;
+  cursor: pointer;
+  font-weight: bold;
+}
+.cv-container1 .cv-action button.cv-add {
+  background: #1890ff;
+}
+.cv-container1 .cv-action button.cv-remove {
+  background: #ff4d4f;
+}
+.cv-container1 .cv-action button:focus {
+  outline: none;
 }
 
 .cv-container1 .d-flex {
@@ -82,6 +120,12 @@
 }
 .cv-container1 .pre-line {
   white-space: pre-line;
+}
+.cv-container1 .mb-0 {
+  margin-bottom: 0 !important;
+}
+.cv-container1 .d-inline-block {
+  display: inline-block !important;
 }
 
 .cv-container1 .cv-bullet {
