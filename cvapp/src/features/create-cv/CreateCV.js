@@ -109,6 +109,11 @@ export function CreateCV() {
     uploadRef.current.click()
   }
 
+  const updateRating = (index, rating) => {
+    let rate = info.skills[index].rate === rating / 2 ? 0 : rating / 2
+    dispatch(updateCvInfo({ field: 'skills', index, subfield: 'rate', value: rate }))
+  }
+
   const uploadSuccess = (fileName) => {
     dispatch(updateCvInfo({ field: 'avatar', value: fileName }))
   }
@@ -238,7 +243,7 @@ export function CreateCV() {
           </div>
         </div>
         <div className='my-body' style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
-          <TemplateComponent viewMode={false} uploadImage={uploadImage} info={useData === 'original' ? info : defaultInfo} />
+          <TemplateComponent viewMode={false} uploadImage={uploadImage} updateRating={updateRating} info={useData === 'original' ? info : defaultInfo} />
         </div>
       </div>
     </>

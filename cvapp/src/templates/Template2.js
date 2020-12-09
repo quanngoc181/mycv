@@ -14,7 +14,7 @@ import $ from 'jquery'
 import { useDispatch } from 'react-redux'
 import { addCvInfo, deleteCvInfo, updateCvInfo } from '../features/create-cv/createCVSlice'
 
-export function Template2({ info, uploadImage, viewMode }) {
+export function Template2({ info, uploadImage, updateRating, viewMode }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -125,8 +125,14 @@ export function Template2({ info, uploadImage, viewMode }) {
                     {skill.name}
                   </div>
                   <div className='rating'>
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((number, index) => (
-                      <span style={{ backgroundColor: skill.rate * 2 > number ? '#000' : '#ddd' }} key={index}></span>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((number, i) => (
+                      <span
+                        style={{ backgroundColor: skill.rate * 2 > number ? '#000' : '#ddd' }}
+                        onClick={() => {
+                          updateRating(index, number + 1)
+                        }}
+                        key={i}
+                      ></span>
                     ))}
                   </div>
                 </div>
