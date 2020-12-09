@@ -14,7 +14,7 @@ import $ from 'jquery'
 import { useDispatch } from 'react-redux'
 import { addCvInfo, deleteCvInfo, updateCvInfo } from '../features/create-cv/createCVSlice'
 
-export function Template2({ info, uploadImage, updateRating, viewMode }) {
+export function Template2({ label, info, uploadImage, updateRating, viewMode }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -23,18 +23,18 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
       edits.forEach((element) => {
         element.setAttribute('contenteditable', 'true')
       })
-    }
 
-    let items = $('.cv-section-item')
-    items.each((index, item) => {
-      let action = $(`
+      let items = $('.cv-section-item')
+      items.each((index, item) => {
+        let action = $(`
         <div class='cv-action'>
           <button class='cv-add'>+</button>
           <button class='cv-remove'>-</button>
         </div>
       `)
-      if ($(item).find('.cv-action').length === 0) item.append(action[0])
-    })
+        if ($(item).find('.cv-action').length === 0) item.append(action[0])
+      })
+    }
   })
 
   const onBlur = (e) => {
@@ -72,7 +72,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
         <div className='d-flex'>
           <div className='cv-col-1'>
             <div className='cv-section'>
-              <div className='cv-section-header'>Thông tin</div>
+              <div className='cv-section-header'>{label.information}</div>
               <div className='cv-info-item'>
                 <img src={gender} alt='gender' className='cv-icon' />
                 <span field='gender'>{info.gender}</span>
@@ -118,7 +118,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Kỹ năng</div>
+              <div className='cv-section-header'>{label.skill}</div>
               {info.skills.map((skill, index) => (
                 <div className='cv-section-item cv-skill-item' key={index}>
                   <div field='skills' index={index} subfield='name'>
@@ -140,7 +140,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Chứng nhận</div>
+              <div className='cv-section-header'>{label.certificate}</div>
               {info.certificates.map((certificate, index) => (
                 <div className='cv-section-item cv-certificate-item' key={index}>
                   <div>
@@ -163,7 +163,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Giải thưởng</div>
+              <div className='cv-section-header'>{label.award}</div>
               {info.awards.map((award, index) => (
                 <div className='cv-section-item cv-award-item' key={index}>
                   <div>
@@ -186,7 +186,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Học bổng</div>
+              <div className='cv-section-header'>{label.scholarship}</div>
               {info.scholarships.map((scholarship, index) => (
                 <div className='cv-section-item cv-scholarship-item' key={index}>
                   <div>
@@ -209,7 +209,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Tổ chức</div>
+              <div className='cv-section-header'>{label.membership}</div>
               {info.memberships.map((membership, index) => (
                 <div className='cv-section-item cv-membership-item' key={index}>
                   <div>
@@ -236,7 +236,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Sở thích</div>
+              <div className='cv-section-header'>{label.hobby}</div>
               {info.hobbies.map((hobby, index) => (
                 <div className='cv-section-item' key={index}>
                   <div className='cv-bullet' field='hobbies' index={index}>
@@ -248,14 +248,14 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
           </div>
           <div className='cv-col-2'>
             <div className='cv-section'>
-              <div className='cv-section-header'>Giới Thiệu</div>
+              <div className='cv-section-header'>{label.profile}</div>
               <p className='cv-page text-justify pre-line' field='profile'>
                 {info.profile}
               </p>
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Học vấn</div>
+              <div className='cv-section-header'>{label.education}</div>
               {info.educations.map((education, index) => (
                 <div className='cv-section-item cv-education-item' key={index}>
                   <div className='d-flex justify-content-between mb-5'>
@@ -286,7 +286,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Kinh nghiệm làm việc</div>
+              <div className='cv-section-header'>{label.work}</div>
               {info.works.map((work, index) => (
                 <div className='cv-section-item cv-work-item' key={index}>
                   <div className='d-flex justify-content-between mb-5'>
@@ -317,7 +317,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Dự án</div>
+              <div className='cv-section-header'>{label.project}</div>
               {info.projects.map((project, index) => (
                 <div className='cv-section-item cv-project-item' key={index}>
                   <div className='d-flex justify-content-between mb-5'>
@@ -348,7 +348,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Hoạt động</div>
+              <div className='cv-section-header'>{label.activity}</div>
               {info.activities.map((activity, index) => (
                 <div className='cv-section-item' key={index}>
                   <div className='cv-bullet' field='activities' index={index}>
@@ -359,14 +359,14 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Thông tin thêm</div>
+              <div className='cv-section-header'>{label.additional}</div>
               <p className='cv-page text-justify pre-line' field='additional'>
                 {info.additional}
               </p>
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Luận văn</div>
+              <div className='cv-section-header'>{label.thesis}</div>
               {info.theses.map((thesis, index) => (
                 <div className='cv-section-item cv-thesis-item' key={index}>
                   <div className='d-flex justify-content-between mb-5'>
@@ -374,7 +374,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
                       {thesis.title}
                     </div>
                     <div>
-                      <span>GVHD: </span>
+                      <b>{label.advisor}: </b>
                       <span field='theses' index={index} subfield='advisor' style={{ minWidth: 50, display: 'inline-block' }}>
                         {thesis.advisor}
                       </span>
@@ -388,9 +388,9 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
 
             <div className='cv-section'>
-              <div className='cv-section-header'>Xuất bản, thuyết trình</div>
+              <div className='cv-section-header'>{label.publication}</div>
               <div className='cv-book-item' style={{ marginBottom: 10 }}>
-                <div className='font-bold'>Sách</div>
+                <div className='font-bold'>{label.book}</div>
                 {info.books.map((book, index) => (
                   <div className='cv-section-item mb-0' key={index}>
                     <div className='font-italic cv-page' field='books' index={index}>
@@ -400,7 +400,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
                 ))}
               </div>
               <div className='cv-journal-item' style={{ marginBottom: 10 }}>
-                <div className='font-bold'>Tạp chí</div>
+                <div className='font-bold'>{label.journal}</div>
                 {info.journals.map((journal, index) => (
                   <div className='cv-section-item mb-0' key={index}>
                     <div className='font-italic cv-page' field='journals' index={index}>
@@ -410,7 +410,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
                 ))}
               </div>
               <div className='cv-presentation-item' style={{ marginBottom: 10 }}>
-                <div className='font-bold'>Thuyết trình</div>
+                <div className='font-bold'>{label.presentation}</div>
                 {info.presentations.map((presentation, index) => (
                   <div className='cv-section-item mb-0' key={index}>
                     <div className='font-italic cv-page' field='presentations' index={index}>

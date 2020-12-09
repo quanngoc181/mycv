@@ -1,37 +1,30 @@
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, Select } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import TagGroup from './TagGroup'
-import { updateAdditional } from './infoSlice'
+import { updateInfo } from './infoSlice'
 
 export function AdditionalInformation({ info, layout, tailLayout }) {
   const [form] = useForm()
   const dispatch = useDispatch()
 
-  let hobbies = info.hobbies ? JSON.parse(info.hobbies) : []
-
   useEffect(() => {
     if (info) {
       let activities = info.activities ? JSON.parse(info.activities) : [null]
-      form.setFieldsValue({ additional: info.additional, activities })
+      let hobbies = info.hobbies ? JSON.parse(info.hobbies) : []
+      form.setFieldsValue({ additional: info.additional, activities, hobbies })
     }
   }, [form, info])
 
   const onFinish = (values) => {
-    dispatch(updateAdditional({ ...values, activities: JSON.stringify(values.activities), hobbies: JSON.stringify(hobbies) }))
+    dispatch(updateInfo({ ...values, activities: JSON.stringify(values.activities), hobbies: JSON.stringify(values.hobbies) }))
   }
 
   return (
     <Form form={form} onFinish={onFinish} {...layout}>
       <Form.Item label='Sở thích' name='hobbies'>
-        <TagGroup
-          tags={hobbies}
-          onChange={(t) => {
-            hobbies = t
-          }}
-        />
+        <Select mode='tags'></Select>
       </Form.Item>
 
       <Form.List name='activities'>

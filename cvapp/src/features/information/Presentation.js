@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import moment from 'moment'
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { updatePresentations } from './infoSlice'
+import { updateInfo } from './infoSlice'
 
 export function Presentation({ info, layout, tailLayout, locale }) {
   const [form] = useForm()
@@ -19,7 +19,7 @@ export function Presentation({ info, layout, tailLayout, locale }) {
 
   const onFinish = (values) => {
     let presentations = values.presentations.map((e) => ({ ...e, year: e.year ? e.year.year() : null }))
-    dispatch(updatePresentations({ presentations }))
+    dispatch(updateInfo({ presentations }))
   }
 
   return (

@@ -1,7 +1,7 @@
 import { Button, Form, Input } from 'antd'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { updateProfile } from './infoSlice'
+import { updateInfo } from './infoSlice'
 
 export function Profile({ info, layout, tailLayout }) {
   const [form] = Form.useForm()
@@ -14,7 +14,7 @@ export function Profile({ info, layout, tailLayout }) {
   }, [form, info])
 
   const onFinish = (values) => {
-    dispatch(updateProfile(values))
+    dispatch(updateInfo(values))
   }
 
   return (

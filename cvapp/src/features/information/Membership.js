@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux'
 import moment from 'moment'
 import { useEffect } from 'react'
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { updateMemberships } from './infoSlice'
+import { updateInfo } from './infoSlice'
 
-export function Membership({ info, layout, tailLayout, locale }) {
+export function Membership({ info, layout, tailLayout, locale, language }) {
   const [form] = useForm()
   const dispatch = useDispatch()
 
@@ -25,7 +25,7 @@ export function Membership({ info, layout, tailLayout, locale }) {
         end: e.time ? e.time[1].format('YYYY-MM') : null,
       }
     })
-    dispatch(updateMemberships({ memberships }))
+    dispatch(updateInfo({ memberships }))
   }
 
   return (
@@ -45,7 +45,7 @@ export function Membership({ info, layout, tailLayout, locale }) {
                   <Input style={{ width: 'calc(100% - 40px)' }} />
                 </Form.Item>
                 <Form.Item {...field} name={[field.name, 'time']} fieldKey={[field.fieldKey, 'time']} label='Thời gian'>
-                  <DatePicker.RangePicker locale={locale} picker='month' format={'MM-YYYY'} />
+                  <DatePicker.RangePicker locale={locale} picker='month' format={'MM/YYYY'} />
                 </Form.Item>
               </Space>
             ))}

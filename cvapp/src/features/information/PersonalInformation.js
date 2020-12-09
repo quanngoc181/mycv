@@ -1,12 +1,11 @@
 import { Button, DatePicker, Form, Input, InputNumber, Radio } from 'antd'
-import VN from 'antd/es/date-picker/locale/vi_VN'
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { updatePersonal } from './infoSlice'
+import { updateInfo } from './infoSlice'
 import moment from 'moment'
 
-export function PersonalInformation({ info, layout, tailLayout }) {
+export function PersonalInformation({ info, layout, tailLayout, locale, language }) {
   const [form] = useForm()
   const dispatch = useDispatch()
 
@@ -18,7 +17,7 @@ export function PersonalInformation({ info, layout, tailLayout }) {
   }, [form, info])
 
   const onFinish = (values) => {
-    dispatch(updatePersonal({ ...values, dob: values.dob ? values.dob.format('YYYY-MM-DD') : null }))
+    dispatch(updateInfo({ ...values, dob: values.dob ? values.dob.format('YYYY-MM-DD') : null }))
   }
 
   return (
@@ -29,13 +28,13 @@ export function PersonalInformation({ info, layout, tailLayout }) {
 
       <Form.Item label='Giới tính' name='gender'>
         <Radio.Group buttonStyle='solid'>
-          <Radio.Button value='male'>Nam</Radio.Button>
-          <Radio.Button value='female'>Nữ</Radio.Button>
+          <Radio.Button value='male'>{language === 'vi' ? 'Nam' : 'Male'}</Radio.Button>
+          <Radio.Button value='female'>{language === 'vi' ? 'Nữ' : 'Female'}</Radio.Button>
         </Radio.Group>
       </Form.Item>
 
       <Form.Item label='Ngày sinh' name='dob'>
-        <DatePicker locale={VN} format={'DD-MM-YYYY'} />
+        <DatePicker locale={locale} format={'DD/MM/YYYY'} />
       </Form.Item>
 
       <Form.Item label='Địa chỉ' name='address'>
@@ -44,10 +43,10 @@ export function PersonalInformation({ info, layout, tailLayout }) {
 
       <Form.Item label='Tình trạng hôn nhân' name='marital'>
         <Radio.Group buttonStyle='solid'>
-          <Radio.Button value='single'>Độc thân</Radio.Button>
-          <Radio.Button value='married'>Kết hôn</Radio.Button>
-          <Radio.Button value='divorced'>Ly hôn</Radio.Button>
-          <Radio.Button value='widowed'>Góa</Radio.Button>
+          <Radio.Button value='single'>{language === 'vi' ? 'Độc thân' : 'Single'}</Radio.Button>
+          <Radio.Button value='married'>{language === 'vi' ? 'Kết hôn' : 'Married'}</Radio.Button>
+          <Radio.Button value='divorced'>{language === 'vi' ? 'Ly hôn' : 'Divorced'}</Radio.Button>
+          <Radio.Button value='widowed'>{language === 'vi' ? 'Góa' : 'Widowed'}</Radio.Button>
         </Radio.Group>
       </Form.Item>
 

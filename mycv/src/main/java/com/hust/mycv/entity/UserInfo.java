@@ -55,6 +55,8 @@ public class UserInfo {
 	private String activities;
 
 	private String hobbies;
+	
+	private String language;
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -108,7 +110,7 @@ public class UserInfo {
 		super();
 	}
 
-	public UserInfo(Integer id, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, Integer childs, String nationality, String religion, String dob, String phone, String socials, String additional, String activities, String hobbies) {
+	public UserInfo(Integer id, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, Integer childs, String nationality, String religion, String dob, String phone, String socials, String additional, String activities, String hobbies, String language) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -129,6 +131,7 @@ public class UserInfo {
 		this.additional = additional;
 		this.activities = activities;
 		this.hobbies = hobbies;
+		this.language = language;
 	}
 
 	public Integer getId() {
@@ -281,6 +284,14 @@ public class UserInfo {
 
 	public void setHobbies(String hobbies) {
 		this.hobbies = hobbies;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 	public List<Skill> getSkills() {

@@ -4,7 +4,7 @@ import { addCvInfo, updateCvInfo, deleteCvInfo } from '../features/create-cv/cre
 import $ from 'jquery'
 import './template1.css'
 
-export function Template1({ info, uploadImage, updateRating, viewMode }) {
+export function Template1({ label, info, uploadImage, updateRating, viewMode }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -13,18 +13,18 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
       edits.forEach((element) => {
         element.setAttribute('contenteditable', 'true')
       })
-    }
 
-    let items = $('.cv-section-item')
-    items.each((index, item) => {
-      let action = $(`
+      let items = $('.cv-section-item')
+      items.each((index, item) => {
+        let action = $(`
         <div class='cv-action'>
           <button class='cv-add'>+</button>
           <button class='cv-remove'>-</button>
         </div>
       `)
-      if ($(item).find('.cv-action').length === 0) item.append(action[0])
-    })
+        if ($(item).find('.cv-action').length === 0) item.append(action[0])
+      })
+    }
   })
 
   const onBlur = (e) => {
@@ -63,43 +63,43 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
             <table>
               <tbody>
                 <tr>
-                  <td className='font-bold width-100'>Giới tính:</td>
+                  <td className='font-bold width-110'>{label.gender}:</td>
                   <td field='gender'>{info.gender}</td>
                 </tr>
                 <tr>
-                  <td className='font-bold width-100'>Ngày sinh:</td>
+                  <td className='font-bold width-110'>{label.dob}:</td>
                   <td field='dob'>{info.dob}</td>
                 </tr>
                 <tr>
-                  <td className='font-bold width-100'>Địa chỉ:</td>
+                  <td className='font-bold width-110'>{label.address}:</td>
                   <td field='address'>{info.address}</td>
                 </tr>
                 <tr>
-                  <td className='font-bold width-100'>Hôn nhân:</td>
+                  <td className='font-bold width-110'>{label.marital}:</td>
                   <td field='marital'>{info.marital}</td>
                 </tr>
                 <tr>
-                  <td className='font-bold width-100'>Số con:</td>
+                  <td className='font-bold width-110'>{label.childs}:</td>
                   <td field='childs'>{info.childs}</td>
                 </tr>
                 <tr>
-                  <td className='font-bold width-100'>Quốc tịch:</td>
+                  <td className='font-bold width-110'>{label.nationality}:</td>
                   <td field='nationality'>{info.nationality}</td>
                 </tr>
                 <tr>
-                  <td className='font-bold width-100'>Tôn giáo:</td>
+                  <td className='font-bold width-110'>{label.religion}:</td>
                   <td field='religion'>{info.religion}</td>
                 </tr>
                 <tr>
-                  <td className='font-bold width-100'>Điện thoại:</td>
+                  <td className='font-bold width-110'>{label.phone}:</td>
                   <td field='phone'>{info.phone}</td>
                 </tr>
                 <tr>
-                  <td className='font-bold width-100'>Email:</td>
+                  <td className='font-bold width-110'>{label.email}:</td>
                   <td field='email'>{info.email}</td>
                 </tr>
                 <tr>
-                  <td className='font-bold width-100'>Website:</td>
+                  <td className='font-bold width-110'>{label.website}:</td>
                   <td field='socials' className='pre-line'>
                     {info.socials}
                   </td>
@@ -110,14 +110,14 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Giới Thiệu</div>
+          <div className='cv-section-header'>{label.profile}</div>
           <p className='cv-page text-justify pre-line' field='profile'>
             {info.profile}
           </p>
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Học vấn</div>
+          <div className='cv-section-header'>{label.education}</div>
           {info.educations.map((education, index) => (
             <div className='cv-section-item cv-education-item' key={index}>
               <table>
@@ -151,7 +151,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Kinh nghiệm làm việc</div>
+          <div className='cv-section-header'>{label.work}</div>
           {info.works.map((work, index) => (
             <div className='cv-section-item cv-work-item' key={index}>
               <table>
@@ -185,7 +185,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Dự án</div>
+          <div className='cv-section-header'>{label.project}</div>
           {info.projects.map((project, index) => (
             <div className='cv-section-item cv-project-item' key={index}>
               <table>
@@ -219,7 +219,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Tổ chức</div>
+          <div className='cv-section-header'>{label.membership}</div>
           {info.memberships.map((membership, index) => (
             <div className='cv-section-item cv-membership-item' key={index}>
               <table>
@@ -250,7 +250,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Hoạt động</div>
+          <div className='cv-section-header'>{label.activity}</div>
           {info.activities.map((activity, index) => (
             <div className='cv-section-item' key={index}>
               <div className='cv-bullet' field='activities' index={index}>
@@ -261,14 +261,14 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Thông tin thêm</div>
+          <div className='cv-section-header'>{label.additional}</div>
           <p className='cv-page text-justify pre-line' field='additional'>
             {info.additional}
           </p>
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Giải thưởng</div>
+          <div className='cv-section-header'>{label.award}</div>
           {info.awards.map((award, index) => (
             <div className='cv-section-item cv-award-item' key={index}>
               <table>
@@ -295,7 +295,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Chứng nhận</div>
+          <div className='cv-section-header'>{label.certificate}</div>
           {info.certificates.map((certificate, index) => (
             <div className='cv-section-item cv-certificate-item' key={index}>
               <table>
@@ -322,7 +322,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Học bổng</div>
+          <div className='cv-section-header'>{label.scholarship}</div>
           {info.scholarships.map((scholarship, index) => (
             <div className='cv-section-item cv-scholarship-item' key={index}>
               <table>
@@ -349,7 +349,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Luận văn</div>
+          <div className='cv-section-header'>{label.thesis}</div>
           {info.theses.map((thesis, index) => (
             <div className='cv-section-item cv-thesis-item' key={index}>
               <div className='d-flex justify-content-between'>
@@ -357,7 +357,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
                   {thesis.title}
                 </div>
                 <div>
-                  <span>GVHD: </span>
+                  <b>{label.advisor}: </b>
                   <span field='theses' index={index} subfield='advisor' style={{ minWidth: 50, display: 'inline-block' }}>
                     {thesis.advisor}
                   </span>
@@ -371,9 +371,9 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Xuất bản, thuyết trình</div>
+          <div className='cv-section-header'>{label.publication}</div>
           <div className='cv-book-item' style={{ marginBottom: 10 }}>
-            <div className='font-bold'>Sách</div>
+            <div className='font-bold'>{label.book}</div>
             {info.books.map((book, index) => (
               <div className='cv-section-item mb-0' key={index}>
                 <div className='font-italic cv-page' field='books' index={index}>
@@ -383,7 +383,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
             ))}
           </div>
           <div className='cv-journal-item' style={{ marginBottom: 10 }}>
-            <div className='font-bold'>Tạp chí</div>
+            <div className='font-bold'>{label.journal}</div>
             {info.journals.map((journal, index) => (
               <div className='cv-section-item mb-0' key={index}>
                 <div className='font-italic cv-page' field='journals' index={index}>
@@ -393,7 +393,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
             ))}
           </div>
           <div className='cv-presentation-item'>
-            <div className='font-bold'>Thuyết trình</div>
+            <div className='font-bold'>{label.presentation}</div>
             {info.presentations.map((presentation, index) => (
               <div className='cv-section-item mb-0' key={index}>
                 <div className='font-italic cv-page' field='presentations' index={index}>
@@ -405,7 +405,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Sở thích</div>
+          <div className='cv-section-header'>{label.hobby}</div>
           {info.hobbies.map((hobby, index) => (
             <div className='cv-section-item mb-0 cv-hobby-tag' key={index}>
               <div field='hobbies' index={index} style={{ minWidth: 50 }}>
@@ -416,7 +416,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
         </div>
 
         <div className='cv-section'>
-          <div className='cv-section-header'>Kỹ năng</div>
+          <div className='cv-section-header'>{label.skill}</div>
           {info.skills.map((skill, index) => (
             <div className='cv-section-item cv-skill-item' key={index}>
               <table>

@@ -11,7 +11,7 @@ import { fetchCv } from './features/list-cv/listCVSlice'
 export function NavBar() {
   const history = useHistory()
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.info.user)
+  const user = useSelector((state) => state.info.viUser)
 
   const words = user ? user.fullName.split(' ') : null
   const lastName = words ? words[words.length - 1] : null

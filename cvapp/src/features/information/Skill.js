@@ -3,7 +3,7 @@ import { Button, Form, Input, Rate, Space } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { updateSkills } from './infoSlice'
+import { updateInfo } from './infoSlice'
 
 export function Skill({ info, layout, tailLayout }) {
   const [form] = useForm()
@@ -17,7 +17,7 @@ export function Skill({ info, layout, tailLayout }) {
   }, [form, info])
 
   const onFinish = (values) => {
-    dispatch(updateSkills(values))
+    dispatch(updateInfo(values))
   }
 
   return (

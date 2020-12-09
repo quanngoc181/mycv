@@ -1,28 +1,25 @@
-import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Space } from 'antd'
+import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, Space } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import moment from 'moment'
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import TagGroup from './TagGroup'
-import { updateJournals } from './infoSlice'
+import { updateInfo } from './infoSlice'
 
 export function Journal({ info, layout, tailLayout, locale }) {
   const [form] = useForm()
   const dispatch = useDispatch()
 
-  let authors = info.journals && info.journals.length > 0 ? info.journals.map((e) => (e.authors ? JSON.parse(e.authors) : [])) : [[]]
-
   useEffect(() => {
     if (info) {
-      let journals = info.journals && info.journals.length > 0 ? info.journals.map((e) => ({ ...e, year: e.year ? moment(`${e.year}`) : null })) : [{}]
+      let journals = info.journals && info.journals.length > 0 ? info.journals.map((e) => ({ ...e, year: e.year ? moment(`${e.year}`) : null, authors: e.authors ? JSON.parse(e.authors) : [] })) : [{}]
       form.setFieldsValue({ journals })
     }
   }, [form, info])
 
   const onFinish = (values) => {
-    let journals = values.journals.map((e, i) => ({ ...e, year: e.year ? e.year.year() : null, authors: JSON.stringify(authors[i]) }))
-    dispatch(updateJournals({ journals }))
+    let journals = values.journals.map((e, i) => ({ ...e, year: e.year ? e.year.year() : null, authors: JSON.stringify(e.authors) }))
+    dispatch(updateInfo({ journals }))
   }
 
   return (
@@ -36,34 +33,13 @@ export function Journal({ info, layout, tailLayout, locale }) {
                   <Form.Item {...field} name={[field.name, 'title']} fieldKey={[field.fieldKey, 'title']} noStyle>
                     <Input style={{ width: 'calc(100% - 40px)' }} />
                   </Form.Item>
-                  {index === 0 ? (
-                    <PlusCircleOutlined
-                      className='dynamic-delete-button'
-                      onClick={() => {
-                        authors.push([])
-                        add()
-                      }}
-                    />
-                  ) : (
-                    <MinusCircleOutlined
-                      className='dynamic-delete-button'
-                      onClick={() => {
-                        authors.splice(index, 1)
-                        remove(field.name)
-                      }}
-                    />
-                  )}
+                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />}
                 </Form.Item>
                 <Form.Item {...field} name={[field.name, 'name']} fieldKey={[field.fieldKey, 'name']} label='Tên tạp chí'>
                   <Input style={{ width: 'calc(100% - 40px)' }} />
                 </Form.Item>
                 <Form.Item {...field} name={[field.name, 'authors']} fieldKey={[field.fieldKey, 'authors']} label='Tác giả'>
-                  <TagGroup
-                    tags={authors[index]}
-                    onChange={(t) => {
-                      authors[index] = t
-                    }}
-                  />
+                  <Select mode='tags' style={{ width: 'calc(100% - 40px)' }}></Select>
                 </Form.Item>
                 <Form.Item {...field} name={[field.name, 'year']} fieldKey={[field.fieldKey, 'year']} label='Năm xuất bản'>
                   <DatePicker locale={locale} picker='year' />

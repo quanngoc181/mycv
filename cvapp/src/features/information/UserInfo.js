@@ -1,6 +1,7 @@
 import { message, Radio, Tabs } from 'antd'
-import React, { useEffect, useState } from 'react'
-import VN from 'antd/es/date-picker/locale/vi_VN'
+import React, { useEffect } from 'react'
+import VI from 'antd/es/date-picker/locale/vi_VN'
+import EN from 'antd/es/date-picker/locale/en_US'
 import coverImage from '../../image/cover-image.jpg'
 import './information.css'
 import { Profile } from './Profile'
@@ -21,7 +22,7 @@ import { Journal } from './Journal'
 import { Education } from './Education'
 import { Work } from './Work'
 import { Project } from './Project'
-import { resetStatus } from './infoSlice'
+import { resetStatus, updateLanguage } from './infoSlice'
 
 const layout = {
   labelCol: { span: 6 },
@@ -32,10 +33,15 @@ const tailLayout = {
 }
 
 export function UserInfo() {
-  const [language, setLanguage] = useState('vi')
   const dispatch = useDispatch()
-  const info = useSelector((state) => state.info.user)
+  const viUser = useSelector((state) => state.info.viUser)
+  const enUser = useSelector((state) => state.info.enUser)
+  const language = useSelector((state) => state.info.language)
   const updateStatus = useSelector((state) => state.info.updateStatus)
+
+  let info = language === 'vi' ? viUser : enUser
+
+  let locale = language === 'vi' ? VI : EN
 
   useEffect(() => {
     if (updateStatus === 'success') {
@@ -56,7 +62,7 @@ export function UserInfo() {
   const avatarUrl = info.avatar ? info.avatar : 'default-avatar.png'
 
   const handleLanguageChange = (e) => {
-    setLanguage(e.target.value)
+    dispatch(updateLanguage({ language: e.target.value }))
   }
 
   return (
@@ -88,7 +94,7 @@ export function UserInfo() {
         </Tabs.TabPane>
         <Tabs.TabPane tab='Thông tin cá nhân' key='1'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <PersonalInformation info={info} layout={layout} tailLayout={tailLayout} />
+            <PersonalInformation info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Thông tin liên hệ' key='2'>
@@ -105,30 +111,30 @@ export function UserInfo() {
           <div style={{ padding: '16px 24px 16px 0' }}>
             <Tabs defaultActiveKey='61' centered>
               <Tabs.TabPane tab='Sách' key='61'>
-                <Book info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
+                <Book info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
               </Tabs.TabPane>
               <Tabs.TabPane tab='Tạp chí' key='62'>
-                <Journal info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
+                <Journal info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
               </Tabs.TabPane>
               <Tabs.TabPane tab='Thuyết trình' key='63'>
-                <Presentation info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
+                <Presentation info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
               </Tabs.TabPane>
             </Tabs>
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Học bổng, tài trợ' key='7'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Scholarship info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
+            <Scholarship info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Giải thưởng, danh hiệu' key='8'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Award info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
+            <Award info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Chứng nhận, giấy phép' key='9'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Certificate info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
+            <Certificate info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Luận văn, luận án' key='10'>
@@ -138,7 +144,7 @@ export function UserInfo() {
         </Tabs.TabPane>
         <Tabs.TabPane tab='Thành viên tổ chức' key='11'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Membership info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
+            <Membership info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Kỹ năng' key='12'>
@@ -148,17 +154,17 @@ export function UserInfo() {
         </Tabs.TabPane>
         <Tabs.TabPane tab='Giáo dục, đào tạo' key='13'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Education info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
+            <Education info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Kinh nghiệm làm việc' key='14'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Work info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
+            <Work info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} />
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Dự án' key='15'>
           <div style={{ padding: '16px 24px 16px 0' }}>
-            <Project info={info} layout={layout} tailLayout={tailLayout} locale={VN} />
+            <Project info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} />
           </div>
         </Tabs.TabPane>
       </Tabs>

@@ -87,17 +87,16 @@ public class CvInfoController {
 	public String updateImage(Authentication auth, @RequestParam("file") MultipartFile file) {
 		try {
 			String username = StringUtility.getUserName(auth.getName());
-			UserInfo info = userInfoRepository.findByUsername(username);
+			List<UserInfo> infos = userInfoRepository.findByUsername(username);
 
 			Path path = Paths.get("uploads/cv");
 
-			String filename = info.getId() + file.getOriginalFilename();
+			String filename = infos.get(0).getId() + "" + infos.get(1).getId() + file.getOriginalFilename();
 
 			Files.copy(file.getInputStream(), path.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
 
 			return filename;
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot upload image.");
 		}
 	}

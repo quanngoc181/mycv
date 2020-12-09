@@ -40,11 +40,19 @@ public class UserController {
 		ApplicationUser res = userRepository.save(user);
 		res.setPassword(null);
 
-		UserInfo info = new UserInfo();
-		info.setUsername(dto.username);
-		info.setFullName(dto.fullName);
-		info.setEmail(dto.email);
-		userInfoRepository.save(info);
+		UserInfo info1 = new UserInfo();
+		info1.setUsername(dto.username);
+		info1.setFullName(dto.fullName);
+		info1.setEmail(dto.email);
+		info1.setLanguage("vi");
+		userInfoRepository.save(info1);
+		
+		UserInfo info2 = new UserInfo();
+		info2.setUsername(dto.username);
+		info2.setFullName(dto.fullName);
+		info2.setEmail(dto.email);
+		info2.setLanguage("en");
+		userInfoRepository.save(info2);
 
 		return res;
 	}

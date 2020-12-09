@@ -3,7 +3,7 @@ import { Button, Input, Form } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { updateContact } from './infoSlice'
+import { updateInfo } from './infoSlice'
 
 export function ContactInformation({ info, layout, tailLayout }) {
   const [form] = useForm()
@@ -17,7 +17,7 @@ export function ContactInformation({ info, layout, tailLayout }) {
   }, [form, info])
 
   const onFinish = (values) => {
-    dispatch(updateContact({ ...values, socials: JSON.stringify(values.socials) }))
+    dispatch(updateInfo({ ...values, socials: JSON.stringify(values.socials) }))
   }
 
   return (

@@ -4,9 +4,9 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import moment from 'moment'
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { updateWorks } from './infoSlice'
+import { updateInfo } from './infoSlice'
 
-export function Work({ info, layout, tailLayout, locale }) {
+export function Work({ info, layout, tailLayout, locale, language }) {
   const [form] = useForm()
   const dispatch = useDispatch()
 
@@ -25,7 +25,7 @@ export function Work({ info, layout, tailLayout, locale }) {
         end: e.time ? e.time[1].format('YYYY-MM') : null,
       }
     })
-    dispatch(updateWorks({ works }))
+    dispatch(updateInfo({ works }))
   }
 
   return (
@@ -45,7 +45,7 @@ export function Work({ info, layout, tailLayout, locale }) {
                   <Input style={{ width: 'calc(100% - 40px)' }} />
                 </Form.Item>
                 <Form.Item {...field} name={[field.name, 'time']} fieldKey={[field.fieldKey, 'time']} label='Thời gian'>
-                  <DatePicker.RangePicker locale={locale} picker='month' format={'MM-YYYY'} />
+                  <DatePicker.RangePicker locale={locale} picker='month' format={'MM/YYYY'} />
                 </Form.Item>
                 <Form.Item {...field} name={[field.name, 'description']} fieldKey={[field.fieldKey, 'description']} label='Mô tả'>
                   <Input.TextArea style={{ width: 'calc(100% - 40px)' }} />

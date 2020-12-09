@@ -8,6 +8,7 @@ import { Button } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
 import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'
+import { viLabel, enLabel } from '../../util/dataUtil'
 
 function toDataUrl(url, callback) {
   let xhr = new XMLHttpRequest()
@@ -134,7 +135,7 @@ export function ViewCV() {
       </div>
       <div style={{ backgroundColor: '#333', padding: '100px 0 50px' }}>
         <div style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
-          <TemplateComponent viewMode={true} info={info} />
+          <TemplateComponent viewMode={true} uploadImage={() => true} updateRating={() => true} info={info} label={info.language === 'vi' ? viLabel : enLabel} />
         </div>
       </div>
     </div>

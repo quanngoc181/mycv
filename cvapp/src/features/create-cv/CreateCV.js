@@ -3,68 +3,10 @@ import TemplateList from '../../templates/TemplateList'
 import { useEffect, useRef, useState } from 'react'
 import { Button, Input, message, Radio, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetStatus, updateCitation, updateCv, updateCvInfo } from '../create-cv/createCVSlice'
+import { resetStatus, updateCitation, updateCv, updateCvInfo, updateLanguage } from '../create-cv/createCVSlice'
 import { FileTextOutlined, FontSizeOutlined, LineHeightOutlined, UserOutlined } from '@ant-design/icons'
 import { UploadImage } from './UploadImage'
-
-const defaultInfo = {
-  avatar: 'default-avatar.png',
-  fullName: 'Nguyễn Văn Anh',
-  position: 'Thực tập sinh',
-  gender: 'Nam',
-  dob: '01/01/1998',
-  address: 'Tân Hòa - Quốc Oai - Hà Nội',
-  marital: 'Độc thân',
-  childs: 0,
-  nationality: 'Việt Nam',
-  religion: 'Không',
-  phone: '0123456789',
-  email: 'anhnv@gmail.com',
-  socials: 'facebook.com/anh.nv',
-  profile: 'Mong muốn được thực tập tại công ty, học hỏi thêm nhiều kiến thức và kinh nghiệm lập trình, kết hợp với những kiến thức đã học được để đóng góp cho công ty trong quá trình thực tập hè. Hơn thế nữa là được trở thành nhân viên chính thức của công ty.',
-  activities: ['Đảm nhận vị trí chủ tịch hội sinh viên khóa 61 Đại học Bách Khoa Hà Nội', 'Đảm nhận vị trí chủ tịch hội sinh viên khóa 61 Đại học Bách Khoa Hà Nội'],
-  hobbies: ['Nghe nhạc', 'Nghe nhạc'],
-  educations: [
-    { school: 'Đại học Bách Khoa Hà Nội', field: 'Cử nhân công nghệ thông tin', start: '01/2016', end: '01/2020', description: '- CPA hiện tại: 3.5\n- Dự kiến ra trường: 01/2021' },
-    { school: 'Đại học Bách Khoa Hà Nội', field: 'Cử nhân công nghệ thông tin', start: '01/2016', end: '01/2020', description: '- CPA hiện tại: 3.5\n- Dự kiến ra trường: 01/2021' },
-  ],
-  works: [
-    { company: 'Công ty ABC', position: 'Lập trình viên', start: '01/2016', end: '01/2020', description: '- Lập trình viên chính trong các dự án của công ty\n- Hướng dẫn cho các bạn thực tập sinh mới vào công ty' },
-    { company: 'Công ty ABC', position: 'Lập trình viên', start: '01/2016', end: '01/2020', description: '- Lập trình viên chính trong các dự án của công ty\n- Hướng dẫn cho các bạn thực tập sinh mới vào công ty' },
-  ],
-  projects: [
-    { name: 'Đồ án 1', company: 'Đại học Bách Khoa Hà Nội', start: '01/2016', end: '01/2020', description: '- Xây dựng ứng dụng tạo CV\n- Công nghệ sử dụng: Java' },
-    { name: 'Đồ án 1', company: 'Đại học Bách Khoa Hà Nội', start: '01/2016', end: '01/2020', description: '- Xây dựng ứng dụng tạo CV\n- Công nghệ sử dụng: Java' },
-  ],
-  memberships: [
-    { role: 'Thành viên', organization: 'Hội lập trình viên Hà Nội', start: '01/2016', end: '01/2020' },
-    { role: 'Thành viên', organization: 'Hội lập trình viên Hà Nội', start: '01/2016', end: '01/2020' },
-  ],
-  additional: 'Mong muốn được thực tập tại công ty, học hỏi thêm nhiều kiến thức và kinh nghiệm lập trình, kết hợp với những kiến thức đã học được để đóng góp cho công ty trong quá trình thực tập hè. Hơn thế nữa là được trở thành nhân viên chính thức của công ty.',
-  skills: [
-    { name: 'Tiếng Anh', rate: 2.5 },
-    { name: 'Tiếng Anh', rate: 2.5 },
-  ],
-  awards: [
-    { name: 'Quán quân MR & MISS', organization: 'Đại học Bách Khoa Hà Nội', year: 2020 },
-    { name: 'Quán quân MR & MISS', organization: 'Đại học Bách Khoa Hà Nội', year: 2020 },
-  ],
-  certificates: [
-    { name: 'TOEIC 450', organization: 'IIG Việt Nam', year: 2020 },
-    { name: 'TOEIC 450', organization: 'IIG Việt Nam', year: 2020 },
-  ],
-  scholarships: [
-    { name: 'Học bổng tài năng', organization: 'Đại học Bách Khoa Hà Nội', year: 2020 },
-    { name: 'Học bổng tài năng', organization: 'Đại học Bách Khoa Hà Nội', year: 2020 },
-  ],
-  theses: [
-    { title: 'Luận văn thạc sĩ', advisor: 'Nguyễn Văn Anh', description: 'Nghiên cứu về lĩnh vực Trí tuệ nhân tạo và Học máy, xây dựng chương trình nhận diện ảnh chân dung người, sử dụng bởi các phần mềm có tính năng tải lên tập tin ảnh.' },
-    { title: 'Luận văn thạc sĩ', advisor: 'Nguyễn Văn Anh', description: 'Nghiên cứu về lĩnh vực Trí tuệ nhân tạo và Học máy, xây dựng chương trình nhận diện ảnh chân dung người, sử dụng bởi các phần mềm có tính năng tải lên tập tin ảnh.' },
-  ],
-  books: ['Anh, N. V. (2020). Phân tích và nhận diện ảnh. Hà Nội: Kim Đồng.', 'Anh, N. V. (2020). Phân tích và nhận diện ảnh. Hà Nội: Kim Đồng.'],
-  journals: ['Anh, N. V. (2020). Lập trình hướng đối tượng. Tạp chí công nghệ, 20(1), 8-12.', 'Anh, N. V. (2020). Lập trình hướng đối tượng. Tạp chí công nghệ, 20(1), 8-12.'],
-  presentations: ['"Lập trình Java." Hội nghị công nghệ. Hà Nội, 2020.', '"Lập trình Java." Hội nghị công nghệ. Hà Nội, 2020.'],
-}
+import { defaultInfo, viLabel, enLabel } from '../../util/dataUtil'
 
 export function CreateCV() {
   const dispatch = useDispatch()
@@ -73,6 +15,7 @@ export function CreateCV() {
 
   let info = useSelector((state) => state.create.cvInfo)
   let status = useSelector((state) => state.create.updateStatus)
+  let isEditting = useSelector((state) => state.create.isEditting)
 
   useEffect(() => {
     if (status === 'success') {
@@ -134,7 +77,8 @@ export function CreateCV() {
           <Radio.Group
             value={citation}
             onChange={(e) => {
-              dispatch(updateCitation({ citation: e.target.value }))
+              if (isEditting) message.warning({ content: 'Không thể thay đổi.' })
+              else dispatch(updateCitation({ citation: e.target.value }))
             }}
             size='small'
           >
@@ -148,7 +92,8 @@ export function CreateCV() {
             size='small'
             value={language}
             onChange={(e) => {
-              dispatch(updateCvInfo({ field: 'language', value: e.target.value }))
+              if (isEditting) message.warning({ content: 'Không thể thay đổi.' })
+              else dispatch(updateLanguage({ language: e.target.value }))
             }}
           >
             <Radio.Button value='vi'>VI</Radio.Button>
@@ -261,7 +206,7 @@ export function CreateCV() {
           </div>
         </div>
         <div className='my-body' style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
-          <TemplateComponent viewMode={false} uploadImage={uploadImage} updateRating={updateRating} info={useData === 'original' ? info : defaultInfo} />
+          <TemplateComponent viewMode={false} uploadImage={uploadImage} updateRating={updateRating} info={useData === 'original' ? info : defaultInfo} label={language === 'vi' ? viLabel : enLabel} />
         </div>
       </div>
     </>

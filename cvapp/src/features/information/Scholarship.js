@@ -3,7 +3,7 @@ import { Button, DatePicker, Form, Input, Space } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { updateScholarships } from './infoSlice'
+import { updateInfo } from './infoSlice'
 import moment from 'moment'
 
 export function Scholarship({ info, layout, tailLayout, locale }) {
@@ -19,7 +19,7 @@ export function Scholarship({ info, layout, tailLayout, locale }) {
 
   const onFinish = (values) => {
     let scholarships = values.scholarships.map((e) => ({ ...e, year: e.year ? e.year.year() : null }))
-    dispatch(updateScholarships({ scholarships }))
+    dispatch(updateInfo({ scholarships }))
   }
 
   return (
