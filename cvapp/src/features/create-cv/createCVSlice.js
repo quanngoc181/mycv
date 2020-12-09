@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import moment from 'moment'
 import { GetToken } from '../../utilities/authenUtility'
 import { mergeCv } from '../list-cv/listCVSlice'
+import { buildBook, buildJournal, buildPresentation } from '../../util/citationUtil'
 const axios = require('axios')
 
 const maritals = {
@@ -57,6 +58,11 @@ export const editCvInfo = createAsyncThunk('create/editCvInfo', async ({ id }, {
   return info
 })
 
+export const updateCitation = createAsyncThunk('create/updateCitation', async ({ citation }, { getState }) => {
+  let info = getState().info.user
+  return { info, citation }
+})
+
 export const createCVSlice = createSlice({
   name: 'create',
   initialState: {
@@ -66,21 +72,6 @@ export const createCVSlice = createSlice({
   reducers: {
     resetStatus(state, action) {
       state.updateStatus = null
-    },
-    updateTemplate(state, action) {
-      state.cvInfo.template = action.payload.template
-    },
-    updateLanguage(state, action) {
-      state.cvInfo.language = action.payload.language
-    },
-    updateFontFamily(state, action) {
-      state.cvInfo.fontFamily = action.payload.fontFamily
-    },
-    updateFontSize(state, action) {
-      state.cvInfo.fontSize = action.payload.fontSize
-    },
-    updateLineHeight(state, action) {
-      state.cvInfo.lineHeight = action.payload.lineHeight
     },
     updateCvInfo(state, action) {
       let { field, index, subfield, value } = action.payload
@@ -118,6 +109,7 @@ export const createCVSlice = createSlice({
         fontFamily: 'arial',
         fontSize: 11,
         lineHeight: 1.4,
+        citation: 'apa',
         ...info,
         avatar: info.avatar ? info.avatar : 'default-avatar.png',
         gender: info.gender === 'male' ? 'Nam' : info.gender === 'female' ? 'Nữ' : null,
@@ -146,9 +138,9 @@ export const createCVSlice = createSlice({
           start: membership.start ? moment(membership.start).format('MM/YYYY') : null,
           end: membership.end ? moment(membership.end).format('MM/YYYY') : null,
         })),
-        books: ['Day la cuon sach thu nhat', 'Day la cuon sach thu hai'],
-        journals: ['Day la tap chi thu nhat', 'Day la tap chi thu hai'],
-        presentations: ['Day la thuyet trinh thu nhat', 'Day la thuyet trinh thu hai'],
+        books: info.books.map((book) => buildBook(book, 'apa')),
+        journals: info.journals.map((journal) => buildJournal(journal, 'apa')),
+        presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
       }
 
       let removedId = JSON.parse(JSON.stringify(mappedInfo).replaceAll('"id":', '"unknown":'))
@@ -169,6 +161,14 @@ export const createCVSlice = createSlice({
       state.cvInfo = mappedInfo
     },
 
+    [updateCitation.fulfilled]: (state, action) => {
+      let { info, citation } = action.payload
+      state.cvInfo.citation = citation
+      state.cvInfo.books = info.books.map((book) => buildBook(book, citation))
+      state.cvInfo.journals = info.journals.map((journal) => buildJournal(journal, citation))
+      state.cvInfo.presentations = info.presentations.map((presentation) => buildPresentation(presentation))
+    },
+
     [updateCv.pending]: (state, action) => {
       state.updateStatus = 'pending'
     },
@@ -182,6 +182,6 @@ export const createCVSlice = createSlice({
   },
 })
 
-export const { updateCvInfo, addCvInfo, deleteCvInfo, updateTemplate, updateLanguage, updateFontFamily, updateFontSize, updateLineHeight, resetStatus } = createCVSlice.actions
+export const { updateCvInfo, addCvInfo, deleteCvInfo, resetStatus } = createCVSlice.actions
 
 export default createCVSlice.reducer

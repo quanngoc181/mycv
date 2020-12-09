@@ -3,7 +3,7 @@ import TemplateList from '../../templates/TemplateList'
 import { useEffect, useRef, useState } from 'react'
 import { Button, Input, message, Radio, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetStatus, updateCv, updateCvInfo, updateFontFamily, updateFontSize, updateLanguage, updateLineHeight, updateTemplate } from '../create-cv/createCVSlice'
+import { resetStatus, updateCitation, updateCv, updateCvInfo } from '../create-cv/createCVSlice'
 import { FileTextOutlined, FontSizeOutlined, LineHeightOutlined, UserOutlined } from '@ant-design/icons'
 import { UploadImage } from './UploadImage'
 
@@ -89,7 +89,7 @@ export function CreateCV() {
 
   if (info === null) return null
 
-  let { template, language, fontFamily, fontSize, lineHeight } = info
+  let { template, language, fontFamily, fontSize, lineHeight, citation } = info
 
   const TemplateComponent = TemplateList.find((t) => t.id === template).component
 
@@ -97,25 +97,16 @@ export function CreateCV() {
     dispatch(updateCv())
   }
 
-  const changeCvName = (e) => {
-    dispatch(updateCvInfo({ field: 'cvName', value: e.target.value }))
-  }
-
-  const changeCvNote = (e) => {
-    dispatch(updateCvInfo({ field: 'cvNote', value: e.target.value }))
-  }
-
   const uploadImage = () => {
     uploadRef.current.click()
+  }
+  const uploadSuccess = (fileName) => {
+    dispatch(updateCvInfo({ field: 'avatar', value: fileName }))
   }
 
   const updateRating = (index, rating) => {
     let rate = info.skills[index].rate === rating / 2 ? 0 : rating / 2
     dispatch(updateCvInfo({ field: 'skills', index, subfield: 'rate', value: rate }))
-  }
-
-  const uploadSuccess = (fileName) => {
-    dispatch(updateCvInfo({ field: 'avatar', value: fileName }))
   }
 
   return (
@@ -141,10 +132,23 @@ export function CreateCV() {
         <div className='my-divider'></div>
         <div className='my-tool'>
           <Radio.Group
+            value={citation}
+            onChange={(e) => {
+              dispatch(updateCitation({ citation: e.target.value }))
+            }}
+            size='small'
+          >
+            <Radio.Button value='apa'>APA</Radio.Button>
+            <Radio.Button value='mla'>MLA</Radio.Button>
+          </Radio.Group>
+        </div>
+        <div className='my-divider'></div>
+        <div className='my-tool'>
+          <Radio.Group
             size='small'
             value={language}
             onChange={(e) => {
-              dispatch(updateLanguage({ language: e.target.value }))
+              dispatch(updateCvInfo({ field: 'language', value: e.target.value }))
             }}
           >
             <Radio.Button value='vi'>VI</Radio.Button>
@@ -156,8 +160,8 @@ export function CreateCV() {
           <Select
             size='small'
             value={fontFamily}
-            onChange={(fontFamily) => {
-              dispatch(updateFontFamily({ fontFamily }))
+            onChange={(value) => {
+              dispatch(updateCvInfo({ field: 'fontFamily', value }))
             }}
             style={{ width: 100 }}
           >
@@ -174,7 +178,7 @@ export function CreateCV() {
             size='small'
             value={fontSize}
             onChange={(e) => {
-              dispatch(updateFontSize({ fontSize: e.target.value }))
+              dispatch(updateCvInfo({ field: 'fontSize', value: e.target.value }))
             }}
           >
             <Radio.Button value={10}>
@@ -194,7 +198,7 @@ export function CreateCV() {
             size='small'
             value={lineHeight}
             onChange={(e) => {
-              dispatch(updateLineHeight({ lineHeight: e.target.value }))
+              dispatch(updateCvInfo({ field: 'lineHeight', value: e.target.value }))
             }}
           >
             <Radio.Button value={1.3}>
@@ -214,10 +218,24 @@ export function CreateCV() {
         <div className='my-sidebar'>
           <UploadImage ref={uploadRef} uploadSuccess={uploadSuccess} />
           <div style={{ marginBottom: 20 }}>
-            <Input className='cv-name' value={info.cvName} onInput={changeCvName} size='large' placeholder='Tên CV' />
+            <Input
+              className='cv-name'
+              value={info.cvName}
+              onInput={(e) => {
+                dispatch(updateCvInfo({ field: 'cvName', value: e.target.value }))
+              }}
+              size='large'
+              placeholder='Tên CV'
+            />
           </div>
           <div style={{ marginBottom: 20 }}>
-            <Input.TextArea value={info.cvNote} onInput={changeCvNote} placeholder='Ghi chú...' />
+            <Input.TextArea
+              value={info.cvNote}
+              onInput={(e) => {
+                dispatch(updateCvInfo({ field: 'cvNote', value: e.target.value }))
+              }}
+              placeholder='Ghi chú...'
+            />
           </div>
           <h3 className='header'>
             <span>CHỌN MẪU</span>
@@ -228,7 +246,7 @@ export function CreateCV() {
                 key={index}
                 className={`template-item${template === t.id ? ' active' : ''}`}
                 onClick={() => {
-                  dispatch(updateTemplate({ template: t.id }))
+                  dispatch(updateCvInfo({ field: 'template', value: t.id }))
                 }}
               >
                 <img src={t.logo} alt={t.name} />

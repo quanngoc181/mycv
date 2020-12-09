@@ -29,6 +29,8 @@ public class CvInfo {
 	
 	private String template;
 	
+	private String citation;
+	
     private String language;
     
     private String fontFamily;
@@ -110,7 +112,7 @@ public class CvInfo {
 		super();
 	}
 
-	public CvInfo(Integer id, String cvName, String cvNote, LocalDateTime lastModified, String identifier, String template, String language, String fontFamily, Integer fontSize, Float lineHeight, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
+	public CvInfo(Integer id, String cvName, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
 		super();
 		this.id = id;
 		this.cvName = cvName;
@@ -118,6 +120,7 @@ public class CvInfo {
 		this.lastModified = lastModified;
 		this.identifier = identifier;
 		this.template = template;
+		this.citation = citation;
 		this.language = language;
 		this.fontFamily = fontFamily;
 		this.fontSize = fontSize;
@@ -191,6 +194,14 @@ public class CvInfo {
 
 	public void setTemplate(String template) {
 		this.template = template;
+	}
+
+	public String getCitation() {
+		return citation;
+	}
+
+	public void setCitation(String citation) {
+		this.citation = citation;
 	}
 
 	public String getLanguage() {
