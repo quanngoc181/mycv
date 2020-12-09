@@ -48,7 +48,7 @@
 }
 
 .cv-container2 .cv-section {
-  margin-bottom: 2em;
+  margin-bottom: 25px;
 }
 
 .cv-container2 .cv-section:last-child {
@@ -102,16 +102,19 @@
   margin-top: -3px;
 }
 
-.cv-container2 .cv-col-1 {
-  width: 250px;
-  min-width: 250px;
+.cv-container2 {
   padding: 30px;
-  background-color: #f4f4f4;
+}
+
+.cv-container2 .cv-col-1 {
+  width: 220px;
+  min-width: 220px;
+  padding-right: 30px;
 }
 
 .cv-container2 .cv-col-2 {
   flex-grow: 1;
-  padding: 30px;
+  padding-left: 30px;
 }
 
 .cv-container2 .cv-section-header {
@@ -136,6 +139,7 @@
 
 .cv-container2 .cv-date {
   min-width: 120px;
+  text-align: right;
 }
 
 .cv-container2 .mb-5 {
@@ -143,8 +147,7 @@
 }
 
 .cv-container2 .cv-top {
-  margin-left: 90px;
-  margin-right: 90px;
+  margin: 0 60px 30px 60px;
   padding: 30px;
   border: 1px solid #000;
   text-align: center;

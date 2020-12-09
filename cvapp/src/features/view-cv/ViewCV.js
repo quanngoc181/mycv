@@ -28,14 +28,47 @@ function generatePdf(name) {
   cv.style.boxShadow = 'unset'
   document.body.style.overflowY = 'hidden'
 
-  html2canvas(cv, { backgroundColor: '#ffffff', scale: 2, scrollY: -window.scrollY }).then(function (canvas) {
+  let paddingString = window.getComputedStyle(cv).getPropertyValue('padding-top')
+  let pagePadding = Number(paddingString.substring(0, paddingString.length - 2))
+
+  // let oldHeightString = window.getComputedStyle(cv).getPropertyValue('height')
+  // let oldPageHeight = Number(oldHeightString.substring(0, oldHeightString.length - 2))
+
+  let a4Width = 794
+  let a4Height = 1123
+
+  let sections = document.querySelectorAll('.cv-section')
+  for (let i = 1; i < sections.length; i++) {
+    const previousSection = sections[i - 1]
+    const currentsection = sections[i]
+
+    let previousTop = previousSection.offsetTop
+    let previousHeight = previousSection.offsetHeight
+
+    let currentTop = currentsection.offsetTop
+    let currentHeight = currentsection.offsetHeight
+
+    let currentPage = Math.floor(currentTop / a4Height) + 1
+
+    if (currentTop + currentHeight + pagePadding > currentPage * a4Height) {
+      let breakSpace = currentPage * a4Height - previousTop - previousHeight + pagePadding
+      previousSection.style.marginBottom = breakSpace + 'px'
+    }
+  }
+
+  let newPageHeight = cv.offsetHeight
+
+  let roundedHeight = (Math.floor(newPageHeight / a4Height) + 1) * a4Height
+  cv.style.height = roundedHeight + 'px'
+
+  html2canvas(cv, { backgroundColor: '#ffffff', scale: 4, scrollY: -window.scrollY }).then(function (canvas) {
     let pdf = new jsPDF({ unit: 'px' })
     let pdfWidth = pdf.internal.pageSize.getWidth()
     let pdfHeight = pdf.internal.pageSize.getHeight()
-    let width = 794 * 2
-    let height = 1123 * 2
+    let width = a4Width * 4
+    let height = a4Height * 4
 
-    for (var i = 0; i <= cv.clientHeight / 1123; i++) {
+    for (var i = 0; i <= (cv.clientHeight - 1) / a4Height; i++) {
       let tmpCanvas = document.createElement('canvas')
       tmpCanvas.width = width
       tmpCanvas.height = height
@@ -53,6 +86,14 @@ function generatePdf(name) {
 
     pdf.save(name)
     document.body.style.overflowY = 'scroll'
+
+    for (let i = 1; i < sections.length; i++) {
+      let section = sections[i]
+      let marginBottom = section.style.marginBottom
+      if (marginBottom) section.style.marginBottom = null
+    }
+
+    cv.style.height = null
   })
 }
 

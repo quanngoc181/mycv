@@ -37,7 +37,6 @@ export function Template2({ info, uploadImage, viewMode }) {
   return (
     <>
       <div className='cv-container cv-container2' spellCheck={false} onBlur={onBlur}>
-        <div style={{ height: 30 }}></div>
         <div className='cv-top'>
           <div className='cv-fullname' field='fullName'>
             {info.fullName}
