@@ -23,16 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.hust.mycv.entity.CvInfo;
-import com.hust.mycv.entity.UserInfo;
 import com.hust.mycv.repository.CvInfoRepository;
-import com.hust.mycv.repository.UserInfoRepository;
 import com.hust.mycv.utility.StringUtility;
 
 @RestController
 public class CvInfoController {
-
-	@Autowired
-	UserInfoRepository userInfoRepository;
 
 	@Autowired
 	CvInfoRepository cvInfoRepository;
