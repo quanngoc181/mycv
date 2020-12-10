@@ -1,5 +1,6 @@
 import { CameraOutlined, LoadingOutlined } from '@ant-design/icons'
 import { Button, Upload } from 'antd'
+import ImgCrop from 'antd-img-crop'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { GetToken } from '../../utilities/authenUtility'
@@ -35,8 +36,10 @@ export function UploadAvatar() {
   }
 
   return (
-    <Upload {...props}>
-      <Button className='change-avatar' shape='circle' icon={loading ? <LoadingOutlined /> : <CameraOutlined />} />
-    </Upload>
+    <ImgCrop aspect={1} shape='round' grid quality={1} modalTitle='Cắt ảnh' modalOk='Cắt' modalCancel='Hủy' cropperProps={{ zoomSpeed: 0.2 }}>
+      <Upload {...props}>
+        <Button className='change-avatar' shape='circle' icon={loading ? <LoadingOutlined /> : <CameraOutlined />} />
+      </Upload>
+    </ImgCrop>
   )
 }

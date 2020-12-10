@@ -52,7 +52,7 @@ export function Template1({ label, info, uploadImage, updateRating, viewMode }) 
     <>
       <div className='cv-container cv-container1' spellCheck={false} onBlur={onBlur} onClick={onClick}>
         <div className='cv-section d-flex'>
-          <div className={`cv-avatar${viewMode ? '' : ' editable'}`} style={{ backgroundImage: `url(http://localhost:8080/resources/cv/${info.avatar})` }} onClick={uploadImage}></div>
+          <div className={`cv-avatar${viewMode ? '' : ' editable'}`} style={{ backgroundImage: `url(http://localhost:8080/resources/cv/${info.avatar})` }} onClick={() => uploadImage({ aspect: 3 / 4, shape: 'rect' })}></div>
           <div className='flex-grow'>
             <div className='cv-fullname' field='fullName'>
               {info.fullName}

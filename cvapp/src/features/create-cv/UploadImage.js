@@ -1,6 +1,7 @@
 import React from 'react'
 import { Upload } from 'antd'
 import { GetToken } from '../../utilities/authenUtility'
+import ImgCrop from 'antd-img-crop'
 
 const UploadImage = React.forwardRef((props, ref) => {
   const attr = {
@@ -18,8 +19,6 @@ const UploadImage = React.forwardRef((props, ref) => {
       return isJpgOrPng && isLt10M
     },
     onChange(info) {
-      if (info.file.status === 'uploading') {
-      }
       if (info.file.status === 'done') {
         props.uploadSuccess(info.file.response)
       }
@@ -28,9 +27,11 @@ const UploadImage = React.forwardRef((props, ref) => {
 
   return (
     <div style={{ height: 0, overflow: 'hidden' }}>
-      <Upload {...attr}>
-        <div ref={ref}></div>
-      </Upload>
+      <ImgCrop aspect={props.aspect} shape={props.shape} grid quality={1} modalTitle='Cắt ảnh' modalOk='Cắt' modalCancel='Hủy' cropperProps={{ zoomSpeed: 0.2 }}>
+        <Upload {...attr}>
+          <div ref={ref}></div>
+        </Upload>
+      </ImgCrop>
     </div>
   )
 })

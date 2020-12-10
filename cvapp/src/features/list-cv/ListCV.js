@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined, EyeOutlined, FacebookOutlined, LinkedinOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, List, Popconfirm, Space } from 'antd'
 import './list-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
@@ -32,6 +32,14 @@ export function ListCV() {
 
   const handleDelete = (id) => {
     dispatch(deleteCv({ id }))
+  }
+
+  const handleShareFb = () => {
+    window.FB.ui({ method: 'share', href: 'https://en.wikipedia.org/wiki/Vietnam' }, () => {})
+  }
+
+  const handleShareIn = () => {
+    window.open('https://www.linkedin.com/sharing/share-offsite/?url=https://en.wikipedia.org/wiki/Vietnam')
   }
 
   return (
@@ -83,6 +91,8 @@ export function ListCV() {
                       >
                         <Button type='primary' size='small' icon={<DeleteOutlined />}></Button>
                       </Popconfirm>
+                      <Button type='primary' size='small' icon={<FacebookOutlined />} onClick={handleShareFb}></Button>
+                      <Button type='primary' size='small' icon={<LinkedinOutlined />} onClick={handleShareIn}></Button>
                     </Space>
                   </div>
                 </div>

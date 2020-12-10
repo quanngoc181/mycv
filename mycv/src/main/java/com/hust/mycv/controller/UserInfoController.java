@@ -4,6 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class UserInfoController {
 	public List<UserInfo> getInfo(Authentication auth) {
 		String username = StringUtility.getUserName(auth.getName());
 		List<UserInfo> infos = userInfoRepository.findByUsername(username);
-		
+
 		List<UserInfo> skills = userInfoRepository.fetchSkillsByUsername(username);
 		List<UserInfo> scholarships = userInfoRepository.fetchScholarshipsByUsername(username);
 		List<UserInfo> awards = userInfoRepository.fetchAwardsByUsername(username);
@@ -45,7 +47,7 @@ public class UserInfoController {
 		List<UserInfo> educations = userInfoRepository.fetchEducationsByUsername(username);
 		List<UserInfo> works = userInfoRepository.fetchWorksByUsername(username);
 		List<UserInfo> projects = userInfoRepository.fetchProjectsByUsername(username);
-		
+
 		for (int i = 0; i < infos.size(); i++) {
 			infos.get(i).setSkills(skills.get(i).getSkills());
 			infos.get(i).setScholarships(scholarships.get(i).getScholarships());
@@ -60,7 +62,7 @@ public class UserInfoController {
 			infos.get(i).setJournals(journals.get(i).getJournals());
 			infos.get(i).setPresentations(presentations.get(i).getPresentations());
 		}
-		
+
 		return infos;
 	}
 
@@ -75,15 +77,15 @@ public class UserInfoController {
 		try {
 			String username = StringUtility.getUserName(auth.getName());
 			List<UserInfo> infos = userInfoRepository.findByUsername(username);
-			
+
 			UserInfo viInfo = infos.get(0);
 			UserInfo enInfo = infos.get(1);
-			
+
 			Path path = Paths.get("uploads/avatar");
 			Path path1 = Paths.get("uploads/cv");
-			
-			String filename = viInfo.getId() + "" + enInfo.getId() + file.getOriginalFilename();
-			
+
+			String filename = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + "_" + file.getOriginalFilename();
+
 			Files.copy(file.getInputStream(), path.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
 			Files.copy(file.getInputStream(), path1.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
 

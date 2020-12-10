@@ -11,6 +11,8 @@ import { defaultInfo, viLabel, enLabel } from '../../util/dataUtil'
 export function CreateCV() {
   const dispatch = useDispatch()
   const [useData, setUseData] = useState('original')
+  const [aspect, setAspect] = useState(1)
+  const [shape, setShape] = useState('round')
   const uploadRef = useRef(null)
 
   let info = useSelector((state) => state.create.cvInfo)
@@ -40,7 +42,9 @@ export function CreateCV() {
     dispatch(updateCv())
   }
 
-  const uploadImage = () => {
+  const uploadImage = ({ aspect, shape }) => {
+    setAspect(aspect)
+    setShape(shape)
     uploadRef.current.click()
   }
   const uploadSuccess = (fileName) => {
@@ -161,7 +165,7 @@ export function CreateCV() {
       </div>
       <div className='d-flex'>
         <div className='my-sidebar'>
-          <UploadImage ref={uploadRef} uploadSuccess={uploadSuccess} />
+          <UploadImage aspect={aspect} shape={shape} ref={uploadRef} uploadSuccess={uploadSuccess} />
           <div style={{ marginBottom: 20 }}>
             <Input
               className='cv-name'

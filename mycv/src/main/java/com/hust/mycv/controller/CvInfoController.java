@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -86,12 +87,9 @@ public class CvInfoController {
 	@PostMapping("/cv-info/upload-image")
 	public String updateImage(Authentication auth, @RequestParam("file") MultipartFile file) {
 		try {
-			String username = StringUtility.getUserName(auth.getName());
-			List<UserInfo> infos = userInfoRepository.findByUsername(username);
-
 			Path path = Paths.get("uploads/cv");
 
-			String filename = infos.get(0).getId() + "" + infos.get(1).getId() + file.getOriginalFilename();
+			String filename = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + "_" + file.getOriginalFilename();
 
 			Files.copy(file.getInputStream(), path.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
 
