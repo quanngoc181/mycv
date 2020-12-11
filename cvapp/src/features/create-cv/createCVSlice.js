@@ -69,9 +69,10 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispat
   }
 })
 
-export const initCvInfo = createAsyncThunk('create/initCvInfo', async (arg, { getState }) => {
-  let info = getState().info.viUser
-  return info
+export const updateTemplate = createAsyncThunk('create/updateTemplate', async (config, { getState }) => {
+  let viUser = getState().info.viUser
+  let enUser = getState().info.enUser
+  return { config, viUser, enUser }
 })
 
 export const editCvInfo = createAsyncThunk('create/editCvInfo', async ({ id }, { getState }) => {
@@ -105,6 +106,16 @@ export const createCVSlice = createSlice({
     resetStatus(state, action) {
       state.updateStatus = null
     },
+    initCvInfo(state, action) {
+      state.isEditting = false
+
+      state.cvInfo = {
+        cvName: 'My CV',
+        cvNote: null,
+        citation: 'apa',
+        language: 'vi',
+      }
+    },
     updateCvInfo(state, action) {
       let { field, index, subfield, value } = action.payload
       if (subfield) {
@@ -131,54 +142,57 @@ export const createCVSlice = createSlice({
     },
   },
   extraReducers: {
-    [initCvInfo.fulfilled]: (state, action) => {
-      state.isEditting = false
+    [updateTemplate.fulfilled]: (state, action) => {
+      let { config, viUser, enUser } = action.payload
 
-      let info = action.payload
+      let info = state.cvInfo.language === 'vi' ? viUser : enUser
 
-      let mappedInfo = {
-        cvName: 'MYCV',
-        cvNote: null,
-        template: 'template1',
-        language: 'vi',
-        fontFamily: 'arial',
-        fontSize: 11,
-        lineHeight: 1.4,
-        citation: 'apa',
-        ...info,
-        avatar: info.avatar ? info.avatar : 'default-avatar.png',
-        gender: info.gender ? genders['vi'][info.gender] : null,
-        dob: info.dob ? moment(info.dob).format('DD/MM/YYYY') : null,
-        marital: info.marital ? maritals['vi'][info.marital] : null,
-        socials: info.socials ? JSON.parse(info.socials).join('\n') : null,
-        activities: info.activities ? JSON.parse(info.activities) : [],
-        hobbies: info.hobbies ? JSON.parse(info.hobbies) : [],
-        educations: info.educations.map((education) => ({
-          ...education,
-          start: education.start ? moment(education.start).format('MM/YYYY') : null,
-          end: education.end ? moment(education.end).format('MM/YYYY') : null,
-        })),
-        works: info.works.map((work) => ({
-          ...work,
-          start: work.start ? moment(work.start).format('MM/YYYY') : null,
-          end: work.end ? moment(work.end).format('MM/YYYY') : null,
-        })),
-        projects: info.projects.map((project) => ({
-          ...project,
-          start: project.start ? moment(project.start).format('MM/YYYY') : null,
-          end: project.end ? moment(project.end).format('MM/YYYY') : null,
-        })),
-        memberships: info.memberships.map((membership) => ({
-          ...membership,
-          start: membership.start ? moment(membership.start).format('MM/YYYY') : null,
-          end: membership.end ? moment(membership.end).format('MM/YYYY') : null,
-        })),
-        books: info.books.map((book) => buildBook(book, 'apa')),
-        journals: info.journals.map((journal) => buildJournal(journal, 'apa')),
-        presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
+      if (!state.cvInfo.template) {
+        // first time choose template
+        let mappedInfo = {
+          ...state.cvInfo,
+          ...config,
+          ...info,
+          avatar: info.avatar ? info.avatar : 'default-avatar.png',
+          gender: info.gender ? genders[state.cvInfo.language][info.gender] : null,
+          dob: info.dob ? moment(info.dob).format('DD/MM/YYYY') : null,
+          marital: info.marital ? maritals[state.cvInfo.language][info.marital] : null,
+          socials: info.socials ? JSON.parse(info.socials).join('\n') : null,
+          activities: info.activities ? JSON.parse(info.activities) : [],
+          hobbies: info.hobbies ? JSON.parse(info.hobbies) : [],
+          educations: info.educations.map((education) => ({
+            ...education,
+            start: education.start ? moment(education.start).format('MM/YYYY') : null,
+            end: education.end ? moment(education.end).format('MM/YYYY') : null,
+          })),
+          works: info.works.map((work) => ({
+            ...work,
+            start: work.start ? moment(work.start).format('MM/YYYY') : null,
+            end: work.end ? moment(work.end).format('MM/YYYY') : null,
+          })),
+          projects: info.projects.map((project) => ({
+            ...project,
+            start: project.start ? moment(project.start).format('MM/YYYY') : null,
+            end: project.end ? moment(project.end).format('MM/YYYY') : null,
+          })),
+          memberships: info.memberships.map((membership) => ({
+            ...membership,
+            start: membership.start ? moment(membership.start).format('MM/YYYY') : null,
+            end: membership.end ? moment(membership.end).format('MM/YYYY') : null,
+          })),
+          books: info.books.map((book) => buildBook(book, state.cvInfo.citation)),
+          journals: info.journals.map((journal) => buildJournal(journal, state.cvInfo.citation)),
+          presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
+        }
+
+        state.cvInfo = mappedInfo
+      } else {
+        // change template
+        state.cvInfo = {
+          ...state.cvInfo,
+          ...config,
+        }
       }
-
-      state.cvInfo = mappedInfo
     },
 
     [updateLanguage.fulfilled]: (state, action) => {
@@ -188,6 +202,7 @@ export const createCVSlice = createSlice({
         ...state.cvInfo,
         ...info,
         language,
+        avatar: info.avatar ? info.avatar : 'default-avatar.png',
         gender: info.gender ? genders[language][info.gender] : null,
         dob: info.dob ? moment(info.dob).format('DD/MM/YYYY') : null,
         marital: info.marital ? maritals[language][info.marital] : null,
@@ -222,6 +237,14 @@ export const createCVSlice = createSlice({
       state.cvInfo = mappedInfo
     },
 
+    [updateCitation.fulfilled]: (state, action) => {
+      let { info, citation } = action.payload
+      state.cvInfo.citation = citation
+      state.cvInfo.books = info.books.map((book) => buildBook(book, citation))
+      state.cvInfo.journals = info.journals.map((journal) => buildJournal(journal, citation))
+      state.cvInfo.presentations = info.presentations.map((presentation) => buildPresentation(presentation))
+    },
+
     [editCvInfo.fulfilled]: (state, action) => {
       state.isEditting = true
 
@@ -239,14 +262,6 @@ export const createCVSlice = createSlice({
       state.cvInfo = mappedInfo
     },
 
-    [updateCitation.fulfilled]: (state, action) => {
-      let { info, citation } = action.payload
-      state.cvInfo.citation = citation
-      state.cvInfo.books = info.books.map((book) => buildBook(book, citation))
-      state.cvInfo.journals = info.journals.map((journal) => buildJournal(journal, citation))
-      state.cvInfo.presentations = info.presentations.map((presentation) => buildPresentation(presentation))
-    },
-
     [updateCv.pending]: (state, action) => {
       state.updateStatus = 'pending'
     },
@@ -260,6 +275,6 @@ export const createCVSlice = createSlice({
   },
 })
 
-export const { updateCvInfo, addCvInfo, deleteCvInfo, resetStatus } = createCVSlice.actions
+export const { initCvInfo, updateCvInfo, addCvInfo, deleteCvInfo, resetStatus } = createCVSlice.actions
 
 export default createCVSlice.reducer

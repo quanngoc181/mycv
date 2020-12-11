@@ -3,14 +3,14 @@ import TemplateList from '../../templates/TemplateList'
 import { useEffect, useRef, useState } from 'react'
 import { Button, Input, message, Radio, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetStatus, updateCitation, updateCv, updateCvInfo, updateLanguage } from '../create-cv/createCVSlice'
-import { FileTextOutlined, FontSizeOutlined, LineHeightOutlined, UserOutlined } from '@ant-design/icons'
+import { resetStatus, updateCitation, updateCv, updateCvInfo, updateLanguage, updateTemplate } from '../create-cv/createCVSlice'
+import { FontSizeOutlined, LineHeightOutlined } from '@ant-design/icons'
 import { UploadImage } from './UploadImage'
-import { defaultInfo, viLabel, enLabel } from '../../util/dataUtil'
+import { viLabel, enLabel } from '../../util/dataUtil'
 
 export function CreateCV() {
   const dispatch = useDispatch()
-  const [useData, setUseData] = useState('original')
+  // const [useData, setUseData] = useState('original')
   const [aspect, setAspect] = useState(1)
   const [shape, setShape] = useState('round')
   const uploadRef = useRef(null)
@@ -36,7 +36,8 @@ export function CreateCV() {
 
   let { template, language, fontFamily, fontSize, lineHeight, citation } = info
 
-  const TemplateComponent = TemplateList.find((t) => t.id === template).component
+  const templateObj = TemplateList.find((t) => t.id === template)
+  const TemplateComponent = templateObj ? templateObj.component : null
 
   const saveCV = () => {
     dispatch(updateCv())
@@ -59,7 +60,7 @@ export function CreateCV() {
   return (
     <>
       <div className='my-toolbar'>
-        <div className='my-divider'></div>
+        {/* <div className='my-divider'></div>
         <div className='my-tool'>
           <Radio.Group
             size='small'
@@ -75,7 +76,7 @@ export function CreateCV() {
               <UserOutlined />
             </Radio.Button>
           </Radio.Group>
-        </div>
+        </div> */}
         <div className='my-divider'></div>
         <div className='my-tool'>
           <Radio.Group
@@ -112,7 +113,7 @@ export function CreateCV() {
             onChange={(value) => {
               dispatch(updateCvInfo({ field: 'fontFamily', value }))
             }}
-            style={{ width: 100 }}
+            style={{ width: 105 }}
           >
             <Select.Option value='arial'>Arial</Select.Option>
             <Select.Option value='cambria'>Cambria</Select.Option>
@@ -195,7 +196,7 @@ export function CreateCV() {
                 key={index}
                 className={`template-item${template === t.id ? ' active' : ''}`}
                 onClick={() => {
-                  dispatch(updateCvInfo({ field: 'template', value: t.id }))
+                  dispatch(updateTemplate({ template: t.id, ...t.config }))
                 }}
               >
                 <img src={t.logo} alt={t.name} />
@@ -210,7 +211,7 @@ export function CreateCV() {
           </div>
         </div>
         <div className='my-body' style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
-          <TemplateComponent viewMode={false} uploadImage={uploadImage} updateRating={updateRating} info={useData === 'original' ? info : defaultInfo} label={language === 'vi' ? viLabel : enLabel} />
+          {TemplateComponent !== null && <TemplateComponent viewMode={false} uploadImage={uploadImage} updateRating={updateRating} info={info} label={language === 'vi' ? viLabel : enLabel} />}
         </div>
       </div>
     </>
