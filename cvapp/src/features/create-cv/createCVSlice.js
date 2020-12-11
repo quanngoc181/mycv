@@ -33,6 +33,9 @@ const maritals = {
 export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispatch, getState, rejectWithValue }) => {
   try {
     let cvInfo = getState().create.cvInfo
+    let isEditting = getState().create.isEditting
+
+    if (!isEditting) cvInfo = JSON.parse(JSON.stringify(cvInfo).replaceAll('"id":', '"unknown":'))
 
     let res = await axios.post(
       'http://localhost:8080/cv-info',
@@ -175,9 +178,7 @@ export const createCVSlice = createSlice({
         presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
       }
 
-      let removedId = JSON.parse(JSON.stringify(mappedInfo).replaceAll('"id":', '"unknown":'))
-
-      state.cvInfo = removedId
+      state.cvInfo = mappedInfo
     },
 
     [updateLanguage.fulfilled]: (state, action) => {
@@ -218,9 +219,7 @@ export const createCVSlice = createSlice({
         presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
       }
 
-      let removedId = JSON.parse(JSON.stringify(mappedInfo).replaceAll('"id":', '"unknown":'))
-
-      state.cvInfo = removedId
+      state.cvInfo = mappedInfo
     },
 
     [editCvInfo.fulfilled]: (state, action) => {
