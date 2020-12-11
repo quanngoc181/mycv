@@ -146,6 +146,13 @@
   margin-top: -3px;
 }
 
+[field]:empty:not(:focus):after{
+  content: attr(data-placeholder);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Template Specific */
 .cv-container2 {
   padding: 30px;
 }

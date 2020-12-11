@@ -13,6 +13,7 @@ import { useEffect } from 'react'
 import $ from 'jquery'
 import { useDispatch } from 'react-redux'
 import { addCvInfo, deleteCvInfo, updateCvInfo } from '../features/create-cv/createCVSlice'
+import { defaultPlaceholder } from '../util/dataUtil'
 
 export function Template2({ label, info, uploadImage, updateRating, viewMode }) {
   const dispatch = useDispatch()
@@ -35,6 +36,14 @@ export function Template2({ label, info, uploadImage, updateRating, viewMode }) 
         if ($(item).find('.cv-action').length === 0) item.append(action[0])
       })
     }
+
+    let items = $('[field]')
+    items.each((index, item) => {
+      let field = $(item).attr('field')
+      let subfield = $(item).attr('subfield')
+      if (!subfield) $(item).attr('data-placeholder', defaultPlaceholder[field])
+      else $(item).attr('data-placeholder', defaultPlaceholder[field][subfield])
+    })
   })
 
   const onBlur = (e) => {

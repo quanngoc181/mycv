@@ -57,6 +57,37 @@ export const defaultInfo = {
   presentations: ['"Lập trình Java." Hội nghị công nghệ. Hà Nội, 2020.', '"Lập trình Java." Hội nghị công nghệ. Hà Nội, 2020.'],
 }
 
+export const defaultPlaceholder = {
+  fullName: 'Họ và tên',
+  position: 'Vị trí ứng tuyển',
+  gender: 'Giới tính',
+  dob: '01/01/2020',
+  address: 'Địa chỉ',
+  marital: 'Tình trạng hôn nhân',
+  childs: 'Số con',
+  nationality: 'Quốc tịch',
+  religion: 'Tôn giáo',
+  phone: 'Điện thoại',
+  email: 'Email',
+  socials: 'Mạng xã hội',
+  profile: 'Giới thiệu ngắn gọn về bản thân của bạn và mục tiêu sau khi vào công ty',
+  activities: 'Mô tả hoạt động ngoại khóa',
+  hobbies: 'Sở thích',
+  educations: { school: 'Trường học', field: 'Ngành học', start: '01/2020', end: '01/2020', description: 'Mô tả thêm về quá trình học tập' },
+  works: { company: 'Công ty', position: 'Vị trí', start: '01/2020', end: '01/2020', description: 'Mô tả thêm về quá trình làm việc' },
+  projects: { name: 'Dự án', company: 'Nơi thực hiện', start: '01/2020', end: '01/2020', description: 'Mô tả thêm về dự án' },
+  memberships: { role: 'Vai trò', organization: 'Tổ chức', start: '01/2020', end: '01/2020' },
+  additional: 'Các thông tin khác bổ sung',
+  skills: { name: 'Kỹ năng' },
+  awards: { name: 'Giải thưởng', organization: 'Trao bởi', year: '2020' },
+  certificates: { name: 'Chứng nhận', organization: 'Trao bởi', year: '2020' },
+  scholarships: { name: 'Học bổng', organization: 'Trao bởi', year: '2020' },
+  theses: { title: 'Luận văn', advisor: 'Người hướng dẫn', description: 'Mô tả thêm về luận văn' },
+  books: 'Trích dẫn sách',
+  journals: 'Trích dẫn bài viết',
+  presentations: 'Trích dẫn bài thuyết trình',
+}
+
 export const viLabel = {
   information: 'Thông tin',
   gender: 'Giới tính',
