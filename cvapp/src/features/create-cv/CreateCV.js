@@ -4,15 +4,17 @@ import { useEffect, useRef, useState } from 'react'
 import { Button, Input, message, Radio, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { resetStatus, updateCitation, updateCv, updateCvInfo, updateLanguage, updateTemplate } from '../create-cv/createCVSlice'
-import { FontSizeOutlined, LineHeightOutlined } from '@ant-design/icons'
+import { AppstoreOutlined, FontSizeOutlined, LineHeightOutlined } from '@ant-design/icons'
 import { UploadImage } from './UploadImage'
 import { viLabel, enLabel } from '../../util/dataUtil'
+import { Orders } from './Orders'
 
 export function CreateCV() {
   const dispatch = useDispatch()
   // const [useData, setUseData] = useState('original')
   const [aspect, setAspect] = useState(1)
   const [shape, setShape] = useState('round')
+  const [isModalVisible, setIsModalVisible] = useState(false)
   const uploadRef = useRef(null)
 
   let info = useSelector((state) => state.create.cvInfo)
@@ -34,7 +36,7 @@ export function CreateCV() {
 
   if (info === null) return null
 
-  let { template, language, fontFamily, fontSize, lineHeight, citation } = info
+  let { template, language, fontFamily, fontSize, lineHeight, citation, orders } = info
 
   const templateObj = TemplateList.find((t) => t.id === template)
   const TemplateComponent = templateObj ? templateObj.component : null
@@ -77,6 +79,16 @@ export function CreateCV() {
             </Radio.Button>
           </Radio.Group>
         </div> */}
+        <div className='my-divider'></div>
+        <div className='my-tool'>
+          <Button
+            size='small'
+            icon={<AppstoreOutlined />}
+            onClick={() => {
+              if (orders) setIsModalVisible(true)
+            }}
+          />
+        </div>
         <div className='my-divider'></div>
         <div className='my-tool'>
           <Radio.Group
@@ -196,7 +208,7 @@ export function CreateCV() {
                 key={index}
                 className={`template-item${template === t.id ? ' active' : ''}`}
                 onClick={() => {
-                  dispatch(updateTemplate({ template: t.id, ...t.config }))
+                  if (template !== t.id) dispatch(updateTemplate({ template: t.id, ...t.config }))
                 }}
               >
                 <img src={t.logo} alt={t.name} />
@@ -210,10 +222,9 @@ export function CreateCV() {
             </Button>
           </div>
         </div>
-        <div className='my-body' style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
-          {TemplateComponent !== null && <TemplateComponent viewMode={false} uploadImage={uploadImage} updateRating={updateRating} info={info} label={language === 'vi' ? viLabel : enLabel} />}
-        </div>
+        <div className='my-body'>{TemplateComponent !== null && <TemplateComponent viewMode={false} uploadImage={uploadImage} updateRating={updateRating} info={info} label={language === 'vi' ? viLabel : enLabel} />}</div>
       </div>
+      {orders && <Orders orders={orders} language={language} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />}
     </>
   )
 }

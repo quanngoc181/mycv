@@ -102,3 +102,55 @@
 .cv-name:focus {
   box-shadow: none;
 }
+
+.layout-page {
+  display: flex;
+  width: 250px;
+  padding: 5px;
+  outline: 1px solid #333;
+}
+.layout-page .layout-column {
+  flex-grow: 1;
+  flex-basis: 0;
+  margin-right: 5px;
+}
+.layout-page .layout-column:last-child {
+  margin-right: 0;
+}
+.layout-page .layout-item {
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  background: #1890ff;
+  color: #fff;
+  margin-bottom: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+}
+.layout-page .layout-item:last-child {
+  margin-bottom: 0;
+}
+.layout-page .layout-item:hover .layout-item-action {
+  opacity: 1;
+}
+.layout-page .layout-item-action {
+  display: inline-block;
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 15px;
+  height: 15px;
+  line-height: 12px;
+  font-size: 15px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.layout-page .layout-item-action.remove {
+  background-color: #ff4d4f;
+}
+.layout-page .layout-item-action.add {
+  background-color: #1890ff;
+}

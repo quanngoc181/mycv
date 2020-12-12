@@ -46,6 +46,7 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispat
         books: JSON.stringify(cvInfo.books),
         journals: JSON.stringify(cvInfo.journals),
         presentations: JSON.stringify(cvInfo.presentations),
+        orders: JSON.stringify(cvInfo.orders),
       },
       { headers: GetToken() }
     )
@@ -59,6 +60,7 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispat
       books: JSON.parse(data.books),
       journals: JSON.parse(data.journals),
       presentations: JSON.parse(data.presentations),
+      orders: JSON.parse(data.orders),
     }
 
     dispatch(mergeCv({ cv: data }))
@@ -257,6 +259,7 @@ export const createCVSlice = createSlice({
         books: JSON.parse(info.books),
         journals: JSON.parse(info.journals),
         presentations: JSON.parse(info.presentations),
+        orders: JSON.parse(info.orders),
       }
 
       state.cvInfo = mappedInfo

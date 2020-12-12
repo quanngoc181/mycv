@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,26 +19,29 @@ public class CvInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
+
 	private String cvName;
-	
+
 	private String cvNote;
-	
+
 	private LocalDateTime lastModified;
-	
+
 	private String identifier;
-	
+
 	private String template;
-	
+
 	private String citation;
-	
-    private String language;
-    
-    private String fontFamily;
-    
-    private Integer fontSize;
-    
-    private Float lineHeight;
+
+	private String language;
+
+	private String fontFamily;
+
+	private Integer fontSize;
+
+	private Float lineHeight;
+
+	@Column(columnDefinition = "TEXT")
+	private String orders;
 
 	private String username;
 
@@ -112,7 +116,7 @@ public class CvInfo {
 		super();
 	}
 
-	public CvInfo(Integer id, String cvName, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
+	public CvInfo(Integer id, String cvName, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
 		super();
 		this.id = id;
 		this.cvName = cvName;
@@ -125,6 +129,7 @@ public class CvInfo {
 		this.fontFamily = fontFamily;
 		this.fontSize = fontSize;
 		this.lineHeight = lineHeight;
+		this.orders = orders;
 		this.username = username;
 		this.fullName = fullName;
 		this.email = email;
@@ -234,6 +239,14 @@ public class CvInfo {
 
 	public void setLineHeight(Float lineHeight) {
 		this.lineHeight = lineHeight;
+	}
+
+	public String getOrders() {
+		return orders;
+	}
+
+	public void setOrders(String orders) {
+		this.orders = orders;
 	}
 
 	public String getUsername() {
