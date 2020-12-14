@@ -35,21 +35,23 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispat
     let cvInfo = getState().create.cvInfo
     let isEditting = getState().create.isEditting
 
-    if (!isEditting) cvInfo = JSON.parse(JSON.stringify(cvInfo).replaceAll('"id":', '"unknown":'))
+    let body = {
+      ...cvInfo,
+      activities: JSON.stringify(cvInfo.activities),
+      hobbies: JSON.stringify(cvInfo.hobbies),
+      books: JSON.stringify(cvInfo.books),
+      journals: JSON.stringify(cvInfo.journals),
+      presentations: JSON.stringify(cvInfo.presentations),
+      orders: JSON.stringify(cvInfo.orders),
+    }
 
-    let res = await axios.post(
-      'http://localhost:8080/cv-info',
-      {
-        ...cvInfo,
-        activities: JSON.stringify(cvInfo.activities),
-        hobbies: JSON.stringify(cvInfo.hobbies),
-        books: JSON.stringify(cvInfo.books),
-        journals: JSON.stringify(cvInfo.journals),
-        presentations: JSON.stringify(cvInfo.presentations),
-        orders: JSON.stringify(cvInfo.orders),
-      },
-      { headers: GetToken() }
-    )
+    let res
+    if (!isEditting) {
+      body = JSON.parse(JSON.stringify(body).replaceAll('"id":', '"unknown":'))
+      res = await axios.post('http://localhost:8080/cv-info', body, { headers: GetToken() })
+    } else {
+      res = await axios.put('http://localhost:8080/cv-info', body, { headers: GetToken() })
+    }
 
     let data = res.data
 
@@ -78,8 +80,21 @@ export const updateTemplate = createAsyncThunk('create/updateTemplate', async (c
 })
 
 export const editCvInfo = createAsyncThunk('create/editCvInfo', async ({ id }, { getState }) => {
-  let info = getState().list.listCv.find((cv) => cv.id === id)
-  return info
+  let cv = getState().list.listCv.find((c) => c.id === id)
+  return cv
+})
+
+export const copyCvInfo = createAsyncThunk('create/copyCvInfo', async ({ id }, { getState }) => {
+  let cv = getState().list.listCv.find((c) => c.id === id)
+  return cv
+})
+
+export const copyCvConfig = createAsyncThunk('create/copyCvConfig', async ({ id }, { getState }) => {
+  let cv = getState().list.listCv.find((c) => c.id === id)
+  let viUser = getState().info.viUser
+  let enUser = getState().info.enUser
+  let info = cv.language === 'vi' ? viUser : enUser
+  return { cv, info }
 })
 
 export const updateLanguage = createAsyncThunk('create/updateLanguage', async ({ language }, { getState }) => {
@@ -269,6 +284,68 @@ export const createCVSlice = createSlice({
         journals: JSON.parse(info.journals),
         presentations: JSON.parse(info.presentations),
         orders: JSON.parse(info.orders),
+      }
+
+      state.cvInfo = mappedInfo
+    },
+
+    [copyCvInfo.fulfilled]: (state, action) => {
+      state.isEditting = false
+
+      let cv = action.payload
+
+      let mappedInfo = {
+        ...cv,
+        activities: JSON.parse(cv.activities),
+        hobbies: JSON.parse(cv.hobbies),
+        books: JSON.parse(cv.books),
+        journals: JSON.parse(cv.journals),
+        presentations: JSON.parse(cv.presentations),
+        orders: JSON.parse(cv.orders),
+      }
+
+      state.cvInfo = mappedInfo
+    },
+
+    [copyCvConfig.fulfilled]: (state, action) => {
+      state.isEditting = false
+
+      let { info, cv } = action.payload
+
+      let mappedInfo = {
+        ...cv,
+        orders: JSON.parse(cv.orders),
+        ...info,
+        avatar: info.avatar ? info.avatar : 'default-avatar.png',
+        gender: info.gender ? genders[cv.language][info.gender] : null,
+        dob: info.dob ? moment(info.dob).format('DD/MM/YYYY') : null,
+        marital: info.marital ? maritals[cv.language][info.marital] : null,
+        socials: info.socials ? JSON.parse(info.socials).join('\n') : null,
+        activities: info.activities ? JSON.parse(info.activities) : [],
+        hobbies: info.hobbies ? JSON.parse(info.hobbies) : [],
+        educations: info.educations.map((education) => ({
+          ...education,
+          start: education.start ? moment(education.start).format('MM/YYYY') : null,
+          end: education.end ? moment(education.end).format('MM/YYYY') : null,
+        })),
+        works: info.works.map((work) => ({
+          ...work,
+          start: work.start ? moment(work.start).format('MM/YYYY') : null,
+          end: work.end ? moment(work.end).format('MM/YYYY') : null,
+        })),
+        projects: info.projects.map((project) => ({
+          ...project,
+          start: project.start ? moment(project.start).format('MM/YYYY') : null,
+          end: project.end ? moment(project.end).format('MM/YYYY') : null,
+        })),
+        memberships: info.memberships.map((membership) => ({
+          ...membership,
+          start: membership.start ? moment(membership.start).format('MM/YYYY') : null,
+          end: membership.end ? moment(membership.end).format('MM/YYYY') : null,
+        })),
+        books: info.books.map((book) => buildBook(book, cv.citation)),
+        journals: info.journals.map((journal) => buildJournal(journal, cv.citation)),
+        presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
       }
 
       state.cvInfo = mappedInfo

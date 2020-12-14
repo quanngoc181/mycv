@@ -1,8 +1,8 @@
-import { DeleteOutlined, EditOutlined, EyeOutlined, FacebookOutlined, LinkedinOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, List, Popconfirm, Space } from 'antd'
+import { CopyOutlined, DeleteOutlined, EditOutlined, EyeOutlined, FacebookOutlined, LinkedinOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { Button, List, Popconfirm, Popover, Space } from 'antd'
 import './list-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { initCvInfo, editCvInfo } from '../create-cv/createCVSlice'
+import { initCvInfo, editCvInfo, copyCvInfo, copyCvConfig } from '../create-cv/createCVSlice'
 import { useHistory } from 'react-router-dom'
 import { deleteCv } from './listCVSlice'
 import TemplateList from '../../templates/TemplateList'
@@ -40,6 +40,16 @@ export function ListCV() {
 
   const handleShareIn = () => {
     window.open('https://www.linkedin.com/sharing/share-offsite/?url=https://en.wikipedia.org/wiki/Vietnam')
+  }
+
+  const handleCopyData = (id) => {
+    dispatch(copyCvInfo({ id }))
+    history.push('/create-cv')
+  }
+
+  const handleCopyConfig = (id) => {
+    dispatch(copyCvConfig({ id }))
+    history.push('/create-cv')
   }
 
   return (
@@ -84,6 +94,35 @@ export function ListCV() {
                           handleUpdate(item.id)
                         }}
                       ></Button>
+                      <Popover
+                        content={
+                          <div>
+                            <Button
+                              type='primary'
+                              size='small'
+                              onClick={() => {
+                                handleCopyData(item.id)
+                              }}
+                              style={{ marginRight: 10 }}
+                            >
+                              Giữ thông tin cũ
+                            </Button>
+                            <Button
+                              type='primary'
+                              size='small'
+                              onClick={() => {
+                                handleCopyConfig(item.id)
+                              }}
+                            >
+                              Dùng thông tin mới
+                            </Button>
+                          </div>
+                        }
+                        title='Sao chép CV'
+                        trigger='click'
+                      >
+                        <Button type='primary' size='small' icon={<CopyOutlined />}></Button>
+                      </Popover>
                       <Popconfirm
                         title='Xóa CV này?'
                         onConfirm={() => {
@@ -94,8 +133,18 @@ export function ListCV() {
                       >
                         <Button type='primary' size='small' icon={<DeleteOutlined />}></Button>
                       </Popconfirm>
-                      <Button type='primary' size='small' icon={<FacebookOutlined />} onClick={handleShareFb}></Button>
-                      <Button type='primary' size='small' icon={<LinkedinOutlined />} onClick={handleShareIn}></Button>
+                      <Popover
+                        content={
+                          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                            <Button type='primary' size='small' icon={<FacebookOutlined />} onClick={handleShareFb}></Button>
+                            <Button type='primary' size='small' icon={<LinkedinOutlined />} onClick={handleShareIn}></Button>
+                          </div>
+                        }
+                        title='Chia sẻ CV'
+                        trigger='click'
+                      >
+                        <Button type='primary' size='small' icon={<ShareAltOutlined />}></Button>
+                      </Popover>
                     </Space>
                   </div>
                 </div>

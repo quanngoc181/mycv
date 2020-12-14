@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,14 +62,24 @@ public class CvInfoController {
 
 		return infos;
 	}
-
+	
 	@PostMapping("/cv-info")
-	public CvInfo updateInfo(@RequestBody CvInfo info) {
+	public CvInfo addInfo(@RequestBody CvInfo info) {
 
 		info.setLastModified(LocalDateTime.now());
 
-		if (info.getIdentifier() == null)
-			info.setIdentifier(UUID.randomUUID().toString());
+		info.setIdentifier(UUID.randomUUID().toString());
+		info.setViewCount(0);
+		info.setDownloadCount(0);
+
+		CvInfo ret = cvInfoRepository.save(info);
+		return ret;
+	}
+
+	@PutMapping("/cv-info")
+	public CvInfo updateInfo(@RequestBody CvInfo info) {
+
+		info.setLastModified(LocalDateTime.now());
 
 		CvInfo ret = cvInfoRepository.save(info);
 		return ret;
