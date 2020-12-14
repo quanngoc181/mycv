@@ -1,7 +1,8 @@
-import { Button, Card, Divider, Form, Input } from 'antd'
+import { Button, Card, Checkbox, Divider, Form, Input, message, notification } from 'antd'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { registerUser } from './userSlice'
+import { registerUser, resetRegisterStatus } from './userSlice'
 
 export function Register() {
   const dispatch = useDispatch()
@@ -10,14 +11,29 @@ export function Register() {
   const registerStatus = useSelector((state) => state.user.registerStatus)
   const registerError = useSelector((state) => state.user.registerError)
 
-  const onFinish = ({ fullName, email, username, password }) => {
-    dispatch(registerUser({ fullName, email, username, password }))
+  useEffect(() => {
+    if (registerStatus === 'success') {
+      message.success({ content: 'Thành công' })
+      notification['success']({
+        duration: 10,
+        message: 'Đăng ký thành công',
+        description: 'Bạn đã đăng ký thành công tài khoản trên MYCV, vui lòng kiểm tra email để xác nhận tài khoản.',
+      })
+    } else if (registerStatus === 'error') {
+      message.error({ content: 'Thất bại: ' + registerError })
+    }
+  })
+  useEffect(() => {
+    return () => {
+      dispatch(resetRegisterStatus())
+    }
+  }, [dispatch])
 
-    registerForm.resetFields()
+  const onFinish = (values) => {
+    if (values.isCompany) values.role = 'EMPLOYER'
+    else values.role = 'EMPLOYEE'
+    dispatch(registerUser(values))
   }
-
-  const validateStatus = { pending: undefined, success: 'success', failed: 'error' }
-  const help = { pending: undefined, success: 'Đăng ký thành công', failed: registerError }
 
   return (
     <>
@@ -77,8 +93,11 @@ export function Register() {
             >
               <Input.Password placeholder='Nhập lại mật khẩu' />
             </Form.Item>
-            <Form.Item validateStatus={validateStatus[registerStatus]} help={help[registerStatus]}>
-              <Button type='primary' htmlType='submit' block>
+            <Form.Item name='isCompany' valuePropName='checked'>
+              <Checkbox>Tôi là nhà tuyển dụng</Checkbox>
+            </Form.Item>
+            <Form.Item>
+              <Button type='primary' htmlType='submit' block loading={registerStatus === 'pending'}>
                 Đăng ký
               </Button>
             </Form.Item>

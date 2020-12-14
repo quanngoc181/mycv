@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { Button, Card, Divider, Form, Input } from 'antd'
+import { Button, Card, Divider, Form, Input, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import './login.css'
-import { loginUser } from './userSlice'
+import { loginUser, resetLoginStatus } from './userSlice'
 
 export function Login() {
   const dispatch = useDispatch()
@@ -13,13 +13,21 @@ export function Login() {
   const loginStatus = useSelector((state) => state.user.loginStatus)
 
   useEffect(() => {
-    if (loginStatus === 'success') history.push('/')
-  }, [history, loginStatus])
+    if (loginStatus === 'success') {
+      message.success({ content: 'Thành công' })
+      history.push('/')
+    } else if (loginStatus === 'error') {
+      message.error({ content: 'Thất bại: Tài khoản hoặc mật khẩu không đúng' })
+    }
+  })
+  useEffect(() => {
+    return () => {
+      dispatch(resetLoginStatus())
+    }
+  }, [dispatch])
 
   const onFinish = ({ username, password }) => {
     dispatch(loginUser({ username, password }))
-
-    loginForm.resetFields()
   }
 
   return (
@@ -38,8 +46,8 @@ export function Login() {
             <Form.Item name='password' rules={[{ required: true, message: 'Hãy nhập mật khẩu' }]}>
               <Input.Password placeholder='Mật khẩu' />
             </Form.Item>
-            <Form.Item validateStatus={loginStatus === 'failed' ? 'error' : undefined} help={loginStatus === 'failed' ? 'Tài khoản hoặc mật khẩu không đúng' : undefined}>
-              <Button type='primary' htmlType='submit' block>
+            <Form.Item>
+              <Button type='primary' htmlType='submit' block loading={loginStatus === 'pending'}>
                 Đăng nhập
               </Button>
             </Form.Item>

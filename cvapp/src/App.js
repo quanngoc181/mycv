@@ -11,6 +11,8 @@ import { UserInfo } from './features/information/UserInfo'
 import { ListCV } from './features/list-cv/ListCV'
 import { CreateCV } from './features/create-cv/CreateCV'
 import { ViewCV } from './features/view-cv/ViewCV'
+import { ConfirmEmail } from './features/authen/ConfirmEmail'
+import { ChangePassword } from './features/authen/ChangePassword'
 
 function App() {
   return (
@@ -22,6 +24,14 @@ function App() {
 
         <Route exact path='/register'>
           <Register></Register>
+        </Route>
+
+        <Route exact path='/confirm-email/:cet'>
+          <ConfirmEmail></ConfirmEmail>
+        </Route>
+
+        <Route exact path='/change-password'>
+          <ChangePassword></ChangePassword>
         </Route>
 
         <Route exact path='/cvwr/:identifier'>

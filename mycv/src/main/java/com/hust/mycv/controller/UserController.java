@@ -1,18 +1,27 @@
 package com.hust.mycv.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.hust.mycv.dto.ChangePasswordDTO;
 import com.hust.mycv.dto.RegisterDTO;
 import com.hust.mycv.entity.ApplicationUser;
 import com.hust.mycv.entity.UserInfo;
 import com.hust.mycv.repository.UserInfoRepository;
 import com.hust.mycv.repository.UserRepository;
+import com.hust.mycv.service.EmailService;
+import com.hust.mycv.utility.StringUtility;
 
 @RestController
 public class UserController {
@@ -26,6 +35,29 @@ public class UserController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	@Autowired
+	EmailService emailService;
+
+	@GetMapping("/user")
+	public ApplicationUser register(Authentication auth) {
+		String username = StringUtility.getUserName(auth.getName());
+		ApplicationUser user = userRepository.findByUsername(username);
+		user.setPassword(null);
+		return user;
+	}
+
+	@GetMapping("/confirm-email/{cet}")
+	public void register(@PathVariable String cet) {
+		ApplicationUser user = userRepository.findByConfirmEmailToken(cet);
+
+		if (user == null)
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thất tài khoản");
+
+		user.setEnabled(true);
+
+		userRepository.save(user);
+	}
+
 	@PostMapping("/user")
 	public ApplicationUser register(@RequestBody RegisterDTO dto) {
 		// kiểm tra tài khoản tồn tại
@@ -37,6 +69,11 @@ public class UserController {
 		ApplicationUser user = new ApplicationUser();
 		user.setUsername(dto.username);
 		user.setPassword(passwordEncoder.encode(dto.password));
+		user.setRole(dto.role);
+
+		String confirmEmailToken = UUID.randomUUID().toString();
+		user.setConfirmEmailToken(confirmEmailToken);
+
 		ApplicationUser res = userRepository.save(user);
 		res.setPassword(null);
 
@@ -46,7 +83,7 @@ public class UserController {
 		info1.setEmail(dto.email);
 		info1.setLanguage("vi");
 		userInfoRepository.save(info1);
-		
+
 		UserInfo info2 = new UserInfo();
 		info2.setUsername(dto.username);
 		info2.setFullName(dto.fullName);
@@ -54,6 +91,24 @@ public class UserController {
 		info2.setLanguage("en");
 		userInfoRepository.save(info2);
 
+		emailService.sendEnableAccountEmail(dto.email, confirmEmailToken);
+
 		return res;
+	}
+
+	@PutMapping("user/password")
+	public void changePassword(Authentication auth, @RequestBody ChangePasswordDTO dto) {
+		String username = StringUtility.getUserName(auth.getName());
+		ApplicationUser user = userRepository.findByUsername(username);
+
+		if (user == null)
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thất tài khoản");
+
+		if (!passwordEncoder.matches(dto.oldpassword, user.getPassword()))
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mật khẩu cũ không chính xác");
+
+		user.setPassword(passwordEncoder.encode(dto.newpassword));
+
+		userRepository.save(user);
 	}
 }
