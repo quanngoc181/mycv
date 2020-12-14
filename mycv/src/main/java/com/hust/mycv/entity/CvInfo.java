@@ -21,6 +21,8 @@ public class CvInfo {
 	private Integer id;
 
 	private String cvName;
+	
+	private boolean cvPublic;
 
 	private String cvNote;
 
@@ -120,10 +122,11 @@ public class CvInfo {
 		super();
 	}
 
-	public CvInfo(Integer id, String cvName, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, Integer viewCount, Integer downloadCount, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
+	public CvInfo(Integer id, String cvName, boolean cvPublic, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, Integer viewCount, Integer downloadCount, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
 		super();
 		this.id = id;
 		this.cvName = cvName;
+		this.cvPublic = cvPublic;
 		this.cvNote = cvNote;
 		this.lastModified = lastModified;
 		this.identifier = identifier;
@@ -173,6 +176,14 @@ public class CvInfo {
 
 	public void setCvName(String cvName) {
 		this.cvName = cvName;
+	}
+
+	public boolean isCvPublic() {
+		return cvPublic;
+	}
+
+	public void setCvPublic(boolean cvPublic) {
+		this.cvPublic = cvPublic;
 	}
 
 	public String getCvNote() {

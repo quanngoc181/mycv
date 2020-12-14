@@ -116,6 +116,7 @@ export const createCVSlice = createSlice({
         cvNote: null,
         citation: 'apa',
         language: 'vi',
+        cvPublic: true,
       }
     },
     updateCvInfo(state, action) {
@@ -279,6 +280,7 @@ export const createCVSlice = createSlice({
     [updateCv.fulfilled]: (state, action) => {
       state.updateStatus = 'success'
       state.cvInfo = action.payload
+      state.isEditting = true
     },
     [updateCv.rejected]: (state, action) => {
       state.updateStatus = 'error'

@@ -1,7 +1,7 @@
 import './create-cv.css'
 import TemplateList from '../../templates/TemplateList'
 import { useEffect, useRef, useState } from 'react'
-import { Button, Input, message, Radio, Select } from 'antd'
+import { Button, Checkbox, Input, message, Radio, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { resetStatus, updateCitation, updateCv, updateCvInfo, updateLanguage, updateTemplate } from '../create-cv/createCVSlice'
 import { AppstoreOutlined, FontSizeOutlined, LineHeightOutlined } from '@ant-design/icons'
@@ -188,6 +188,16 @@ export function CreateCV() {
               size='large'
               placeholder='Tên CV'
             />
+          </div>
+          <div style={{ marginBottom: 20 }}>
+            <Checkbox
+              checked={info.cvPublic}
+              onChange={(e) => {
+                dispatch(updateCvInfo({ field: 'cvPublic', value: e.target.checked }))
+              }}
+            >
+              Công khai CV với nhà tuyển dụng
+            </Checkbox>
           </div>
           <div style={{ marginBottom: 20 }}>
             <Input.TextArea
