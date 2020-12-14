@@ -140,7 +140,15 @@ export const createCVSlice = createSlice({
     deleteCvInfo(state, action) {
       let { field, index } = action.payload
 
-      state.cvInfo[field].splice(index, 1)
+      if (state.cvInfo[field].length > 1) {
+        state.cvInfo[field].splice(index, 1)
+      } else {
+        if (['activities', 'hobbies', 'books', 'journals', 'presentations'].includes(field)) {
+          state.cvInfo[field] = [null]
+        } else {
+          state.cvInfo[field] = [{}]
+        }
+      }
     },
   },
   extraReducers: {

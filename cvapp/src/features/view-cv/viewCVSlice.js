@@ -10,6 +10,16 @@ export const fetchCvView = createAsyncThunk('view/fetchCvView', async ({ identif
   }
 })
 
+export const addDownload = createAsyncThunk('view/addDownload', async ({ identifier }, { getState, rejectWithValue }) => {
+  try {
+    console.log('aaa');
+    let ret = await axios.post('http://localhost:8080/cvwr/' + identifier)
+    return ret.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const viewCVSlice = createSlice({
   name: 'view',
   initialState: {
@@ -29,6 +39,7 @@ export const viewCVSlice = createSlice({
         books: JSON.parse(info.books),
         journals: JSON.parse(info.journals),
         presentations: JSON.parse(info.presentations),
+        orders: JSON.parse(info.orders),
       }
       state.cvView = mappedInfo
     },

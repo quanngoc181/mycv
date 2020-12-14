@@ -93,7 +93,7 @@ public class CvInfoController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot upload image.");
 		}
 	}
-	
+
 	@GetMapping("/cvwr/{identifier}")
 	public CvInfo viewCv(@PathVariable String identifier) {
 		CvInfo info = cvInfoRepository.findByIdentifier(identifier);
@@ -107,7 +107,7 @@ public class CvInfoController {
 		CvInfo education = cvInfoRepository.fetchEducationsByIdentifier(identifier);
 		CvInfo work = cvInfoRepository.fetchWorksByIdentifier(identifier);
 		CvInfo project = cvInfoRepository.fetchProjectsByIdentifier(identifier);
-		
+
 		info.setSkills(skill.getSkills());
 		info.setScholarships(scholarship.getScholarships());
 		info.setAwards(award.getAwards());
@@ -117,8 +117,23 @@ public class CvInfoController {
 		info.setEducations(education.getEducations());
 		info.setWorks(work.getWorks());
 		info.setProjects(project.getProjects());
-		
+
+		int oldView = info.getViewCount() == null ? 0 : info.getViewCount();
+		info.setViewCount(oldView + 1);
+
+		cvInfoRepository.save(info);
+
 		return info;
+	}
+	
+	@PostMapping("/cvwr/{identifier}")
+	public void addDownload(@PathVariable String identifier) {
+		CvInfo info = cvInfoRepository.findByIdentifier(identifier);
+
+		int oldDown = info.getDownloadCount() == null ? 0 : info.getDownloadCount();
+		info.setDownloadCount(oldDown + 1);
+
+		cvInfoRepository.save(info);
 	}
 
 }

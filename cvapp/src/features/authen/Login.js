@@ -14,7 +14,6 @@ export function Login() {
 
   useEffect(() => {
     if (loginStatus === 'success') {
-      message.success({ content: 'Thành công' })
       history.push('/')
     } else if (loginStatus === 'error') {
       message.error({ content: 'Thất bại: Tài khoản hoặc mật khẩu không đúng' })

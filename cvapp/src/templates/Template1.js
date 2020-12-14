@@ -2,13 +2,14 @@ import { Fragment, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { addCvInfo, updateCvInfo, deleteCvInfo } from '../features/create-cv/createCVSlice'
 import $ from 'jquery'
-import { defaultPlaceholder } from '../util/dataUtil'
+import { defaultPlaceholder, viLabel, enLabel } from '../util/dataUtil'
 import './template1.css'
 
-export function Template1({ label, info, uploadImage, updateRating, viewMode }) {
+export function Template1({ info, uploadImage, updateRating, viewMode }) {
   const dispatch = useDispatch()
 
-  let { fontFamily, fontSize, lineHeight } = info
+  let { fontFamily, fontSize, lineHeight, language } = info
+  let label = language === 'vi' ? viLabel : enLabel
 
   useEffect(() => {
     if (viewMode === false) {

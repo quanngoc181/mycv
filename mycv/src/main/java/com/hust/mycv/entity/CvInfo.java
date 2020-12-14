@@ -42,6 +42,10 @@ public class CvInfo {
 
 	@Column(columnDefinition = "TEXT")
 	private String orders;
+	
+	private Integer viewCount;
+	
+	private Integer downloadCount;
 
 	private String username;
 
@@ -116,7 +120,7 @@ public class CvInfo {
 		super();
 	}
 
-	public CvInfo(Integer id, String cvName, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
+	public CvInfo(Integer id, String cvName, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, Integer viewCount, Integer downloadCount, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
 		super();
 		this.id = id;
 		this.cvName = cvName;
@@ -130,6 +134,8 @@ public class CvInfo {
 		this.fontSize = fontSize;
 		this.lineHeight = lineHeight;
 		this.orders = orders;
+		this.viewCount = viewCount;
+		this.downloadCount = downloadCount;
 		this.username = username;
 		this.fullName = fullName;
 		this.email = email;
@@ -247,6 +253,22 @@ public class CvInfo {
 
 	public void setOrders(String orders) {
 		this.orders = orders;
+	}
+
+	public Integer getViewCount() {
+		return viewCount;
+	}
+
+	public void setViewCount(Integer viewCount) {
+		this.viewCount = viewCount;
+	}
+
+	public Integer getDownloadCount() {
+		return downloadCount;
+	}
+
+	public void setDownloadCount(Integer downloadCount) {
+		this.downloadCount = downloadCount;
 	}
 
 	public String getUsername() {

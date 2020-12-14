@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { resetStatus, updateCitation, updateCv, updateCvInfo, updateLanguage, updateTemplate } from '../create-cv/createCVSlice'
 import { AppstoreOutlined, FontSizeOutlined, LineHeightOutlined } from '@ant-design/icons'
 import { UploadImage } from './UploadImage'
-import { viLabel, enLabel } from '../../util/dataUtil'
 import { Orders } from './Orders'
 
 export function CreateCV() {
@@ -222,7 +221,7 @@ export function CreateCV() {
             </Button>
           </div>
         </div>
-        <div className='my-body'>{TemplateComponent !== null && <TemplateComponent viewMode={false} uploadImage={uploadImage} updateRating={updateRating} info={info} label={language === 'vi' ? viLabel : enLabel} />}</div>
+        <div className='my-body'>{TemplateComponent !== null && <TemplateComponent viewMode={false} uploadImage={uploadImage} updateRating={updateRating} info={info} />}</div>
       </div>
       {orders && <Orders orders={orders} language={language} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />}
     </>

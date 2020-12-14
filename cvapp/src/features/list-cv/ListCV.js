@@ -60,7 +60,10 @@ export function ListCV() {
               <div className='cv-list-item'>
                 <img src={logo} alt='my cv'></img>
                 <div className='content'>
-                  <h2>{item.cvName}</h2>
+                  <h2 style={{ marginBottom: 0 }}>{item.cvName}</h2>
+                  <div>
+                    Lượt xem: {item.viewCount ? item.viewCount : 0} Lượt tải: {item.downloadCount ? item.downloadCount : 0}
+                  </div>
                   <div>{item.cvNote}</div>
                   <div className='create-at'>{moment(item.lastModified).format('HH:mm:ss DD/MM/YYYY')}</div>
                   <div className='button-group'>
