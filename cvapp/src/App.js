@@ -13,6 +13,8 @@ import { CreateCV } from './features/create-cv/CreateCV'
 import { ViewCV } from './features/view-cv/ViewCV'
 import { ConfirmEmail } from './features/authen/ConfirmEmail'
 import { ChangePassword } from './features/authen/ChangePassword'
+import { ForgotPassword } from './features/authen/ForgotPassword'
+import { ResetPassword } from './features/authen/ResetPassword'
 
 function App() {
   return (
@@ -32,6 +34,14 @@ function App() {
 
         <Route exact path='/change-password'>
           <ChangePassword></ChangePassword>
+        </Route>
+
+        <Route exact path='/forgot-password'>
+          <ForgotPassword></ForgotPassword>
+        </Route>
+
+        <Route exact path='/reset-password/:rpt'>
+          <ResetPassword></ResetPassword>
         </Route>
 
         <Route exact path='/cvwr/:identifier'>

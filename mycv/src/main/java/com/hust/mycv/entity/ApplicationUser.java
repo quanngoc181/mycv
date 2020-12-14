@@ -23,12 +23,14 @@ public class ApplicationUser {
 	private boolean enabled;
 	
 	private String confirmEmailToken;
+	
+	private String resetPasswordToken;
 
 	public ApplicationUser() {
 		super();
 	}
 
-	public ApplicationUser(Integer id, String username, String password, boolean enabled, String role, String confirmEmailToken) {
+	public ApplicationUser(Integer id, String username, String password, boolean enabled, String role, String confirmEmailToken, String resetPasswordToken) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -36,6 +38,7 @@ public class ApplicationUser {
 		this.role = role;
 		this.enabled = enabled;
 		this.confirmEmailToken = confirmEmailToken;
+		this.resetPasswordToken = resetPasswordToken;
 	}
 
 	public Integer getId() {
@@ -84,5 +87,13 @@ public class ApplicationUser {
 
 	public void setConfirmEmailToken(String confirmEmailToken) {
 		this.confirmEmailToken = confirmEmailToken;
+	}
+
+	public String getResetPasswordToken() {
+		return resetPasswordToken;
+	}
+
+	public void setResetPasswordToken(String resetPasswordToken) {
+		this.resetPasswordToken = resetPasswordToken;
 	}
 }

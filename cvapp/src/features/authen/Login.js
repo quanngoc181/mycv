@@ -53,7 +53,7 @@ export function Login() {
             </Form.Item>
             <Divider />
             <div className='text-center'>
-              <Link to='/'>Quên mật khẩu?</Link>
+              <Link to='/forgot-password'>Quên mật khẩu?</Link>
             </div>
             <div className='text-center'>
               <Link to='/register'>Chưa có tài khoản?</Link>

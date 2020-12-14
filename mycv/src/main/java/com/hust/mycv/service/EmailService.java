@@ -22,4 +22,15 @@ public class EmailService {
 		message.setText(content);
 		emailSender.send(message);
 	}
+	
+	public void sendResetPasswordEmail(String to, String token) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(to);
+		message.setSubject("MYCV - Lấy lại mật khẩu");
+		String content = "Chào bạn,\r\n" +
+						 "Vui lòng truy cập đường link bên dưới để lấy lại mật khẩu:\r\n" + 
+				 		 "http://localhost:3000/reset-password/" + token;
+		message.setText(content);
+		emailSender.send(message);
+	}
 }

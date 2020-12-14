@@ -47,16 +47,38 @@ export const changePassword = createAsyncThunk('user/changePassword', async ({ o
   }
 })
 
+export const forgotPassword = createAsyncThunk('user/forgotPassword', async ({ username }, { rejectWithValue }) => {
+  try {
+    let response = await axios.post('http://localhost:8080/forgot-password?username=' + username)
+    return response.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const resetPassword = createAsyncThunk('user/resetPassword', async ({ newpassword, token }, { rejectWithValue }) => {
+  try {
+    let response = await axios.post('http://localhost:8080/reset-password', { newpassword, token })
+    return response.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
     user: null,
     loginStatus: null,
+    confirmStatus: null,
     registerStatus: null,
     registerError: '',
-    confirmStatus: null,
-    passwordStatus: null,
-    passwordError: '',
+    changeStatus: null,
+    changeError: '',
+    forgotStatus: null,
+    forgotError: '',
+    resetStatus: null,
+    resetError: '',
   },
   reducers: {
     resetToken(state, action) {
@@ -68,8 +90,14 @@ export const userSlice = createSlice({
     resetLoginStatus(state, action) {
       state.loginStatus = null
     },
-    resetPasswordStatus(state, action) {
-      state.passwordStatus = null
+    resetChangeStatus(state, action) {
+      state.changeStatus = null
+    },
+    resetForgotStatus(state, action) {
+      state.forgotStatus = null
+    },
+    resetResetStatus(state, action) {
+      state.resetStatus = null
     },
   },
   extraReducers: {
@@ -114,18 +142,40 @@ export const userSlice = createSlice({
     },
 
     [changePassword.pending]: (state, action) => {
-      state.passwordStatus = 'pending'
+      state.changeStatus = 'pending'
     },
     [changePassword.fulfilled]: (state, action) => {
-      state.passwordStatus = 'success'
+      state.changeStatus = 'success'
     },
     [changePassword.rejected]: (state, action) => {
-      state.passwordStatus = 'error'
-      state.passwordError = action.payload.message
+      state.changeStatus = 'error'
+      state.changeError = action.payload.message
+    },
+
+    [forgotPassword.pending]: (state, action) => {
+      state.forgotStatus = 'pending'
+    },
+    [forgotPassword.fulfilled]: (state, action) => {
+      state.forgotStatus = 'success'
+    },
+    [forgotPassword.rejected]: (state, action) => {
+      state.forgotStatus = 'error'
+      state.forgotError = action.payload.message
+    },
+
+    [resetPassword.pending]: (state, action) => {
+      state.resetStatus = 'pending'
+    },
+    [resetPassword.fulfilled]: (state, action) => {
+      state.resetStatus = 'success'
+    },
+    [resetPassword.rejected]: (state, action) => {
+      state.resetStatus = 'error'
+      state.resetError = action.payload.message
     },
   },
 })
 
-export const { resetToken, resetLoginStatus, resetRegisterStatus, resetPasswordStatus } = userSlice.actions
+export const { resetToken, resetLoginStatus, resetRegisterStatus, resetChangeStatus, resetForgotStatus, resetResetStatus } = userSlice.actions
 
 export default userSlice.reducer

@@ -1,31 +1,32 @@
 import { Button, Card, Divider, Form, Input, message } from 'antd'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import './login.css'
-import { changePassword, resetChangeStatus } from './userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { resetPassword, resetResetStatus } from './userSlice'
 
-export function ChangePassword() {
+export function ResetPassword() {
+  let { rpt } = useParams()
   const dispatch = useDispatch()
 
-  const changeStatus = useSelector((state) => state.user.changeStatus)
-  const changeError = useSelector((state) => state.user.changeError)
+  const resetStatus = useSelector((state) => state.user.resetStatus)
+  const resetError = useSelector((state) => state.user.resetError)
 
   useEffect(() => {
-    if (changeStatus === 'success') {
+    if (resetStatus === 'success') {
       message.success({ content: 'Thành công' })
-    } else if (changeStatus === 'error') {
-      message.error({ content: 'Thất bại: ' + changeError })
+    } else if (resetStatus === 'error') {
+      message.error({ content: 'Thất bại: ' + resetError })
     }
   })
   useEffect(() => {
     return () => {
-      dispatch(resetChangeStatus())
+      dispatch(resetResetStatus())
     }
   }, [dispatch])
 
-  const onFinish = ({ oldpassword, newpassword }) => {
-    dispatch(changePassword({ oldpassword, newpassword }))
+  const onFinish = ({ newpassword }) => {
+    dispatch(resetPassword({ newpassword, token: rpt }))
   }
 
   return (
@@ -38,9 +39,6 @@ export function ChangePassword() {
             </Link>
           </div>
           <Form onFinish={onFinish}>
-            <Form.Item name='oldpassword' rules={[{ required: true, message: 'Hãy nhập mật khẩu cũ' }]}>
-              <Input.Password placeholder='Mật khẩu cũ' />
-            </Form.Item>
             <Form.Item
               name='newpassword'
               rules={[
@@ -68,8 +66,8 @@ export function ChangePassword() {
               <Input.Password placeholder='Nhập lại mật khẩu mới' />
             </Form.Item>
             <Form.Item>
-              <Button type='primary' htmlType='submit' block loading={changeStatus === 'pending'}>
-                Đổi mật khẩu
+              <Button type='primary' htmlType='submit' block loading={resetStatus === 'pending'}>
+                Đặt lại mật khẩu
               </Button>
             </Form.Item>
             <Divider />

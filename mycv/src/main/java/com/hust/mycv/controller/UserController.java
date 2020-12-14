@@ -1,5 +1,6 @@
 package com.hust.mycv.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.hust.mycv.dto.ChangePasswordDTO;
 import com.hust.mycv.dto.RegisterDTO;
+import com.hust.mycv.dto.ResetPasswordDTO;
 import com.hust.mycv.entity.ApplicationUser;
 import com.hust.mycv.entity.UserInfo;
 import com.hust.mycv.repository.UserInfoRepository;
@@ -51,7 +54,7 @@ public class UserController {
 		ApplicationUser user = userRepository.findByConfirmEmailToken(cet);
 
 		if (user == null)
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thất tài khoản");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
 
 		user.setEnabled(true);
 
@@ -102,10 +105,37 @@ public class UserController {
 		ApplicationUser user = userRepository.findByUsername(username);
 
 		if (user == null)
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thất tài khoản");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
 
 		if (!passwordEncoder.matches(dto.oldpassword, user.getPassword()))
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mật khẩu cũ không chính xác");
+
+		user.setPassword(passwordEncoder.encode(dto.newpassword));
+
+		userRepository.save(user);
+	}
+	
+	@PostMapping("/forgot-password")
+	public void forgotPassword(@RequestParam String username) {
+		String token = UUID.randomUUID().toString();
+		ApplicationUser user = userRepository.findByUsername(username);
+		List<UserInfo> infos = userInfoRepository.findByUsername(username);
+		
+		if (user == null)
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
+		
+		user.setResetPasswordToken(token);
+		userRepository.save(user);
+		
+		emailService.sendResetPasswordEmail(infos.get(0).getEmail(), token);
+	}
+	
+	@PostMapping("/reset-password")
+	public void resetPassword(@RequestBody ResetPasswordDTO dto) {
+		ApplicationUser user = userRepository.findByResetPasswordToken(dto.token);
+
+		if (user == null)
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
 
 		user.setPassword(passwordEncoder.encode(dto.newpassword));
 
