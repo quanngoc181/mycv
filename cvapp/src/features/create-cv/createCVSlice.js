@@ -43,6 +43,7 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispat
       journals: JSON.stringify(cvInfo.journals),
       presentations: JSON.stringify(cvInfo.presentations),
       orders: JSON.stringify(cvInfo.orders),
+      tags: JSON.stringify(cvInfo.tags),
     }
 
     let res
@@ -63,6 +64,7 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispat
       journals: JSON.parse(data.journals),
       presentations: JSON.parse(data.presentations),
       orders: JSON.parse(data.orders),
+      tags: JSON.parse(data.tags),
     }
 
     dispatch(mergeCv({ cv: data }))
@@ -132,6 +134,7 @@ export const createCVSlice = createSlice({
         citation: 'apa',
         language: 'vi',
         cvPublic: true,
+        tags: [],
       }
     },
     updateCvInfo(state, action) {
@@ -284,6 +287,7 @@ export const createCVSlice = createSlice({
         journals: JSON.parse(info.journals),
         presentations: JSON.parse(info.presentations),
         orders: JSON.parse(info.orders),
+        tags: JSON.parse(info.tags),
       }
 
       state.cvInfo = mappedInfo
@@ -302,6 +306,7 @@ export const createCVSlice = createSlice({
         journals: JSON.parse(cv.journals),
         presentations: JSON.parse(cv.presentations),
         orders: JSON.parse(cv.orders),
+        tags: JSON.parse(cv.tags),
       }
 
       state.cvInfo = mappedInfo
@@ -315,6 +320,7 @@ export const createCVSlice = createSlice({
       let mappedInfo = {
         ...cv,
         orders: JSON.parse(cv.orders),
+        tags: JSON.parse(cv.tags),
         ...info,
         avatar: info.avatar ? info.avatar : 'default-avatar.png',
         gender: info.gender ? genders[cv.language][info.gender] : null,

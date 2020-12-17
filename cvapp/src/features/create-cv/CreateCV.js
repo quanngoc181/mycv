@@ -200,6 +200,21 @@ export function CreateCV() {
             </Checkbox>
           </div>
           <div style={{ marginBottom: 20 }}>
+            <Select
+              mode='tags'
+              value={info.tags}
+              onChange={(value) => {
+                dispatch(updateCvInfo({ field: 'tags', value }))
+              }}
+              style={{ width: '100%' }}
+              placeholder='Gắn thẻ'
+            >
+              <Select.Option key={'tag 1'}>tag 1</Select.Option>
+              <Select.Option key={'tag 2'}>tag 2</Select.Option>
+              <Select.Option key={'tag 3'}>tag 3</Select.Option>
+            </Select>
+          </div>
+          <div style={{ marginBottom: 20 }}>
             <Input.TextArea
               value={info.cvNote}
               onInput={(e) => {

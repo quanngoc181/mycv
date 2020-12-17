@@ -25,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.hust.mycv.entity.CvInfo;
 import com.hust.mycv.repository.CvInfoRepository;
+import com.hust.mycv.service.TagService;
 import com.hust.mycv.utility.StringUtility;
 
 @RestController
@@ -32,6 +33,9 @@ public class CvInfoController {
 
 	@Autowired
 	CvInfoRepository cvInfoRepository;
+	
+	@Autowired
+	TagService tagService;
 
 	@GetMapping("/cv-info")
 	public List<CvInfo> getInfo(Authentication auth) {
@@ -65,12 +69,14 @@ public class CvInfoController {
 	
 	@PostMapping("/cv-info")
 	public CvInfo addInfo(@RequestBody CvInfo info) {
-
-		info.setLastModified(LocalDateTime.now());
-
+		
 		info.setIdentifier(UUID.randomUUID().toString());
 		info.setViewCount(0);
 		info.setDownloadCount(0);
+
+		info.setLastModified(LocalDateTime.now());
+		
+		tagService.pushTag(info.getTags());
 
 		CvInfo ret = cvInfoRepository.save(info);
 		return ret;
@@ -80,6 +86,8 @@ public class CvInfoController {
 	public CvInfo updateInfo(@RequestBody CvInfo info) {
 
 		info.setLastModified(LocalDateTime.now());
+		
+		tagService.pushTag(info.getTags());
 
 		CvInfo ret = cvInfoRepository.save(info);
 		return ret;

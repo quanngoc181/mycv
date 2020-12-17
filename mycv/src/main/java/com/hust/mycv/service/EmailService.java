@@ -10,7 +10,9 @@ public class EmailService {
 	@Autowired
 	public JavaMailSender emailSender;
 
-	public EmailService() {}
+	public EmailService() {
+		super();
+	}
 
 	public void sendEnableAccountEmail(String to, String token) {
 		SimpleMailMessage message = new SimpleMailMessage();
