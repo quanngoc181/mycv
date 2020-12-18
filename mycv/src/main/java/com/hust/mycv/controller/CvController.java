@@ -30,6 +30,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.hust.mycv.entity.Cv;
 import com.hust.mycv.repository.CvRepository;
+import com.hust.mycv.service.CompanyService;
+import com.hust.mycv.service.SchoolService;
 import com.hust.mycv.service.TagService;
 import com.hust.mycv.utility.StringUtility;
 
@@ -41,6 +43,12 @@ public class CvController {
 
 	@Autowired
 	TagService tagService;
+	
+	@Autowired
+	SchoolService schoolService;
+	
+	@Autowired
+	CompanyService companyService;
 
 	@Autowired
 	RestTemplate restTemplate;
@@ -83,7 +91,9 @@ public class CvController {
 
 		cv.setLastModified(LocalDateTime.now());
 		
-		tagService.updateTag(cv.getTags());
+		tagService.updateTag(cv);
+		schoolService.updateSchool(cv);
+		companyService.updateCompany(cv);
 
 		Cv ret = cvRepository.save(cv);
 
@@ -94,7 +104,9 @@ public class CvController {
 	public Cv updateInfo(@RequestBody Cv cv) {
 		cv.setLastModified(LocalDateTime.now());
 		
-		tagService.updateTag(cv.getTags());
+		tagService.updateTag(cv);
+		schoolService.updateSchool(cv);
+		companyService.updateCompany(cv);
 
 		Cv ret = cvRepository.save(cv);
 

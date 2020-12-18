@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hust.mycv.entity.Cv;
 import com.hust.mycv.entity.Tag;
 import com.hust.mycv.repository.TagRepository;
 
@@ -17,10 +18,11 @@ public class TagService {
 		super();
 	}
 
-	public void updateTag(String tagString) {
-		ObjectMapper mapper = new ObjectMapper();
+	public void updateTag(Cv cv) {
 		try {
-			String[] tags = mapper.readValue(tagString, String[].class);
+			ObjectMapper mapper = new ObjectMapper();
+
+			String[] tags = mapper.readValue(cv.getTags(), String[].class);
 
 			for (String tag : tags) {
 				tag = tag.trim();
