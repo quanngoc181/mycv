@@ -29,7 +29,7 @@ export function ChangePassword() {
   }
 
   return (
-    <>
+    <div style={{height: '100vh', backgroundColor: '#2f54eb'}}>
       <div className='login-form'>
         <Card>
           <div className='text-center' style={{ marginBottom: 20 }}>
@@ -79,6 +79,6 @@ export function ChangePassword() {
           </Form>
         </Card>
       </div>
-    </>
+    </div>
   )
 }

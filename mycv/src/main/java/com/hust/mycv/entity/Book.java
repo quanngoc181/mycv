@@ -28,7 +28,7 @@ public class Book {
 	
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
-	private UserInfo info;
+	private Info info;
 	
 	public Book() {
 		super();
@@ -92,11 +92,11 @@ public class Book {
 		this.year = year;
 	}
 
-	public UserInfo getInfo() {
+	public Info getInfo() {
 		return info;
 	}
 
-	public void setInfo(UserInfo info) {
+	public void setInfo(Info info) {
 		this.info = info;
 	}
 

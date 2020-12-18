@@ -20,33 +20,33 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.hust.mycv.entity.UserInfo;
-import com.hust.mycv.repository.UserInfoRepository;
+import com.hust.mycv.entity.Info;
+import com.hust.mycv.repository.InfoRepository;
 import com.hust.mycv.utility.StringUtility;
 
 @RestController
-public class UserInfoController {
+public class InfoController {
 
 	@Autowired
-	UserInfoRepository userInfoRepository;
+	InfoRepository userInfoRepository;
 
 	@GetMapping("/user-info")
-	public List<UserInfo> getInfo(Authentication auth) {
+	public List<Info> getInfo(Authentication auth) {
 		String username = StringUtility.getUserName(auth.getName());
-		List<UserInfo> infos = userInfoRepository.findByUsername(username);
+		List<Info> infos = userInfoRepository.findByUsername(username);
 
-		List<UserInfo> skills = userInfoRepository.fetchSkillsByUsername(username);
-		List<UserInfo> scholarships = userInfoRepository.fetchScholarshipsByUsername(username);
-		List<UserInfo> awards = userInfoRepository.fetchAwardsByUsername(username);
-		List<UserInfo> certificates = userInfoRepository.fetchCertificatesByUsername(username);
-		List<UserInfo> memberships = userInfoRepository.fetchMembershipsByUsername(username);
-		List<UserInfo> theses = userInfoRepository.fetchThesesByUsername(username);
-		List<UserInfo> presentations = userInfoRepository.fetchPresentationsByUsername(username);
-		List<UserInfo> books = userInfoRepository.fetchBooksByUsername(username);
-		List<UserInfo> journals = userInfoRepository.fetchJournalsByUsername(username);
-		List<UserInfo> educations = userInfoRepository.fetchEducationsByUsername(username);
-		List<UserInfo> works = userInfoRepository.fetchWorksByUsername(username);
-		List<UserInfo> projects = userInfoRepository.fetchProjectsByUsername(username);
+		List<Info> skills = userInfoRepository.fetchSkillsByUsername(username);
+		List<Info> scholarships = userInfoRepository.fetchScholarshipsByUsername(username);
+		List<Info> awards = userInfoRepository.fetchAwardsByUsername(username);
+		List<Info> certificates = userInfoRepository.fetchCertificatesByUsername(username);
+		List<Info> memberships = userInfoRepository.fetchMembershipsByUsername(username);
+		List<Info> theses = userInfoRepository.fetchThesesByUsername(username);
+		List<Info> presentations = userInfoRepository.fetchPresentationsByUsername(username);
+		List<Info> books = userInfoRepository.fetchBooksByUsername(username);
+		List<Info> journals = userInfoRepository.fetchJournalsByUsername(username);
+		List<Info> educations = userInfoRepository.fetchEducationsByUsername(username);
+		List<Info> works = userInfoRepository.fetchWorksByUsername(username);
+		List<Info> projects = userInfoRepository.fetchProjectsByUsername(username);
 
 		for (int i = 0; i < infos.size(); i++) {
 			infos.get(i).setSkills(skills.get(i).getSkills());
@@ -67,8 +67,8 @@ public class UserInfoController {
 	}
 
 	@PutMapping("/user-info")
-	public UserInfo updateInfo(@RequestBody UserInfo info) {
-		UserInfo ret = userInfoRepository.save(info);
+	public Info updateInfo(@RequestBody Info info) {
+		Info ret = userInfoRepository.save(info);
 		return ret;
 	}
 
@@ -76,10 +76,10 @@ public class UserInfoController {
 	public String updateAvatar(Authentication auth, @RequestParam("file") MultipartFile file) {
 		try {
 			String username = StringUtility.getUserName(auth.getName());
-			List<UserInfo> infos = userInfoRepository.findByUsername(username);
+			List<Info> infos = userInfoRepository.findByUsername(username);
 
-			UserInfo viInfo = infos.get(0);
-			UserInfo enInfo = infos.get(1);
+			Info viInfo = infos.get(0);
+			Info enInfo = infos.get(1);
 
 			Path path = Paths.get("uploads/avatar");
 			Path path1 = Paths.get("uploads/cv");

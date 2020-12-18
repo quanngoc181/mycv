@@ -66,9 +66,6 @@ export function NavBar() {
     else if (user && user.role === 'EMPLOYEE')
       centerNav = (
         <div className='my-nav mr-auto ml-auto'>
-          {/* <Link to='/todos'>
-            <div className='my-nav-link'>Todo</div>
-          </Link> */}
           <Link to='/my-info'>
             <div className='my-nav-link'>Thông tin</div>
           </Link>

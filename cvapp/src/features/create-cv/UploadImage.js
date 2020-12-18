@@ -7,7 +7,7 @@ const UploadImage = React.forwardRef((props, ref) => {
   const attr = {
     name: 'file',
     showUploadList: false,
-    action: 'http://localhost:8080/cv-info/upload-image',
+    action: 'http://localhost:8080/cv/upload-image',
     headers: GetToken(),
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'

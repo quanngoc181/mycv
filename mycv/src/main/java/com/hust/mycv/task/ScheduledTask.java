@@ -29,7 +29,7 @@ public class ScheduledTask {
 
 			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/tag/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
 
-			restTemplate.exchange(request, Tag.class);
+			restTemplate.exchange(request, String.class);
 
 			System.out.println("delete tag done");
 		} catch (Exception e) {
@@ -48,7 +48,7 @@ public class ScheduledTask {
 
 			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/tag/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
 
-			restTemplate.exchange(request, Tag.class);
+			restTemplate.exchange(request, String.class);
 
 			System.out.println("add tag done");
 		} catch (Exception e) {

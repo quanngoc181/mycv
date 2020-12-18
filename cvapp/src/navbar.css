@@ -12,7 +12,7 @@
 }
 
 .my-navbar {
-  background-color: #007bff;
+  background-color: #2f54eb;
   padding: 8px 16px;
   display: flex;
   align-items: center;
@@ -31,9 +31,24 @@
   padding: 8px;
   transition: color 0.3s;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  position: relative;
 }
-
-.my-navbar .my-nav-link:hover {
-  color: rgba(255, 255, 255, 1);
+.my-navbar .my-nav-link:hover:before {
+  opacity: 1;
+}
+.my-navbar .my-nav-link:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  top: -8px;
+  left: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+  background-clip: content-box;
+  opacity: 0;
+  transition: opacity 0.4s;
 }

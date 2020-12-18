@@ -23,11 +23,11 @@ public class Skill {
 
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
-	private UserInfo info;
+	private Info info;
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	private CvInfo cvInfo;
+	private Cv cv;
 
 	public Skill() {
 		super();
@@ -64,20 +64,20 @@ public class Skill {
 		this.rate = rate;
 	}
 
-	public UserInfo getInfo() {
+	public Info getInfo() {
 		return info;
 	}
 
-	public void setInfo(UserInfo info) {
+	public void setInfo(Info info) {
 		this.info = info;
 	}
 
-	public CvInfo getCvInfo() {
-		return cvInfo;
+	public Cv getCv() {
+		return cv;
 	}
 
-	public void setCvInfo(CvInfo cvInfo) {
-		this.cvInfo = cvInfo;
+	public void setCv(Cv cv) {
+		this.cv = cv;
 	}
 
 	@Override

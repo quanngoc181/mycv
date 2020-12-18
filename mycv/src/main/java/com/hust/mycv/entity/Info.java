@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class UserInfo {
+public class Info {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -106,11 +106,11 @@ public class UserInfo {
 	@OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Project> projects = new ArrayList<>();
 
-	public UserInfo() {
+	public Info() {
 		super();
 	}
 
-	public UserInfo(Integer id, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, Integer childs, String nationality, String religion, String dob, String phone, String socials, String additional, String activities, String hobbies, String language) {
+	public Info(Integer id, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, Integer childs, String nationality, String religion, String dob, String phone, String socials, String additional, String activities, String hobbies, String language) {
 		super();
 		this.id = id;
 		this.username = username;

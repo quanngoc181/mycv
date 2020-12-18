@@ -14,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class CvInfo {
+public class Cv {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -96,38 +96,38 @@ public class CvInfo {
 
 	private String presentations;
 
-	@OneToMany(mappedBy = "cvInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Award> awards = new ArrayList<>();
 
-	@OneToMany(mappedBy = "cvInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Certificate> certificates = new ArrayList<>();
 
-	@OneToMany(mappedBy = "cvInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Scholarship> scholarships = new ArrayList<>();
 
-	@OneToMany(mappedBy = "cvInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Skill> skills = new ArrayList<>();
 
-	@OneToMany(mappedBy = "cvInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Thesis> theses = new ArrayList<>();
 
-	@OneToMany(mappedBy = "cvInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Education> educations = new ArrayList<>();
 
-	@OneToMany(mappedBy = "cvInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Work> works = new ArrayList<>();
 
-	@OneToMany(mappedBy = "cvInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Project> projects = new ArrayList<>();
 
-	@OneToMany(mappedBy = "cvInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Membership> memberships = new ArrayList<>();
 
-	public CvInfo() {
+	public Cv() {
 		super();
 	}
 
-	public CvInfo(Integer id, String cvName, boolean cvPublic, String tags, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, String subs, Integer viewCount, Integer downloadCount, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
+	public Cv(Integer id, String cvName, boolean cvPublic, String tags, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, String subs, Integer viewCount, Integer downloadCount, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
 		super();
 		this.id = id;
 		this.cvName = cvName;
@@ -480,7 +480,7 @@ public class CvInfo {
 	public void setAwards(List<Award> awards) {
 		this.awards = awards;
 		for (Award award : awards) {
-			award.setCvInfo(this);
+			award.setCv(this);
 		}
 	}
 
@@ -491,7 +491,7 @@ public class CvInfo {
 	public void setCertificates(List<Certificate> certificates) {
 		this.certificates = certificates;
 		for (Certificate certificate : certificates) {
-			certificate.setCvInfo(this);
+			certificate.setCv(this);
 		}
 	}
 
@@ -502,7 +502,7 @@ public class CvInfo {
 	public void setScholarships(List<Scholarship> scholarships) {
 		this.scholarships = scholarships;
 		for (Scholarship scholarship : scholarships) {
-			scholarship.setCvInfo(this);
+			scholarship.setCv(this);
 		}
 	}
 
@@ -513,7 +513,7 @@ public class CvInfo {
 	public void setSkills(List<Skill> skills) {
 		this.skills = skills;
 		for (Skill skill : skills) {
-			skill.setCvInfo(this);
+			skill.setCv(this);
 		}
 	}
 
@@ -524,7 +524,7 @@ public class CvInfo {
 	public void setTheses(List<Thesis> theses) {
 		this.theses = theses;
 		for (Thesis thesis : theses) {
-			thesis.setCvInfo(this);
+			thesis.setCv(this);
 		}
 	}
 
@@ -535,7 +535,7 @@ public class CvInfo {
 	public void setEducations(List<Education> educations) {
 		this.educations = educations;
 		for (Education education : educations) {
-			education.setCvInfo(this);
+			education.setCv(this);
 		}
 	}
 
@@ -546,7 +546,7 @@ public class CvInfo {
 	public void setWorks(List<Work> works) {
 		this.works = works;
 		for (Work work : works) {
-			work.setCvInfo(this);
+			work.setCv(this);
 		}
 	}
 
@@ -557,7 +557,7 @@ public class CvInfo {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 		for (Project project : projects) {
-			project.setCvInfo(this);
+			project.setCv(this);
 		}
 	}
 
@@ -568,7 +568,7 @@ public class CvInfo {
 	public void setMemberships(List<Membership> memberships) {
 		this.memberships = memberships;
 		for (Membership membership : memberships) {
-			membership.setCvInfo(this);
+			membership.setCv(this);
 		}
 	}
 

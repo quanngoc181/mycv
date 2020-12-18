@@ -15,6 +15,7 @@ import { ConfirmEmail } from './features/authen/ConfirmEmail'
 import { ChangePassword } from './features/authen/ChangePassword'
 import { ForgotPassword } from './features/authen/ForgotPassword'
 import { ResetPassword } from './features/authen/ResetPassword'
+import { Landing } from './Landing'
 
 function App() {
   return (
@@ -67,6 +68,9 @@ function App() {
               </Route>
               <Route exact path='/create-cv'>
                 <CreateCV></CreateCV>
+              </Route>
+              <Route path='/'>
+                <Landing></Landing>
               </Route>
             </Switch>
           </div>

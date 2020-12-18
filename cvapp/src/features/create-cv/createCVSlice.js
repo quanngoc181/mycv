@@ -50,26 +50,26 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispat
     let res
     if (!isEditting) {
       body = JSON.parse(JSON.stringify(body).replaceAll('"id":', '"unknown":'))
-      res = await axios.post('http://localhost:8080/cv-info', body, { headers: GetToken() })
+      res = await axios.post('http://localhost:8080/cv', body, { headers: GetToken() })
     } else {
-      res = await axios.put('http://localhost:8080/cv-info', body, { headers: GetToken() })
+      res = await axios.put('http://localhost:8080/cv', body, { headers: GetToken() })
     }
 
-    let data = res.data
+    let cv = res.data
 
     let parsed = {
-      ...data,
-      activities: JSON.parse(data.activities),
-      hobbies: JSON.parse(data.hobbies),
-      books: JSON.parse(data.books),
-      journals: JSON.parse(data.journals),
-      presentations: JSON.parse(data.presentations),
-      orders: JSON.parse(data.orders),
-      subs: JSON.parse(data.subs),
-      tags: JSON.parse(data.tags),
+      ...cv,
+      activities: JSON.parse(cv.activities),
+      hobbies: JSON.parse(cv.hobbies),
+      books: JSON.parse(cv.books),
+      journals: JSON.parse(cv.journals),
+      presentations: JSON.parse(cv.presentations),
+      orders: JSON.parse(cv.orders),
+      subs: JSON.parse(cv.subs),
+      tags: JSON.parse(cv.tags),
     }
 
-    dispatch(mergeCv({ cv: data }))
+    dispatch(mergeCv({ cv }))
 
     return parsed
   } catch (error) {
@@ -389,7 +389,7 @@ export const createCVSlice = createSlice({
       state.suggestStatus = 'pending'
     },
     [searchTag.fulfilled]: (state, action) => {
-      state.suggestTag = action.payload.hits.hits.map(o => o._source)
+      state.suggestTag = action.payload.hits.hits.map((o) => o._source)
       state.suggestStatus = 'success'
     },
     [searchTag.rejected]: (state, action) => {

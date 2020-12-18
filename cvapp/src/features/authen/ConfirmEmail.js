@@ -18,7 +18,7 @@ export function ConfirmEmail() {
   if (confirmStatus !== 'success') return null
 
   return (
-    <>
+    <div style={{height: '100vh', backgroundColor: '#2f54eb'}}>
       <div className='login-form'>
         <Card>
           <div className='text-center' style={{ marginBottom: 20 }}>
@@ -29,6 +29,6 @@ export function ConfirmEmail() {
           <Result status='success' title='Xác nhận email thành công!' subTitle='Vui lòng tiếp tục đăng nhập và sử dụng dịch vụ.' style={{ padding: 0 }} />
         </Card>
       </div>
-    </>
+    </div>
   )
 }

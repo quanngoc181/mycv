@@ -76,43 +76,43 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
           </div>
           <table>
             <tbody>
-              <tr style={{ display: subs['gender'] ? 'block' : 'none' }}>
+              <tr style={{ display: subs['gender'] ? 'table-row' : 'none' }}>
                 <td className='font-bold width-110'>{label.gender}:</td>
                 <td field='gender'>{info.gender}</td>
               </tr>
-              <tr style={{ display: subs['dob'] ? 'block' : 'none' }}>
+              <tr style={{ display: subs['dob'] ? 'table-row' : 'none' }}>
                 <td className='font-bold width-110'>{label.dob}:</td>
                 <td field='dob'>{info.dob}</td>
               </tr>
-              <tr style={{ display: subs['address'] ? 'block' : 'none' }}>
+              <tr style={{ display: subs['address'] ? 'table-row' : 'none' }}>
                 <td className='font-bold width-110'>{label.address}:</td>
                 <td field='address'>{info.address}</td>
               </tr>
-              <tr style={{ display: subs['marital'] ? 'block' : 'none' }}>
+              <tr style={{ display: subs['marital'] ? 'table-row' : 'none' }}>
                 <td className='font-bold width-110'>{label.marital}:</td>
                 <td field='marital'>{info.marital}</td>
               </tr>
-              <tr style={{ display: subs['childs'] ? 'block' : 'none' }}>
+              <tr style={{ display: subs['childs'] ? 'table-row' : 'none' }}>
                 <td className='font-bold width-110'>{label.childs}:</td>
                 <td field='childs'>{info.childs}</td>
               </tr>
-              <tr style={{ display: subs['nationality'] ? 'block' : 'none' }}>
+              <tr style={{ display: subs['nationality'] ? 'table-row' : 'none' }}>
                 <td className='font-bold width-110'>{label.nationality}:</td>
                 <td field='nationality'>{info.nationality}</td>
               </tr>
-              <tr style={{ display: subs['religion'] ? 'block' : 'none' }}>
+              <tr style={{ display: subs['religion'] ? 'table-row' : 'none' }}>
                 <td className='font-bold width-110'>{label.religion}:</td>
                 <td field='religion'>{info.religion}</td>
               </tr>
-              <tr style={{ display: subs['phone'] ? 'block' : 'none' }}>
+              <tr style={{ display: subs['phone'] ? 'table-row' : 'none' }}>
                 <td className='font-bold width-110'>{label.phone}:</td>
                 <td field='phone'>{info.phone}</td>
               </tr>
-              <tr style={{ display: subs['email'] ? 'block' : 'none' }}>
+              <tr style={{ display: subs['email'] ? 'table-row' : 'none' }}>
                 <td className='font-bold width-110'>{label.email}:</td>
                 <td field='email'>{info.email}</td>
               </tr>
-              <tr style={{ display: subs['website'] ? 'block' : 'none' }}>
+              <tr style={{ display: subs['website'] ? 'table-row' : 'none' }}>
                 <td className='font-bold width-110'>{label.website}:</td>
                 <td field='socials' className='pre-line'>
                   {info.socials}

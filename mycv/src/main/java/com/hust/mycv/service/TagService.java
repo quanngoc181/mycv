@@ -3,8 +3,6 @@ package com.hust.mycv.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hust.mycv.entity.Tag;
 import com.hust.mycv.repository.TagRepository;
@@ -19,8 +17,7 @@ public class TagService {
 		super();
 	}
 
-	public void pushTag(String tagString) {
-
+	public void updateTag(String tagString) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String[] tags = mapper.readValue(tagString, String[].class);
@@ -36,12 +33,9 @@ public class TagService {
 					tagRepository.save(newTag);
 				}
 			}
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

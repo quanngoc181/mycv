@@ -9,7 +9,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f0f2f5;
+  background-color: #edf1f5;
   overflow-y: scroll !important;
 }
 
@@ -21,7 +21,7 @@ code {
   display: inline-block;
   font-size: 50px;
   line-height: 1;
-  background: linear-gradient(45deg, #0099ff 0%, #a033ff 25%, #ff5280 50%, #ff7062 75%, #ffff00 100%);
+  background: linear-gradient(45deg, #fff 0%, #ee82ee 25%, #ff5280 50%, #ff7062 75%, #ffff00 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -36,7 +36,6 @@ code {
 .app-footer {
   padding: 10px 20px;
   font-size: 14px;
-  background-color: white;
 }
 
 .app-footer .right {

@@ -20,8 +20,8 @@ import com.hust.mycv.dto.ChangePasswordDTO;
 import com.hust.mycv.dto.RegisterDTO;
 import com.hust.mycv.dto.ResetPasswordDTO;
 import com.hust.mycv.entity.ApplicationUser;
-import com.hust.mycv.entity.UserInfo;
-import com.hust.mycv.repository.UserInfoRepository;
+import com.hust.mycv.entity.Info;
+import com.hust.mycv.repository.InfoRepository;
 import com.hust.mycv.repository.UserRepository;
 import com.hust.mycv.service.EmailService;
 import com.hust.mycv.utility.StringUtility;
@@ -33,7 +33,7 @@ public class UserController {
 	UserRepository userRepository;
 
 	@Autowired
-	UserInfoRepository userInfoRepository;
+	InfoRepository userInfoRepository;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -80,14 +80,14 @@ public class UserController {
 		ApplicationUser res = userRepository.save(user);
 		res.setPassword(null);
 
-		UserInfo info1 = new UserInfo();
+		Info info1 = new Info();
 		info1.setUsername(dto.username);
 		info1.setFullName(dto.fullName);
 		info1.setEmail(dto.email);
 		info1.setLanguage("vi");
 		userInfoRepository.save(info1);
 
-		UserInfo info2 = new UserInfo();
+		Info info2 = new Info();
 		info2.setUsername(dto.username);
 		info2.setFullName(dto.fullName);
 		info2.setEmail(dto.email);
@@ -119,7 +119,7 @@ public class UserController {
 	public void forgotPassword(@RequestParam String username) {
 		String token = UUID.randomUUID().toString();
 		ApplicationUser user = userRepository.findByUsername(username);
-		List<UserInfo> infos = userInfoRepository.findByUsername(username);
+		List<Info> infos = userInfoRepository.findByUsername(username);
 		
 		if (user == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
