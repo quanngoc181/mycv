@@ -43,6 +43,7 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispat
       journals: JSON.stringify(cvInfo.journals),
       presentations: JSON.stringify(cvInfo.presentations),
       orders: JSON.stringify(cvInfo.orders),
+      subs: JSON.stringify(cvInfo.subs),
       tags: JSON.stringify(cvInfo.tags),
     }
 
@@ -64,6 +65,7 @@ export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispat
       journals: JSON.parse(data.journals),
       presentations: JSON.parse(data.presentations),
       orders: JSON.parse(data.orders),
+      subs: JSON.parse(data.subs),
       tags: JSON.parse(data.tags),
     }
 
@@ -114,12 +116,23 @@ export const updateCitation = createAsyncThunk('create/updateCitation', async ({
   return { info, citation }
 })
 
+export const searchTag = createAsyncThunk('create/searchTag', async ({ value }, { rejectWithValue }) => {
+  try {
+    let res = await axios.post('http://localhost:8080/es/search-tag/' + value, {}, { headers: GetToken() })
+    return res.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const createCVSlice = createSlice({
   name: 'create',
   initialState: {
     cvInfo: null,
     isEditting: false,
     updateStatus: null,
+    suggestTag: [],
+    suggestStatus: null,
   },
   reducers: {
     resetStatus(state, action) {
@@ -287,6 +300,7 @@ export const createCVSlice = createSlice({
         journals: JSON.parse(info.journals),
         presentations: JSON.parse(info.presentations),
         orders: JSON.parse(info.orders),
+        subs: JSON.parse(info.subs),
         tags: JSON.parse(info.tags),
       }
 
@@ -306,6 +320,7 @@ export const createCVSlice = createSlice({
         journals: JSON.parse(cv.journals),
         presentations: JSON.parse(cv.presentations),
         orders: JSON.parse(cv.orders),
+        subs: JSON.parse(cv.subs),
         tags: JSON.parse(cv.tags),
       }
 
@@ -320,6 +335,7 @@ export const createCVSlice = createSlice({
       let mappedInfo = {
         ...cv,
         orders: JSON.parse(cv.orders),
+        subs: JSON.parse(cv.subs),
         tags: JSON.parse(cv.tags),
         ...info,
         avatar: info.avatar ? info.avatar : 'default-avatar.png',
@@ -367,6 +383,17 @@ export const createCVSlice = createSlice({
     },
     [updateCv.rejected]: (state, action) => {
       state.updateStatus = 'error'
+    },
+
+    [searchTag.pending]: (state, action) => {
+      state.suggestStatus = 'pending'
+    },
+    [searchTag.fulfilled]: (state, action) => {
+      state.suggestTag = action.payload.hits.hits.map(o => o._source)
+      state.suggestStatus = 'success'
+    },
+    [searchTag.rejected]: (state, action) => {
+      state.suggestStatus = 'error'
     },
   },
 })

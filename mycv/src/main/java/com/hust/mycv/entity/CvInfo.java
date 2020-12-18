@@ -47,6 +47,9 @@ public class CvInfo {
 	@Column(columnDefinition = "TEXT")
 	private String orders;
 	
+	@Column(columnDefinition = "TEXT")
+	private String subs;
+	
 	private Integer viewCount;
 	
 	private Integer downloadCount;
@@ -124,7 +127,7 @@ public class CvInfo {
 		super();
 	}
 
-	public CvInfo(Integer id, String cvName, boolean cvPublic, String tags, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, Integer viewCount, Integer downloadCount, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
+	public CvInfo(Integer id, String cvName, boolean cvPublic, String tags, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, String subs, Integer viewCount, Integer downloadCount, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
 		super();
 		this.id = id;
 		this.cvName = cvName;
@@ -140,6 +143,7 @@ public class CvInfo {
 		this.fontSize = fontSize;
 		this.lineHeight = lineHeight;
 		this.orders = orders;
+		this.subs = subs;
 		this.viewCount = viewCount;
 		this.downloadCount = downloadCount;
 		this.username = username;
@@ -275,6 +279,14 @@ public class CvInfo {
 
 	public void setOrders(String orders) {
 		this.orders = orders;
+	}
+
+	public String getSubs() {
+		return subs;
+	}
+
+	public void setSubs(String subs) {
+		this.subs = subs;
 	}
 
 	public Integer getViewCount() {

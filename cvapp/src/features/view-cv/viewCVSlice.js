@@ -39,6 +39,7 @@ export const viewCVSlice = createSlice({
         journals: JSON.parse(info.journals),
         presentations: JSON.parse(info.presentations),
         orders: JSON.parse(info.orders),
+        subs: JSON.parse(info.subs),
       }
       state.cvView = mappedInfo
     },

@@ -1,12 +1,13 @@
 import './create-cv.css'
 import TemplateList from '../../templates/TemplateList'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button, Checkbox, Input, message, Radio, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetStatus, updateCitation, updateCv, updateCvInfo, updateLanguage, updateTemplate } from '../create-cv/createCVSlice'
+import { resetStatus, searchTag, updateCitation, updateCv, updateCvInfo, updateLanguage, updateTemplate } from '../create-cv/createCVSlice'
 import { AppstoreOutlined, FontSizeOutlined, LineHeightOutlined } from '@ant-design/icons'
 import { UploadImage } from './UploadImage'
 import { Orders } from './Orders'
+import { debounce } from 'lodash'
 
 export function CreateCV() {
   const dispatch = useDispatch()
@@ -19,6 +20,8 @@ export function CreateCV() {
   let info = useSelector((state) => state.create.cvInfo)
   let status = useSelector((state) => state.create.updateStatus)
   let isEditting = useSelector((state) => state.create.isEditting)
+  let suggestTag = useSelector((state) => state.create.suggestTag)
+  let suggestStatus = useSelector((state) => state.create.suggestStatus)
 
   useEffect(() => {
     if (status === 'success') {
@@ -33,9 +36,23 @@ export function CreateCV() {
     }
   }, [dispatch])
 
+  // eslint-disable-next-line
+  const debouncedSave = useCallback(
+    debounce((value) => {
+      if (value.trim().length !== 0) {
+        dispatch(searchTag({ value: value.trim() }))
+      }
+    }, 1000),
+    []
+  )
+
+  const handleKeyup = (value) => {
+    debouncedSave(value)
+  }
+
   if (info === null) return null
 
-  let { template, language, fontFamily, fontSize, lineHeight, citation, orders } = info
+  let { template, language, fontFamily, fontSize, lineHeight, citation, orders, subs } = info
 
   const templateObj = TemplateList.find((t) => t.id === template)
   const TemplateComponent = templateObj ? templateObj.component : null
@@ -206,12 +223,15 @@ export function CreateCV() {
               onChange={(value) => {
                 dispatch(updateCvInfo({ field: 'tags', value }))
               }}
+              onSearch={handleKeyup}
               style={{ width: '100%' }}
               placeholder='Gắn thẻ'
+              filterOption={false}
+              loading={suggestStatus === 'pending'}
             >
-              <Select.Option key={'tag 1'}>tag 1</Select.Option>
-              <Select.Option key={'tag 2'}>tag 2</Select.Option>
-              <Select.Option key={'tag 3'}>tag 3</Select.Option>
+              {suggestTag.map((t) => (
+                <Select.Option key={t.name}>{t.name}</Select.Option>
+              ))}
             </Select>
           </div>
           <div style={{ marginBottom: 20 }}>
@@ -248,7 +268,7 @@ export function CreateCV() {
         </div>
         <div className='my-body'>{TemplateComponent !== null && <TemplateComponent viewMode={false} uploadImage={uploadImage} updateRating={updateRating} info={info} />}</div>
       </div>
-      {orders && <Orders orders={orders} language={language} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />}
+      {orders && <Orders orders={orders} subs={subs} language={language} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />}
     </>
   )
 }

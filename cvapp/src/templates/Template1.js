@@ -60,6 +60,9 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
     }
   }
 
+  let subs = info.subs.map((o) => ({ [o.name]: o.display }))
+  subs = Object.assign({}, ...subs)
+
   const sections = {
     information: (
       <div className='cv-section information d-flex'>
@@ -73,43 +76,43 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
           </div>
           <table>
             <tbody>
-              <tr>
+              <tr style={{ display: subs['gender'] ? 'block' : 'none' }}>
                 <td className='font-bold width-110'>{label.gender}:</td>
                 <td field='gender'>{info.gender}</td>
               </tr>
-              <tr>
+              <tr style={{ display: subs['dob'] ? 'block' : 'none' }}>
                 <td className='font-bold width-110'>{label.dob}:</td>
                 <td field='dob'>{info.dob}</td>
               </tr>
-              <tr>
+              <tr style={{ display: subs['address'] ? 'block' : 'none' }}>
                 <td className='font-bold width-110'>{label.address}:</td>
                 <td field='address'>{info.address}</td>
               </tr>
-              <tr>
+              <tr style={{ display: subs['marital'] ? 'block' : 'none' }}>
                 <td className='font-bold width-110'>{label.marital}:</td>
                 <td field='marital'>{info.marital}</td>
               </tr>
-              <tr>
+              <tr style={{ display: subs['childs'] ? 'block' : 'none' }}>
                 <td className='font-bold width-110'>{label.childs}:</td>
                 <td field='childs'>{info.childs}</td>
               </tr>
-              <tr>
+              <tr style={{ display: subs['nationality'] ? 'block' : 'none' }}>
                 <td className='font-bold width-110'>{label.nationality}:</td>
                 <td field='nationality'>{info.nationality}</td>
               </tr>
-              <tr>
+              <tr style={{ display: subs['religion'] ? 'block' : 'none' }}>
                 <td className='font-bold width-110'>{label.religion}:</td>
                 <td field='religion'>{info.religion}</td>
               </tr>
-              <tr>
+              <tr style={{ display: subs['phone'] ? 'block' : 'none' }}>
                 <td className='font-bold width-110'>{label.phone}:</td>
                 <td field='phone'>{info.phone}</td>
               </tr>
-              <tr>
+              <tr style={{ display: subs['email'] ? 'block' : 'none' }}>
                 <td className='font-bold width-110'>{label.email}:</td>
                 <td field='email'>{info.email}</td>
               </tr>
-              <tr>
+              <tr style={{ display: subs['website'] ? 'block' : 'none' }}>
                 <td className='font-bold width-110'>{label.website}:</td>
                 <td field='socials' className='pre-line'>
                   {info.socials}
@@ -395,7 +398,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
     publication: (
       <div className='cv-section publication'>
         <div className='cv-section-header'>{label.publication}</div>
-        <div className='cv-book-item' style={{ marginBottom: 10 }}>
+        <div className='cv-book-item' style={{ marginBottom: 10, display: subs['book'] ? 'block' : 'none' }}>
           <div className='font-bold'>{label.book}</div>
           {info.books.map((book, index) => (
             <div className='cv-section-item mb-0' key={index}>
@@ -405,7 +408,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
             </div>
           ))}
         </div>
-        <div className='cv-journal-item' style={{ marginBottom: 10 }}>
+        <div className='cv-journal-item' style={{ marginBottom: 10, display: subs['journal'] ? 'block' : 'none' }}>
           <div className='font-bold'>{label.journal}</div>
           {info.journals.map((journal, index) => (
             <div className='cv-section-item mb-0' key={index}>
@@ -415,7 +418,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
             </div>
           ))}
         </div>
-        <div className='cv-presentation-item'>
+        <div className='cv-presentation-item' style={{ marginBottom: 10, display: subs['presentation'] ? 'block' : 'none' }}>
           <div className='font-bold'>{label.presentation}</div>
           {info.presentations.map((presentation, index) => (
             <div className='cv-section-item mb-0' key={index}>

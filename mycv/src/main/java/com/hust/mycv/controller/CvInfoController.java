@@ -1,5 +1,6 @@
 package com.hust.mycv.controller;
 
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,6 +12,9 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,9 +38,12 @@ public class CvInfoController {
 
 	@Autowired
 	CvInfoRepository cvInfoRepository;
-	
+
 	@Autowired
 	TagService tagService;
+
+	@Autowired
+	RestTemplate restTemplate;
 
 	@GetMapping("/cv-info")
 	public List<CvInfo> getInfo(Authentication auth) {
@@ -66,16 +74,16 @@ public class CvInfoController {
 
 		return infos;
 	}
-	
+
 	@PostMapping("/cv-info")
 	public CvInfo addInfo(@RequestBody CvInfo info) {
-		
+
 		info.setIdentifier(UUID.randomUUID().toString());
 		info.setViewCount(0);
 		info.setDownloadCount(0);
 
 		info.setLastModified(LocalDateTime.now());
-		
+
 		tagService.pushTag(info.getTags());
 
 		CvInfo ret = cvInfoRepository.save(info);
@@ -86,7 +94,7 @@ public class CvInfoController {
 	public CvInfo updateInfo(@RequestBody CvInfo info) {
 
 		info.setLastModified(LocalDateTime.now());
-		
+
 		tagService.pushTag(info.getTags());
 
 		CvInfo ret = cvInfoRepository.save(info);
@@ -144,7 +152,7 @@ public class CvInfoController {
 
 		return info;
 	}
-	
+
 	@PostMapping("/cvwr/{identifier}")
 	public void addDownload(@PathVariable String identifier) {
 		CvInfo info = cvInfoRepository.findByIdentifier(identifier);
@@ -153,6 +161,33 @@ public class CvInfoController {
 		info.setDownloadCount(oldDown + 1);
 
 		cvInfoRepository.save(info);
+	}
+
+	@PostMapping("/es/search-tag/{keyword}")
+	public String searchTag(@PathVariable String keyword) {
+		try {
+			String body = "{\n"
+						+ "  \"query\": {\n"
+						+ "    \"match\": {\n"
+						+ "      \"name\": {\n"
+						+ "        \"query\": \"" + keyword + "\",\n"
+						+ "        \"fuzziness\": \"1\"\n"
+						+ "      }\n"
+						+ "    }\n"
+						+ "  },\n"
+						+ "  \"size\": 5\n"
+						+ "}";
+
+			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/tag/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
+
+			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+
+			return response.getBody();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return "null";
 	}
 
 }

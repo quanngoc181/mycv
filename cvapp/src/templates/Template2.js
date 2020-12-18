@@ -70,47 +70,50 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
     }
   }
 
+  let subs = info.subs.map((o) => ({ [o.name]: o.display }))
+  subs = Object.assign({}, ...subs)
+
   const sections = {
     information: (
       <div className='cv-section information'>
         <div className='cv-section-header'>{label.information}</div>
-        <div className='cv-info-item'>
+        <div className='cv-info-item' style={{ display: subs['gender'] ? 'block' : 'none' }}>
           <img src={gender} alt='gender' className='cv-icon' />
           <span field='gender'>{info.gender}</span>
         </div>
-        <div className='cv-info-item'>
+        <div className='cv-info-item' style={{ display: subs['dob'] ? 'block' : 'none' }}>
           <img src={dob} alt='dob' className='cv-icon' />
           <span field='dob'>{info.dob}</span>
         </div>
-        <div className='cv-info-item'>
+        <div className='cv-info-item' style={{ display: subs['address'] ? 'block' : 'none' }}>
           <img src={address} alt='address' className='cv-icon' />
           <span field='address'>{info.address}</span>
         </div>
-        <div className='cv-info-item'>
+        <div className='cv-info-item' style={{ display: subs['marital'] ? 'block' : 'none' }}>
           <img src={marital} alt='marital' className='cv-icon' />
           <span field='marital'>{info.marital}</span>
         </div>
-        <div className='cv-info-item'>
+        <div className='cv-info-item' style={{ display: subs['childs'] ? 'block' : 'none' }}>
           <img src={childs} alt='childs' className='cv-icon' />
           <span field='childs'>{info.childs}</span>
         </div>
-        <div className='cv-info-item'>
+        <div className='cv-info-item' style={{ display: subs['nationality'] ? 'block' : 'none' }}>
           <img src={nationality} alt='nationality' className='cv-icon' />
           <span field='nationality'>{info.nationality}</span>
         </div>
-        <div className='cv-info-item'>
+        <div className='cv-info-item' style={{ display: subs['religion'] ? 'block' : 'none' }}>
           <img src={religion} alt='religion' className='cv-icon' />
           <span field='religion'>{info.religion}</span>
         </div>
-        <div className='cv-info-item'>
+        <div className='cv-info-item' style={{ display: subs['phone'] ? 'block' : 'none' }}>
           <img src={phone} alt='phone' className='cv-icon' />
           <span field='phone'>{info.phone}</span>
         </div>
-        <div className='cv-info-item'>
+        <div className='cv-info-item' style={{ display: subs['email'] ? 'block' : 'none' }}>
           <img src={email} alt='email' className='cv-icon' />
           <span field='email'>{info.email}</span>
         </div>
-        <div className='cv-info-item'>
+        <div className='cv-info-item' style={{ display: subs['website'] ? 'block' : 'none' }}>
           <img src={website} alt='website' className='cv-icon' />
           <span field='socials' className='pre-line'>
             {info.socials}
@@ -368,7 +371,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
     publication: (
       <div className='cv-section publication'>
         <div className='cv-section-header'>{label.publication}</div>
-        <div className='cv-book-item' style={{ marginBottom: 10 }}>
+        <div className='cv-book-item' style={{ marginBottom: 10, display: subs['book'] ? 'block' : 'none' }}>
           <div className='font-bold'>{label.book}</div>
           {info.books.map((book, index) => (
             <div className='cv-section-item mb-0' key={index}>
@@ -378,7 +381,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
           ))}
         </div>
-        <div className='cv-journal-item' style={{ marginBottom: 10 }}>
+        <div className='cv-journal-item' style={{ marginBottom: 10, display: subs['journal'] ? 'block' : 'none' }}>
           <div className='font-bold'>{label.journal}</div>
           {info.journals.map((journal, index) => (
             <div className='cv-section-item mb-0' key={index}>
@@ -388,7 +391,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
             </div>
           ))}
         </div>
-        <div className='cv-presentation-item' style={{ marginBottom: 10 }}>
+        <div className='cv-presentation-item' style={{ marginBottom: 10, display: subs['presentation'] ? 'block' : 'none' }}>
           <div className='font-bold'>{label.presentation}</div>
           {info.presentations.map((presentation, index) => (
             <div className='cv-section-item mb-0' key={index}>
