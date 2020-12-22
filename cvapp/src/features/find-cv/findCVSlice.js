@@ -77,6 +77,7 @@ export const searchSkill = createAsyncThunk('create/searchSkill', async ({ value
 export const findCVSlice = createSlice({
   name: 'find',
   initialState: {
+    searchResult: [],
     suggestTag: [],
     suggestAddress: [],
     suggestSchool: [],
@@ -93,6 +94,7 @@ export const findCVSlice = createSlice({
     },
     [searchCv.fulfilled]: (state, action) => {
       console.log(action.payload)
+      state.searchResult = action.payload
       state.searchStatus = 'success'
     },
     [searchCv.rejected]: (state, action) => {

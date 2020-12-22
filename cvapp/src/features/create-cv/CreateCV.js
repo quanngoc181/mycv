@@ -43,7 +43,7 @@ export function CreateCV() {
       if (value.trim().length !== 0) {
         dispatch(searchTag({ value: value.trim() }))
       }
-    }, 1000),
+    }, 500),
     []
   )
   const handleKeyup = (value) => {

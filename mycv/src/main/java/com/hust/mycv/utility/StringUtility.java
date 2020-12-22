@@ -1,6 +1,9 @@
 package com.hust.mycv.utility;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,29 +13,24 @@ public class StringUtility {
 		return authString.substring(5, index);
 	}
 
-	public static String jsonToParagraph(String json) {
+	public static List<String> jsonToList(String json) {
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
-			String[] strs = mapper.readValue(json, String[].class);
-
-			String ret = "";
-
-			for (String string : strs) {
-				ret += string + " ";
-			}
-
-			return ret.trim();
+			List<String> list = Arrays.asList(mapper.readValue(json, String[].class));
+			return list;
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 
-		return "";
+		return new ArrayList<>();
 	}
 
 	public static String normalizeLower(String in) {
 		String out = Normalizer.normalize(in, Normalizer.Form.NFD);
 		out = out.replaceAll("\\p{M}", "");
-		return out.toLowerCase();
+		out = out.toLowerCase();
+		out = out.replaceAll("đ", "d");
+		return out;
 	}
 }

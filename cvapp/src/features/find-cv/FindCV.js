@@ -1,13 +1,21 @@
-import { Button, Radio, Select, Slider } from 'antd'
+import { Button, message, Radio, Select, Slider } from 'antd'
 import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { debounce } from 'lodash'
 import './find-cv.css'
 import { searchAddress, searchCompany, searchCv, searchField, searchPosition, searchSchool, searchSkill, searchTag } from './findCVSlice'
+import TemplateList from '../../templates/TemplateList'
+import { useHistory } from 'react-router-dom'
+import genderIcon from '../../templates/icon/gender.png'
+import dobIcon from '../../templates/icon/dob.png'
+import addressIcon from '../../templates/icon/address.png'
+import phoneIcon from '../../templates/icon/phone.png'
 
 export function FindCV() {
   const dispatch = useDispatch()
+  const history = useHistory()
 
+  let searchResult = useSelector((state) => state.find.searchResult)
   let suggestTag = useSelector((state) => state.find.suggestTag)
   let suggestAddress = useSelector((state) => state.find.suggestAddress)
   let suggestSchool = useSelector((state) => state.find.suggestSchool)
@@ -17,12 +25,12 @@ export function FindCV() {
   let suggestSkill = useSelector((state) => state.find.suggestSkill)
   let searchStatus = useSelector((state) => state.find.searchStatus)
 
-  const [language, setLanguage] = useState(null)
+  const [language, setLanguage] = useState(undefined)
   const handleLanguage = (e) => {
     setLanguage(e.target.value)
   }
 
-  const [gender, setGender] = useState(null)
+  const [gender, setGender] = useState(undefined)
   const handleGender = (e) => {
     setGender(e.target.value)
   }
@@ -32,7 +40,7 @@ export function FindCV() {
     setAge(value)
   }
 
-  const [marital, setMarital] = useState(null)
+  const [marital, setMarital] = useState(undefined)
   const handleMarital = (e) => {
     setMarital(e.target.value)
   }
@@ -47,7 +55,7 @@ export function FindCV() {
       if (value.trim().length !== 0) {
         dispatch(searchTag({ value: value.trim() }))
       }
-    }, 1000),
+    }, 500),
     []
   )
   const handleKeyupTag = (value) => {
@@ -64,7 +72,7 @@ export function FindCV() {
       if (value.trim().length !== 0) {
         dispatch(searchAddress({ value: value.trim() }))
       }
-    }, 1000),
+    }, 500),
     []
   )
   const handleKeyupAddress = (value) => {
@@ -81,7 +89,7 @@ export function FindCV() {
       if (value.trim().length !== 0) {
         dispatch(searchSchool({ value: value.trim() }))
       }
-    }, 1000),
+    }, 500),
     []
   )
   const handleKeyupSchool = (value) => {
@@ -98,7 +106,7 @@ export function FindCV() {
       if (value.trim().length !== 0) {
         dispatch(searchField({ value: value.trim() }))
       }
-    }, 1000),
+    }, 500),
     []
   )
   const handleKeyupField = (value) => {
@@ -115,7 +123,7 @@ export function FindCV() {
       if (value.trim().length !== 0) {
         dispatch(searchCompany({ value: value.trim() }))
       }
-    }, 1000),
+    }, 500),
     []
   )
   const handleKeyupCompany = (value) => {
@@ -132,7 +140,7 @@ export function FindCV() {
       if (value.trim().length !== 0) {
         dispatch(searchPosition({ value: value.trim() }))
       }
-    }, 1000),
+    }, 500),
     []
   )
   const handleKeyupPosition = (value) => {
@@ -149,7 +157,7 @@ export function FindCV() {
       if (value.trim().length !== 0) {
         dispatch(searchSkill({ value: value.trim() }))
       }
-    }, 1000),
+    }, 500),
     []
   )
   const handleKeyupSkill = (value) => {
@@ -208,7 +216,50 @@ export function FindCV() {
             Tìm kiếm
           </Button>
         </div>
-        <div className='section'>BBB</div>
+        <div className='section'>
+          <div className='result-container'>
+            {searchResult.map((result, index) => {
+              let logo = TemplateList.find((t) => t.id === result.template).logo
+              return (
+                <div className='result-item' key={index}>
+                  <img src={logo} alt='my cv'></img>
+                  <div className='content'>
+                    <div className='cv-name'>{result.cvName}</div>
+                    <div className='fullname'>{result.fullName}</div>
+                    <div>
+                      <img src={genderIcon} alt='gender' className='icon' />
+                      {result.gender}
+                    </div>
+                    <div>
+                      <img src={dobIcon} alt='gender' className='icon' />
+                      {result.dob}
+                    </div>
+                    <div>
+                      <img src={addressIcon} alt='gender' className='icon' />
+                      {result.address}
+                    </div>
+                    <div>
+                      <img src={phoneIcon} alt='gender' className='icon' />
+                      {result.phone}
+                    </div>
+                    <button
+                      className='view-cv'
+                      onClick={() => {
+                        if (result.identifier === null) {
+                          message.error({ content: 'CV này được cài đặt riêng tư' })
+                        } else {
+                          history.push('/cvwr/' + result.identifier)
+                        }
+                      }}
+                    >
+                      Xem CV
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
         <div className='sidebar right'>
           <div style={{ marginBottom: 20 }}>
             <h3 className='header'>
