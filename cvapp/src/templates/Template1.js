@@ -482,7 +482,7 @@ export function Template1({ info, uploadImage, updateRating, viewMode }) {
 
   return (
     <>
-      <div className='cv-container cv-container1' spellCheck={false} onBlur={onBlur} onClick={onClick} style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
+      <div className={'cv-container cv-container1' + (viewMode ? ' view-mode' : '')} spellCheck={false} onBlur={onBlur} onClick={onClick} style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
         {sections.information}
         {info.orders[0]
           .filter((s) => s.display)

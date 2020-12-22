@@ -1,0 +1,70 @@
+.find-cv {
+  display: flex;
+}
+
+.find-cv .sidebar::-webkit-scrollbar,
+.find-cv .section::-webkit-scrollbar {
+  width: 6px;
+}
+
+.find-cv .sidebar::-webkit-scrollbar-track,
+.find-cv .section::-webkit-scrollbar-track {
+  box-shadow: none;
+}
+
+.find-cv .sidebar::-webkit-scrollbar-thumb,
+.find-cv .section::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+}
+
+.find-cv .sidebar {
+  width: 300px;
+  min-width: 300px;
+  background-color: #fff;
+  padding: 20px;
+  height: calc(100vh - 104px);
+  overflow-y: scroll;
+}
+.find-cv .sidebar.left {
+  box-shadow: 7px 0px 5px -2px rgba(0, 0, 0, 0.3);
+}
+.find-cv .sidebar.right {
+  box-shadow: -7px 0px 5px -2px rgba(0, 0, 0, 0.3);
+}
+
+.find-cv .section {
+  padding: 40px;
+  flex-grow: 1;
+  height: calc(100vh - 104px);
+  overflow-y: scroll;
+}
+
+.find-cv .header {
+  position: relative;
+  color: green;
+}
+.find-cv .header span {
+  position: relative;
+  background-color: #fff;
+  z-index: 1;
+  padding-right: 5px;
+}
+.find-cv .header::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  background-color: green;
+  left: 0;
+  top: 50%;
+}
+
+.shadow-tag {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 5px 0px;
+  height: 54px;
+  width: 100%;
+  position: absolute;
+  top: -54px;
+}

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { fetchInfo, resetUser } from './features/information/infoSlice'
-import { fetchUser, resetToken } from './features/authen/userSlice'
+import { fetchUser, resetToken } from './features/authentication/userSlice'
 import './navbar.css'
 import { Dropdown, Menu } from 'antd'
 import { CaretDownFilled } from '@ant-design/icons'
@@ -14,8 +14,7 @@ export function NavBar() {
   const info = useSelector((state) => state.info.viUser)
   const user = useSelector((state) => state.user.user)
 
-  const words = info ? info.fullName.split(' ') : null
-  const lastName = words ? words[words.length - 1] : null
+  const fullName = info ? info.fullName : null
 
   const avatar = info ? info.avatar : null
   const avatarUrl = avatar ? avatar : 'default-avatar.png'
@@ -58,8 +57,11 @@ export function NavBar() {
     if (user && user.role === 'EMPLOYER')
       centerNav = (
         <div className='my-nav mr-auto ml-auto'>
-          <Link to='/my-info'>
-            <div className='my-nav-link'>Admin</div>
+          <Link to='/find-cv'>
+            <div className='my-nav-link'>Tìm kiếm CV</div>
+          </Link>
+          <Link to='/saved-cv'>
+            <div className='my-nav-link'>CV đã lưu</div>
           </Link>
         </div>
       )
@@ -67,7 +69,7 @@ export function NavBar() {
       centerNav = (
         <div className='my-nav mr-auto ml-auto'>
           <Link to='/my-info'>
-            <div className='my-nav-link'>Thông tin</div>
+            <div className='my-nav-link'>Cập nhật thông tin</div>
           </Link>
           <Link to='/list-cv'>
             <div className='my-nav-link'>Quản lý CV</div>
@@ -79,7 +81,7 @@ export function NavBar() {
     rightNav = (
       <div className='my-nav'>
         <img src={'http://localhost:8080/resources/avatar/' + avatarUrl} className='nav-avatar' alt='Avatar' />
-        <div className='my-nav-link'>{lastName}</div>
+        <div className='my-nav-link'>{fullName}</div>
         <Dropdown overlay={menu} placement='bottomRight' trigger={['click']}>
           <div className='my-nav-link'>
             <CaretDownFilled />

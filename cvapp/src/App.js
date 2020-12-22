@@ -4,18 +4,19 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { NavBar } from './Navbar'
 import { TodoList } from './features/todo/TodoList'
 import { EditTodoForm } from './features/todo/EditTodoForm'
-import { Login } from './features/authen/Login'
+import { Login } from './features/authentication/Login'
 import { Footer } from './Footer'
-import { Register } from './features/authen/Register'
+import { Register } from './features/authentication/Register'
 import { UserInfo } from './features/information/UserInfo'
 import { ListCV } from './features/list-cv/ListCV'
 import { CreateCV } from './features/create-cv/CreateCV'
 import { ViewCV } from './features/view-cv/ViewCV'
-import { ConfirmEmail } from './features/authen/ConfirmEmail'
-import { ChangePassword } from './features/authen/ChangePassword'
-import { ForgotPassword } from './features/authen/ForgotPassword'
-import { ResetPassword } from './features/authen/ResetPassword'
+import { ConfirmEmail } from './features/authentication/ConfirmEmail'
+import { ChangePassword } from './features/authentication/ChangePassword'
+import { ForgotPassword } from './features/authentication/ForgotPassword'
+import { ResetPassword } from './features/authentication/ResetPassword'
 import { Landing } from './Landing'
+import { FindCV } from './features/find-cv/FindCV'
 
 function App() {
   return (
@@ -68,6 +69,9 @@ function App() {
               </Route>
               <Route exact path='/create-cv'>
                 <CreateCV></CreateCV>
+              </Route>
+              <Route exact path='/find-cv'>
+                <FindCV></FindCV>
               </Route>
               <Route path='/'>
                 <Landing></Landing>

@@ -59,7 +59,7 @@
   margin-bottom: 10px;
   position: relative;
 }
-.cv-container2 .cv-section-item:hover {
+.cv-container2:not(.view-mode) .cv-section-item:hover {
   outline: 1px dashed #333;
   outline-offset: 3px;
 }

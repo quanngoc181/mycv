@@ -1,9 +1,10 @@
 import './create-cv.css'
 import TemplateList from '../../templates/TemplateList'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Button, Checkbox, Input, message, Radio, Select } from 'antd'
+import { Button, Input, message, Radio, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetStatus, searchTag, updateCitation, updateCv, updateCvInfo, updateLanguage, updateTemplate } from '../create-cv/createCVSlice'
+import { resetStatus, updateCitation, updateCv, updateCvInfo, updateLanguage, updateTemplate } from '../create-cv/createCVSlice'
+import { searchTag } from '../find-cv/findCVSlice'
 import { AppstoreOutlined, FontSizeOutlined, LineHeightOutlined } from '@ant-design/icons'
 import { UploadImage } from './UploadImage'
 import { Orders } from './Orders'
@@ -20,8 +21,8 @@ export function CreateCV() {
   let info = useSelector((state) => state.create.cvInfo)
   let status = useSelector((state) => state.create.updateStatus)
   let isEditting = useSelector((state) => state.create.isEditting)
-  let suggestTag = useSelector((state) => state.create.suggestTag)
-  let suggestStatus = useSelector((state) => state.create.suggestStatus)
+  let suggestTag = useSelector((state) => state.find.suggestTag)
+  let searchStatus = useSelector((state) => state.find.searchStatus)
 
   useEffect(() => {
     if (status === 'success') {
@@ -45,7 +46,6 @@ export function CreateCV() {
     }, 1000),
     []
   )
-
   const handleKeyup = (value) => {
     debouncedSave(value)
   }
@@ -207,16 +207,6 @@ export function CreateCV() {
             />
           </div>
           <div style={{ marginBottom: 20 }}>
-            <Checkbox
-              checked={info.cvPublic}
-              onChange={(e) => {
-                dispatch(updateCvInfo({ field: 'cvPublic', value: e.target.checked }))
-              }}
-            >
-              Công khai CV với nhà tuyển dụng
-            </Checkbox>
-          </div>
-          <div style={{ marginBottom: 20 }}>
             <Select
               mode='tags'
               value={info.tags}
@@ -227,7 +217,7 @@ export function CreateCV() {
               style={{ width: '100%' }}
               placeholder='Gắn thẻ'
               filterOption={false}
-              loading={suggestStatus === 'pending'}
+              loading={searchStatus === 'pending'}
             >
               {suggestTag.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>

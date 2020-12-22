@@ -116,23 +116,12 @@ export const updateCitation = createAsyncThunk('create/updateCitation', async ({
   return { info, citation }
 })
 
-export const searchTag = createAsyncThunk('create/searchTag', async ({ value }, { rejectWithValue }) => {
-  try {
-    let res = await axios.post('http://localhost:8080/es/search-tag/' + value, {}, { headers: GetToken() })
-    return res.data
-  } catch (error) {
-    return rejectWithValue(error.response.data)
-  }
-})
-
 export const createCVSlice = createSlice({
   name: 'create',
   initialState: {
     cvInfo: null,
     isEditting: false,
     updateStatus: null,
-    suggestTag: [],
-    suggestStatus: null,
   },
   reducers: {
     resetStatus(state, action) {
@@ -142,11 +131,11 @@ export const createCVSlice = createSlice({
       state.isEditting = false
 
       state.cvInfo = {
-        cvName: 'My CV',
+        cvName: null,
         cvNote: null,
         citation: 'apa',
         language: 'vi',
-        cvPublic: true,
+        cvPublic: false,
         tags: [],
       }
     },
@@ -227,6 +216,21 @@ export const createCVSlice = createSlice({
           presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
         }
 
+        if (mappedInfo.hobbies.length === 0) mappedInfo.hobbies = [null]
+        if (mappedInfo.activities.length === 0) mappedInfo.activities = [null]
+        if (mappedInfo.educations.length === 0) mappedInfo.educations = [{}]
+        if (mappedInfo.works.length === 0) mappedInfo.works = [{}]
+        if (mappedInfo.projects.length === 0) mappedInfo.projects = [{}]
+        if (mappedInfo.memberships.length === 0) mappedInfo.memberships = [{}]
+        if (mappedInfo.skills.length === 0) mappedInfo.skills = [{}]
+        if (mappedInfo.theses.length === 0) mappedInfo.theses = [{}]
+        if (mappedInfo.awards.length === 0) mappedInfo.awards = [{}]
+        if (mappedInfo.certificates.length === 0) mappedInfo.certificates = [{}]
+        if (mappedInfo.scholarships.length === 0) mappedInfo.scholarships = [{}]
+        if (mappedInfo.books.length === 0) mappedInfo.books = [null]
+        if (mappedInfo.journals.length === 0) mappedInfo.journals = [null]
+        if (mappedInfo.presentations.length === 0) mappedInfo.presentations = [null]
+
         state.cvInfo = mappedInfo
       } else {
         // change template
@@ -276,15 +280,39 @@ export const createCVSlice = createSlice({
         presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
       }
 
+      if (mappedInfo.hobbies.length === 0) mappedInfo.hobbies = [null]
+      if (mappedInfo.activities.length === 0) mappedInfo.activities = [null]
+      if (mappedInfo.educations.length === 0) mappedInfo.educations = [{}]
+      if (mappedInfo.works.length === 0) mappedInfo.works = [{}]
+      if (mappedInfo.projects.length === 0) mappedInfo.projects = [{}]
+      if (mappedInfo.memberships.length === 0) mappedInfo.memberships = [{}]
+      if (mappedInfo.skills.length === 0) mappedInfo.skills = [{}]
+      if (mappedInfo.theses.length === 0) mappedInfo.theses = [{}]
+      if (mappedInfo.awards.length === 0) mappedInfo.awards = [{}]
+      if (mappedInfo.certificates.length === 0) mappedInfo.certificates = [{}]
+      if (mappedInfo.scholarships.length === 0) mappedInfo.scholarships = [{}]
+      if (mappedInfo.books.length === 0) mappedInfo.books = [null]
+      if (mappedInfo.journals.length === 0) mappedInfo.journals = [null]
+      if (mappedInfo.presentations.length === 0) mappedInfo.presentations = [null]
+
       state.cvInfo = mappedInfo
     },
 
     [updateCitation.fulfilled]: (state, action) => {
       let { info, citation } = action.payload
+
+      let books = info.books.map((book) => buildBook(book, citation))
+      let journals = info.journals.map((journal) => buildJournal(journal, citation))
+      let presentations = info.presentations.map((presentation) => buildPresentation(presentation))
+
+      if (books.length === 0) books = [null]
+      if (journals.length === 0) journals = [null]
+      if (presentations.length === 0) presentations = [null]
+
       state.cvInfo.citation = citation
-      state.cvInfo.books = info.books.map((book) => buildBook(book, citation))
-      state.cvInfo.journals = info.journals.map((journal) => buildJournal(journal, citation))
-      state.cvInfo.presentations = info.presentations.map((presentation) => buildPresentation(presentation))
+      state.cvInfo.books = books
+      state.cvInfo.journals = journals
+      state.cvInfo.presentations = presentations
     },
 
     [editCvInfo.fulfilled]: (state, action) => {
@@ -370,6 +398,21 @@ export const createCVSlice = createSlice({
         presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
       }
 
+      if (mappedInfo.hobbies.length === 0) mappedInfo.hobbies = [null]
+      if (mappedInfo.activities.length === 0) mappedInfo.activities = [null]
+      if (mappedInfo.educations.length === 0) mappedInfo.educations = [{}]
+      if (mappedInfo.works.length === 0) mappedInfo.works = [{}]
+      if (mappedInfo.projects.length === 0) mappedInfo.projects = [{}]
+      if (mappedInfo.memberships.length === 0) mappedInfo.memberships = [{}]
+      if (mappedInfo.skills.length === 0) mappedInfo.skills = [{}]
+      if (mappedInfo.theses.length === 0) mappedInfo.theses = [{}]
+      if (mappedInfo.awards.length === 0) mappedInfo.awards = [{}]
+      if (mappedInfo.certificates.length === 0) mappedInfo.certificates = [{}]
+      if (mappedInfo.scholarships.length === 0) mappedInfo.scholarships = [{}]
+      if (mappedInfo.books.length === 0) mappedInfo.books = [null]
+      if (mappedInfo.journals.length === 0) mappedInfo.journals = [null]
+      if (mappedInfo.presentations.length === 0) mappedInfo.presentations = [null]
+
       state.cvInfo = mappedInfo
     },
 
@@ -383,17 +426,6 @@ export const createCVSlice = createSlice({
     },
     [updateCv.rejected]: (state, action) => {
       state.updateStatus = 'error'
-    },
-
-    [searchTag.pending]: (state, action) => {
-      state.suggestStatus = 'pending'
-    },
-    [searchTag.fulfilled]: (state, action) => {
-      state.suggestTag = action.payload.hits.hits.map((o) => o._source)
-      state.suggestStatus = 'success'
-    },
-    [searchTag.rejected]: (state, action) => {
-      state.suggestStatus = 'error'
     },
   },
 })

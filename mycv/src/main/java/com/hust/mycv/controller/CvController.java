@@ -1,6 +1,5 @@
 package com.hust.mycv.controller;
 
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,9 +11,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +20,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.hust.mycv.dto.PublicCvDTO;
 import com.hust.mycv.entity.Cv;
 import com.hust.mycv.repository.CvRepository;
 import com.hust.mycv.service.AddressService;
@@ -65,9 +61,6 @@ public class CvController {
 	
 	@Autowired
 	AddressService addressService;
-
-	@Autowired
-	RestTemplate restTemplate;
 
 	@GetMapping("/cv")
 	public List<Cv> getInfo(Authentication auth) {
@@ -156,6 +149,21 @@ public class CvController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot upload image.");
 		}
 	}
+	
+	@PostMapping("/cv/public")
+	public PublicCvDTO publicCv(@RequestBody PublicCvDTO dto) {
+		
+		Cv cv = cvRepository.findById(dto.id).orElse(null);
+		
+		if(cv != null) {
+			cv.setCvPublic(dto.cvPublic);
+		}
+		
+		cvRepository.save(cv);
+		
+		return dto;
+		
+	}
 
 	@GetMapping("/cvwr/{identifier}")
 	public Cv viewCv(@PathVariable String identifier) {
@@ -197,33 +205,6 @@ public class CvController {
 		info.setDownloadCount(oldDown + 1);
 
 		cvRepository.save(info);
-	}
-
-	@PostMapping("/es/search-tag/{keyword}")
-	public String searchTag(@PathVariable String keyword) {
-		try {
-			String body = "{\n"
-					+ "  \"query\": {\n"
-					+ "    \"match\": {\n"
-					+ "      \"name\": {\n"
-					+ "        \"query\": \"" + keyword + "\"\n"
-//						+ "        \"fuzziness\": \"1\"\n"
-					+ "      }\n"
-					+ "    }\n"
-					+ "  },\n"
-					+ "  \"size\": 5\n"
-					+ "}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/tag/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
-			return response.getBody();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		return "null";
 	}
 
 }

@@ -9,23 +9,25 @@ import com.hust.mycv.repository.AddressRepository;
 
 @Service
 public class AddressService {
-	
+
 	@Autowired
 	AddressRepository addressRepository;
-	
+
 	public AddressService() {
 		super();
 	}
-	
+
 	public void updateAddress(Cv cv) {
+		if (cv.getAddress() == null)
+			return;
 		String[] addresses = cv.getAddress().split("[-|,]");
-		
+
 		for (String address : addresses) {
-			if(address != null) {
+			if (address != null) {
 				address = address.trim();
-				
+
 				Address exist = addressRepository.findByName(address);
-				
+
 				if (exist == null) {
 					Address newAddress = new Address();
 					newAddress.setName(address);

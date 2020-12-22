@@ -24,6 +24,15 @@ export const deleteCv = createAsyncThunk('list/deleteCv', async ({ id }, { getSt
   }
 })
 
+export const publicCv = createAsyncThunk('list/publicCv', async ({ id, cvPublic }, { getState, rejectWithValue }) => {
+  try {
+    let ret = await axios.post('http://localhost:8080/cv/public', { id, cvPublic }, { headers: GetToken() })
+    return ret.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const listCVSlice = createSlice({
   name: 'create',
   initialState: {
@@ -54,6 +63,12 @@ export const listCVSlice = createSlice({
     [deleteCv.fulfilled]: (state, action) => {
       let id = action.payload
       state.listCv = state.listCv.filter((cv) => cv.id !== id)
+    },
+
+    [publicCv.fulfilled]: (state, action) => {
+      let { id, cvPublic } = action.payload
+      let exist = state.listCv.findIndex((cv) => cv.id === id)
+      if (exist !== -1) state.listCv[exist].cvPublic = cvPublic
     },
   },
 })

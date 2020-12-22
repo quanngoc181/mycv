@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userReducer from '../features/authen/userSlice'
+import userReducer from '../features/authentication/userSlice'
 import infoReducer from '../features/information/infoSlice'
 import counterReducer from '../features/counter/counterSlice'
 import todoReducer from '../features/todo/todoSlice'
 import createCVReducer from '../features/create-cv/createCVSlice'
 import listCVReducer from '../features/list-cv/listCVSlice'
 import viewCVReducer from '../features/view-cv/viewCVSlice'
+import findCVReducer from '../features/find-cv/findCVSlice'
 
 export default configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
     create: createCVReducer,
     list: listCVReducer,
     view: viewCVReducer,
+    find: findCVReducer,
   },
 })

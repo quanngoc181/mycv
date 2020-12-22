@@ -442,7 +442,7 @@ export function Template2({ info, uploadImage, updateRating, viewMode }) {
 
   return (
     <>
-      <div className='cv-container cv-container2' spellCheck={false} onBlur={onBlur} onClick={onClick} style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
+      <div className={'cv-container cv-container2' + (viewMode ? ' view-mode' : '')} spellCheck={false} onBlur={onBlur} onClick={onClick} style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
         <div className='cv-top'>
           <div className='cv-fullname' field='fullName'>
             {info.fullName}

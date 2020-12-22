@@ -1,10 +1,10 @@
-import { CopyOutlined, DeleteOutlined, EditOutlined, EyeOutlined, FacebookOutlined, LinkedinOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons'
-import { Button, List, Popconfirm, Popover, Space } from 'antd'
+import { CheckOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, EditOutlined, EyeOutlined, FacebookOutlined, LinkedinOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { Button, List, Popconfirm, Popover, Space, Switch } from 'antd'
 import './list-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { initCvInfo, editCvInfo, copyCvInfo, copyCvConfig } from '../create-cv/createCVSlice'
 import { useHistory } from 'react-router-dom'
-import { deleteCv } from './listCVSlice'
+import { deleteCv, publicCv } from './listCVSlice'
 import TemplateList from '../../templates/TemplateList'
 const moment = require('moment')
 
@@ -78,6 +78,14 @@ export function ListCV() {
                   <div className='create-at'>{moment(item.lastModified).format('HH:mm:ss DD/MM/YYYY')}</div>
                   <div className='button-group'>
                     <Space>
+                      <Switch
+                        checked={item.cvPublic}
+                        onChange={(cvPublic) => {
+                          dispatch(publicCv({ id: item.id, cvPublic }))
+                        }}
+                        checkedChildren={<CheckOutlined />}
+                        unCheckedChildren={<CloseOutlined />}
+                      />
                       <Button
                         type='primary'
                         size='small'
