@@ -7,6 +7,7 @@ import './navbar.css'
 import { Dropdown, Menu } from 'antd'
 import { CaretDownFilled } from '@ant-design/icons'
 import { fetchCv } from './features/list-cv/listCVSlice'
+import { fetchSaved } from './features/save-cv/saveCVSlice'
 
 export function NavBar() {
   const history = useHistory()
@@ -23,6 +24,7 @@ export function NavBar() {
     dispatch(fetchUser())
     dispatch(fetchInfo())
     dispatch(fetchCv())
+    dispatch(fetchSaved())
   }, [dispatch])
 
   const logoutHandler = () => {

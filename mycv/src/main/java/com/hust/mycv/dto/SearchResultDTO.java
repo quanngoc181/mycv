@@ -2,6 +2,8 @@ package com.hust.mycv.dto;
 
 public class SearchResultDTO {
 	
+	public Integer cvId;
+	
 	public String cvName;
 	
 	public String template;
@@ -24,8 +26,9 @@ public class SearchResultDTO {
 		super();
 	}
 
-	public SearchResultDTO(String cvName, String template, String language, String fullName, String gender, String dob, String address, String phone, String identifier) {
+	public SearchResultDTO(Integer cvId, String cvName, String template, String language, String fullName, String gender, String dob, String address, String phone, String identifier) {
 		super();
+		this.cvId = cvId;
 		this.cvName = cvName;
 		this.template = template;
 		this.language = language;

@@ -24,11 +24,13 @@ public class SearchCvDTO {
 	
 	public String[] skill;
 	
+	public String keyword;
+	
 	public SearchCvDTO() {
 		super();
 	}
 
-	public SearchCvDTO(String language, String gender, int[] age, String marital, String[] tag, String[] address, String[] school, String[] field, String[] company, String[] position, String[] skill) {
+	public SearchCvDTO(String language, String gender, int[] age, String marital, String[] tag, String[] address, String[] school, String[] field, String[] company, String[] position, String[] skill, String keyword) {
 		super();
 		this.language = language;
 		this.gender = gender;
@@ -41,6 +43,7 @@ public class SearchCvDTO {
 		this.company = company;
 		this.position = position;
 		this.skill = skill;
+		this.keyword = keyword;
 	}
 
 }

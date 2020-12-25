@@ -94,12 +94,12 @@
   border-radius: 3px;
 }
 
-.cv-name {
+input.cv-name {
   text-align: center;
   border-left: none;
   border-right: none;
 }
-.cv-name:focus {
+input.cv-name:focus {
   box-shadow: none;
 }
 

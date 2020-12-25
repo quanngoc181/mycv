@@ -2,9 +2,18 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { GetToken } from '../../utilities/authenUtility'
 const axios = require('axios')
 
-export const searchCv = createAsyncThunk('create/searchCv', async (arg, { rejectWithValue }) => {
+export const searchKeyword = createAsyncThunk('create/searchKeyword', async (arg, { rejectWithValue }) => {
   try {
-    let res = await axios.post('http://localhost:8080/search/cv', arg, { headers: GetToken() })
+    let res = await axios.post('http://localhost:8080/search/keyword', arg, { headers: GetToken() })
+    return res.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const searchFilter = createAsyncThunk('create/searchFilter', async (arg, { rejectWithValue }) => {
+  try {
+    let res = await axios.post('http://localhost:8080/search/filter', arg, { headers: GetToken() })
     return res.data
   } catch (error) {
     return rejectWithValue(error.response.data)
@@ -89,15 +98,25 @@ export const findCVSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    [searchCv.pending]: (state, action) => {
+    [searchFilter.pending]: (state, action) => {
       state.searchStatus = 'pending'
     },
-    [searchCv.fulfilled]: (state, action) => {
-      console.log(action.payload)
+    [searchFilter.fulfilled]: (state, action) => {
       state.searchResult = action.payload
       state.searchStatus = 'success'
     },
-    [searchCv.rejected]: (state, action) => {
+    [searchFilter.rejected]: (state, action) => {
+      state.searchStatus = 'error'
+    },
+
+    [searchKeyword.pending]: (state, action) => {
+      state.searchStatus = 'pending'
+    },
+    [searchKeyword.fulfilled]: (state, action) => {
+      state.searchResult = action.payload
+      state.searchStatus = 'success'
+    },
+    [searchKeyword.rejected]: (state, action) => {
       state.searchStatus = 'error'
     },
 

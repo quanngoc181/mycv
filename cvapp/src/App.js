@@ -17,6 +17,7 @@ import { ForgotPassword } from './features/authentication/ForgotPassword'
 import { ResetPassword } from './features/authentication/ResetPassword'
 import { Landing } from './Landing'
 import { FindCV } from './features/find-cv/FindCV'
+import { SaveCV } from './features/save-cv/SaveCV'
 
 function App() {
   return (
@@ -72,6 +73,9 @@ function App() {
               </Route>
               <Route exact path='/find-cv'>
                 <FindCV></FindCV>
+              </Route>
+              <Route exact path='/saved-cv'>
+                <SaveCV></SaveCV>
               </Route>
               <Route path='/'>
                 <Landing></Landing>

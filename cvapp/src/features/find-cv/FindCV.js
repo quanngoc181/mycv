@@ -1,20 +1,19 @@
-import { Button, message, Radio, Select, Slider } from 'antd'
+import { Button, Col, message, Radio, Row, Select, Slider } from 'antd'
 import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { debounce } from 'lodash'
 import './find-cv.css'
-import { searchAddress, searchCompany, searchCv, searchField, searchPosition, searchSchool, searchSkill, searchTag } from './findCVSlice'
+import { searchAddress, searchCompany, searchFilter, searchField, searchPosition, searchSchool, searchSkill, searchTag, searchKeyword } from './findCVSlice'
 import TemplateList from '../../templates/TemplateList'
 import { useHistory } from 'react-router-dom'
-import genderIcon from '../../templates/icon/gender.png'
-import dobIcon from '../../templates/icon/dob.png'
-import addressIcon from '../../templates/icon/address.png'
-import phoneIcon from '../../templates/icon/phone.png'
+import { saveCv } from '../save-cv/saveCVSlice'
+import Search from 'antd/lib/input/Search'
 
 export function FindCV() {
   const dispatch = useDispatch()
   const history = useHistory()
 
+  let savedCv = useSelector((state) => state.save.savedCv)
   let searchResult = useSelector((state) => state.find.searchResult)
   let suggestTag = useSelector((state) => state.find.suggestTag)
   let suggestAddress = useSelector((state) => state.find.suggestAddress)
@@ -165,12 +164,15 @@ export function FindCV() {
   }
 
   const clickSearch = () => {
-    dispatch(searchCv({ language, gender, age, marital, tag, address, school, field, company, position, skill }))
+    dispatch(searchFilter({ language, gender, age, marital, tag, address, school, field, company, position, skill }))
+  }
+
+  const onSearch = (keyword) => {
+    dispatch(searchKeyword({ language, gender, age, marital, tag, address, school, field, company, position, skill, keyword }))
   }
 
   return (
     <>
-      <div className='shadow-tag'></div>
       <div className='find-cv'>
         <div className='sidebar left'>
           <div style={{ marginBottom: 20 }}>
@@ -212,48 +214,70 @@ export function FindCV() {
               <Radio.Button value={undefined}>Tất cả</Radio.Button>
             </Radio.Group>
           </div>
-          <Button type='primary' onClick={clickSearch} block>
-            Tìm kiếm
-          </Button>
         </div>
         <div className='section'>
+          <div className='find-keyword'>
+            <Row style={{ flexGrow: 1 }}>
+              <Col span={6}>
+                <span className='keyword-label'>Nhập từ khóa tìm kiếm:</span>
+              </Col>
+              <Col span={12}>
+                <Search placeholder='Tìm theo từ khóa' onSearch={onSearch} enterButton />
+              </Col>
+              <Col span={6}>
+                <span className='keyword-label'>hoặc sử dụng bộ lọc sau:</span>
+              </Col>
+            </Row>
+          </div>
           <div className='result-container'>
             {searchResult.map((result, index) => {
               let logo = TemplateList.find((t) => t.id === result.template).logo
+              let saved = savedCv.findIndex((c) => c.cvId === result.cvId)
+
               return (
                 <div className='result-item' key={index}>
-                  <img src={logo} alt='my cv'></img>
+                  <img src={logo} className='image' alt='my cv'></img>
                   <div className='content'>
-                    <div className='cv-name'>{result.cvName}</div>
-                    <div className='fullname'>{result.fullName}</div>
+                    <div className='cv-name'>Tên CV: {result.cvName}</div>
+                    <div className='fullname'>Họ và tên: {result.fullName}</div>
                     <div>
-                      <img src={genderIcon} alt='gender' className='icon' />
+                      <span className='label'>Giới tính: </span>
                       {result.gender}
                     </div>
                     <div>
-                      <img src={dobIcon} alt='gender' className='icon' />
+                      <span className='label'>Ngày sinh: </span>
                       {result.dob}
                     </div>
                     <div>
-                      <img src={addressIcon} alt='gender' className='icon' />
+                      <span className='label'>Địa chỉ: </span>
                       {result.address}
                     </div>
                     <div>
-                      <img src={phoneIcon} alt='gender' className='icon' />
+                      <span className='label'>Điện thoại: </span>
                       {result.phone}
                     </div>
-                    <button
-                      className='view-cv'
-                      onClick={() => {
-                        if (result.identifier === null) {
-                          message.error({ content: 'CV này được cài đặt riêng tư' })
-                        } else {
-                          history.push('/cvwr/' + result.identifier)
-                        }
-                      }}
-                    >
-                      Xem CV
-                    </button>
+                    <div className='action'>
+                      <Button
+                        style={{ marginBottom: 10 }}
+                        onClick={() => {
+                          if (result.identifier === null) {
+                            message.error({ content: 'CV này được cài đặt riêng tư' })
+                          } else {
+                            history.push('/cvwr/' + result.identifier)
+                          }
+                        }}
+                      >
+                        Xem CV
+                      </Button>
+                      <Button
+                        type={saved !== -1 ? 'primary' : 'default'}
+                        onClick={() => {
+                          dispatch(saveCv({ cvId: result.cvId }))
+                        }}
+                      >
+                        {saved !== -1 ? 'Bỏ lưu' : 'Lưu CV'}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )
@@ -265,7 +289,7 @@ export function FindCV() {
             <h3 className='header'>
               <span>Thẻ (Tag)</span>
             </h3>
-            <Select mode='multiple' value={tag} onChange={handleTag} onSearch={handleKeyupTag} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn thẻ...'>
+            <Select mode='multiple' size='small' value={tag} onChange={handleTag} onSearch={handleKeyupTag} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn thẻ...'>
               {suggestTag.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
@@ -273,9 +297,9 @@ export function FindCV() {
           </div>
           <div style={{ marginBottom: 20 }}>
             <h3 className='header'>
-              <span>Khu vực</span>
+              <span>Địa chỉ</span>
             </h3>
-            <Select mode='multiple' value={address} onChange={handleAddress} onSearch={handleKeyupAddress} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn khu vực...'>
+            <Select mode='multiple' size='small' value={address} onChange={handleAddress} onSearch={handleKeyupAddress} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn khu vực...'>
               {suggestAddress.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
@@ -285,13 +309,13 @@ export function FindCV() {
             <h3 className='header'>
               <span>Học vấn</span>
             </h3>
-            <Select mode='multiple' value={school} onChange={handleSchool} onSearch={handleKeyupSchool} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn trường học...'>
+            <Select mode='multiple' size='small' value={school} onChange={handleSchool} onSearch={handleKeyupSchool} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn trường học...'>
               {suggestSchool.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
             </Select>
             <div style={{ height: 10 }}></div>
-            <Select mode='multiple' value={field} onChange={handleField} onSearch={handleKeyupField} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn chuyên ngành...'>
+            <Select mode='multiple' size='small' value={field} onChange={handleField} onSearch={handleKeyupField} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn chuyên ngành...'>
               {suggestField.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
@@ -301,13 +325,13 @@ export function FindCV() {
             <h3 className='header'>
               <span>Kinh nghiệm</span>
             </h3>
-            <Select mode='multiple' value={company} onChange={handleCompany} onSearch={handleKeyupCompany} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn công ty...'>
+            <Select mode='multiple' size='small' value={company} onChange={handleCompany} onSearch={handleKeyupCompany} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn công ty...'>
               {suggestCompany.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
             </Select>
             <div style={{ height: 10 }}></div>
-            <Select mode='multiple' value={position} onChange={handlePosition} onSearch={handleKeyupPosition} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn vị trí...'>
+            <Select mode='multiple' size='small' value={position} onChange={handlePosition} onSearch={handleKeyupPosition} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn vị trí...'>
               {suggestPosition.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
@@ -317,12 +341,15 @@ export function FindCV() {
             <h3 className='header'>
               <span>Kỹ năng</span>
             </h3>
-            <Select mode='multiple' value={skill} onChange={handleSkill} onSearch={handleKeyupSkill} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn kỹ năng...'>
+            <Select mode='multiple' size='small' value={skill} onChange={handleSkill} onSearch={handleKeyupSkill} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn kỹ năng...'>
               {suggestSkill.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
             </Select>
           </div>
+          <Button type='primary' onClick={clickSearch} block>
+            Tìm theo bộ lọc
+          </Button>
         </div>
       </div>
     </>

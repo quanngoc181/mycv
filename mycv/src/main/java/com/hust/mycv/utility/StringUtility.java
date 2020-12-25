@@ -26,6 +26,26 @@ public class StringUtility {
 		return new ArrayList<>();
 	}
 
+	public static String jsonToString(String json) {
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			List<String> list = Arrays.asList(mapper.readValue(json, String[].class));
+
+			String ret = "";
+
+			for (String string : list) {
+				ret += " " + string;
+			}
+
+			return ret;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return "";
+	}
+
 	public static String normalizeLower(String in) {
 		String out = Normalizer.normalize(in, Normalizer.Form.NFD);
 		out = out.replaceAll("\\p{M}", "");

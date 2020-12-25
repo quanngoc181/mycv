@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hust.mycv.entity.Address;
 import com.hust.mycv.entity.Company;
+import com.hust.mycv.entity.Cv;
 import com.hust.mycv.entity.Field;
 import com.hust.mycv.entity.Position;
 import com.hust.mycv.entity.School;
@@ -19,6 +20,7 @@ import com.hust.mycv.entity.SkillType;
 import com.hust.mycv.entity.Tag;
 import com.hust.mycv.repository.AddressRepository;
 import com.hust.mycv.repository.CompanyRepository;
+import com.hust.mycv.repository.CvRepository;
 import com.hust.mycv.repository.FieldRepository;
 import com.hust.mycv.repository.PositionRepository;
 import com.hust.mycv.repository.SchoolRepository;
@@ -30,6 +32,9 @@ public class ScheduledTask {
 
 	@Autowired
 	RestTemplate restTemplate;
+	
+	@Autowired
+	CvRepository cvRepository;
 
 	@Autowired
 	TagRepository tagRepository;
@@ -54,6 +59,58 @@ public class ScheduledTask {
 
 	@Scheduled(fixedRate = 60000 * 5)
 	public void syncDataElasticSearch() {
+		try {
+			String body = "{\"query\":{\"match_all\":{}}}";
+
+			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/cv/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
+
+			restTemplate.exchange(request, String.class);
+
+			System.out.println("delete cv done");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		try {
+			String body = "";
+			
+			List<Cv> cvs = cvRepository.findAll();
+			List<Cv> skills = cvRepository.fetchSkills();
+			List<Cv> scholarships = cvRepository.fetchScholarships();
+			List<Cv> awards = cvRepository.fetchAwards();
+			List<Cv> certificates = cvRepository.fetchCertificates();
+			List<Cv> memberships = cvRepository.fetchMemberships();
+			List<Cv> theses = cvRepository.fetchTheses();
+			List<Cv> educations = cvRepository.fetchEducations();
+			List<Cv> works = cvRepository.fetchWorks();
+			List<Cv> projects = cvRepository.fetchProjects();
+
+			for (int i = 0; i < cvs.size(); i++) {
+				cvs.get(i).setSkills(skills.get(i).getSkills());
+				cvs.get(i).setScholarships(scholarships.get(i).getScholarships());
+				cvs.get(i).setAwards(awards.get(i).getAwards());
+				cvs.get(i).setCertificates(certificates.get(i).getCertificates());
+				cvs.get(i).setMemberships(memberships.get(i).getMemberships());
+				cvs.get(i).setTheses(theses.get(i).getTheses());
+				cvs.get(i).setEducations(educations.get(i).getEducations());
+				cvs.get(i).setWorks(works.get(i).getWorks());
+				cvs.get(i).setProjects(projects.get(i).getProjects());
+			}
+
+			for (Cv cv : cvs) {
+				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", cv.getId());
+				body += String.format("{\"name\":\"%s\"}\n", cv.toString());
+			}
+
+			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/cv/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
+
+			restTemplate.exchange(request, String.class);
+
+			System.out.println("add cv done");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
 		try {
 			String body = "{\"query\":{\"match_all\":{}}}";
 
@@ -224,9 +281,9 @@ public class ScheduledTask {
 		try {
 			String body = "";
 
-			List<SkillType> skills = skillTypeRepository.findAll();
+			List<SkillType> sks = skillTypeRepository.findAll();
 
-			for (SkillType skill : skills) {
+			for (SkillType skill : sks) {
 				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", skill.getId());
 				body += String.format("{\"name\":\"%s\"}\n", skill.getName());
 			}

@@ -5,7 +5,7 @@ export function Footer() {
 
   let backgroundColor = '#2f54eb'
   let color = '#fff'
-  if (location.pathname === '/my-info' || location.pathname === '/list-cv' || location.pathname === '/create-cv' || location.pathname === '/find-cv') {
+  if (location.pathname === '/my-info' || location.pathname === '/list-cv' || location.pathname === '/create-cv' || location.pathname === '/find-cv' || location.pathname === '/saved-cv') {
     backgroundColor = '#fff'
     color = '#000'
   }

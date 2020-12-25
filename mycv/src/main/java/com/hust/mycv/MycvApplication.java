@@ -21,7 +21,7 @@ public class MycvApplication {
 	public PasswordEncoder encoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
-	
+
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();

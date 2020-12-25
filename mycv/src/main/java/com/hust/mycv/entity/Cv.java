@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.hust.mycv.utility.StringUtility;
+
 @Entity
 public class Cv {
 
@@ -21,9 +23,9 @@ public class Cv {
 	private Integer id;
 
 	private String cvName;
-	
+
 	private boolean cvPublic;
-	
+
 	private String tags;
 
 	private String cvNote;
@@ -46,12 +48,12 @@ public class Cv {
 
 	@Column(columnDefinition = "TEXT")
 	private String orders;
-	
+
 	@Column(columnDefinition = "TEXT")
 	private String subs;
-	
+
 	private Integer viewCount;
-	
+
 	private Integer downloadCount;
 
 	private String username;
@@ -167,6 +169,65 @@ public class Cv {
 		this.books = books;
 		this.journals = journals;
 		this.presentations = presentations;
+	}
+
+	public String toString() {
+		String string = "";
+
+		string += fullName + " " + position + " " + profile + " " + address + " " + nationality + " "
+				+ religion + " " + additional;
+		
+		string += StringUtility.jsonToString(tags);
+		
+		string += StringUtility.jsonToString(activities);
+		
+		string += StringUtility.jsonToString(hobbies);
+		
+		string += StringUtility.jsonToString(books);
+		
+		string += StringUtility.jsonToString(journals);
+		
+		string += StringUtility.jsonToString(presentations);
+		
+		for (Skill skill : skills) {
+			string += " " + skill.getName();
+		}
+
+		for (Award award : awards) {
+			string += " " + award.getName() + " " + award.getOrganization();
+		}
+
+		for (Certificate certificate : certificates) {
+			string += " " + certificate.getName() + " " + certificate.getOrganization();
+		}
+
+		for (Scholarship scholarship : scholarships) {
+			string += " " + scholarship.getName() + " " + scholarship.getOrganization();
+		}
+
+		for (Membership membership : memberships) {
+			string += " " + membership.getRole() + " " + membership.getOrganization();
+		}
+
+		for (Thesis thesis : theses) {
+			string += " " + thesis.getTitle() + " " + thesis.getAdvisor() + " " + thesis.getDescription();
+		}
+
+		for (Education education : educations) {
+			string += " " + education.getSchool() + " " + education.getField() + " " + education.getDescription();
+		}
+
+		for (Work work : works) {
+			string += " " + work.getCompany() + " " + work.getPosition() + " " + work.getDescription();
+		}
+
+		for (Project project : projects) {
+			string += " " + project.getName() + " " + project.getCompany() + " " + project.getDescription();
+		}
+		
+		string = string.replaceAll("\"", "");
+
+		return string;
 	}
 
 	public Integer getId() {
