@@ -33,10 +33,20 @@ export const publicCv = createAsyncThunk('list/publicCv', async ({ id, cvPublic 
   }
 })
 
+export const getReceiveUser = createAsyncThunk('list/getReceiveUser', async ({ username }, { getState, rejectWithValue }) => {
+  try {
+    let ret = await axios.post('http://localhost:8080/info/receive-user?username=' + username, {}, { headers: GetToken() })
+    return ret.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const listCVSlice = createSlice({
-  name: 'create',
+  name: 'list',
   initialState: {
     listCv: null,
+    receiveUser: null,
   },
   reducers: {
     mergeCv(state, action) {
@@ -69,6 +79,13 @@ export const listCVSlice = createSlice({
       let { id, cvPublic } = action.payload
       let exist = state.listCv.findIndex((cv) => cv.id === id)
       if (exist !== -1) state.listCv[exist].cvPublic = cvPublic
+    },
+
+    [getReceiveUser.pending]: (state, action) => {
+      state.receiveUser = null
+    },
+    [getReceiveUser.fulfilled]: (state, action) => {
+      state.receiveUser = action.payload
     },
   },
 })

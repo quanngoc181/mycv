@@ -1,16 +1,54 @@
-import { CheckOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, EditOutlined, EyeOutlined, FacebookOutlined, LinkedinOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons'
-import { Button, List, Popconfirm, Popover, Space, Switch } from 'antd'
+import { CheckOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, EditOutlined, EyeOutlined, FacebookOutlined, GiftOutlined, LinkedinOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { Button, Input, List, Modal, Popconfirm, Popover, Radio, Space, Steps, Switch } from 'antd'
 import './list-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { initCvInfo, editCvInfo, copyCvInfo, copyCvConfig } from '../create-cv/createCVSlice'
 import { useHistory } from 'react-router-dom'
-import { deleteCv, publicCv } from './listCVSlice'
+import { deleteCv, getReceiveUser, publicCv } from './listCVSlice'
 import TemplateList from '../../templates/TemplateList'
+import { useState } from 'react'
 const moment = require('moment')
 
 export function ListCV() {
   const dispatch = useDispatch()
   const history = useHistory()
+  const [giftCv, setGiftCv] = useState(null)
+  const [username, setUsername] = useState(null)
+  const [step, setStep] = useState(0)
+  const [type, setType] = useState('template')
+
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  let receiveUser = useSelector((state) => state.list.receiveUser)
+
+  const showModal = (cvId) => {
+    setGiftCv(cvId)
+    setStep(0)
+    setIsModalVisible(true)
+  }
+
+  const handleOk = () => {
+    if (step === 0 && username !== null && username.length > 0) {
+      dispatch(getReceiveUser({ username }))
+      setStep(1)
+    }
+    if (step === 1 && receiveUser) {
+      setStep(2)
+    }
+  }
+
+  const handleCancel = () => {
+    setIsModalVisible(false)
+  }
+
+  const handleBack = () => {
+    if (step === 0) setIsModalVisible(false)
+    else setStep(step - 1)
+  }
+
+  const changeUsername = (e) => {
+    setUsername(e.target.value.trim())
+  }
 
   const listCv = useSelector((state) => state.list.listCv)
 
@@ -153,6 +191,7 @@ export function ListCV() {
                       >
                         <Button type='primary' size='small' icon={<ShareAltOutlined />}></Button>
                       </Popover>
+                      <Button type='primary' size='small' icon={<GiftOutlined />} onClick={() => showModal(item.id)}></Button>
                     </Space>
                   </div>
                 </div>
@@ -161,6 +200,54 @@ export function ListCV() {
           )
         }}
       />
+      <Modal
+        title='Tặng CV'
+        width={600}
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={[
+          <Button key='back' onClick={handleBack}>
+            {step === 0 ? 'Hủy bỏ' : 'Quay lại'}
+          </Button>,
+          <Button key='submit' type='primary' onClick={handleOk}>
+            {step === 2 ? 'Tặng CV' : 'Tiếp tục'}
+          </Button>,
+        ]}
+      >
+        <Steps current={step}>
+          <Steps.Step title='Bước 1' description='Nhập tên tài khoản.' />
+          <Steps.Step title='Bước 2' description='Xác nhận tài khoản.' />
+          <Steps.Step title='Bước 3' description='Xác nhận tặng CV.' />
+        </Steps>
+        <div className='send-container'>
+          {step === 0 && (
+            <>
+              <div style={{ marginBottom: 5, fontWeight: 500 }}>Tài khoản người nhận:</div>
+              <Input value={username} onChange={changeUsername} placeholder='Nhập tài khoản' />
+            </>
+          )}
+          {step === 1 && (
+            <>
+              {receiveUser ? (
+                <div className='receive-user'>
+                  <img src={'http://localhost:8080/resources/avatar/' + (receiveUser.avatar === null ? 'default-avatar.png' : receiveUser.avatar)} alt='avatar' />
+                  <div>{receiveUser.fullName}</div>
+                </div>
+              ) : (
+                <div style={{ textAlign: 'center' }}>Không tìm thấy tài khoản</div>
+              )}
+            </>
+          )}
+          {step === 2 && (
+            <div style={{ textAlign: 'center' }}>
+              <Radio.Group value={type} onChange={(e) => setType(e.target.value)}>
+                <Radio value={'template'}>Tặng template</Radio>
+                <Radio value={'all'}>Tặng toàn bộ</Radio>
+              </Radio.Group>
+            </div>
+          )}
+        </div>
+      </Modal>
     </div>
   )
 }

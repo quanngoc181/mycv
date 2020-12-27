@@ -33,3 +33,26 @@
   right: 0;
   bottom: 0;
 }
+
+.send-container {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+.send-container .receive-user {
+  display: flex;
+  align-items: center;
+}
+.send-container .receive-user img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 1px solid #1890ff;
+}
+.send-container .receive-user div {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1890ff;
+}

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.hust.mycv.dto.ReceiveUserDTO;
 import com.hust.mycv.entity.Info;
 import com.hust.mycv.repository.InfoRepository;
 import com.hust.mycv.utility.StringUtility;
@@ -98,6 +99,27 @@ public class InfoController {
 			return filename;
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot update avatar.");
+		}
+	}
+
+	@PostMapping("/info/receive-user")
+	public ReceiveUserDTO receiveUser(Authentication auth, @RequestParam String username) {
+		String u = StringUtility.getUserName(auth.getName());
+		
+		if(u.equals(username)) {
+			return null;
+		}
+		
+		List<Info> infos = userInfoRepository.findByUsername(username);
+
+		if (infos.size() == 0) {
+			return null;
+		} else {
+			ReceiveUserDTO dto = new ReceiveUserDTO();
+			dto.username = infos.get(0).getUsername();
+			dto.fullName = infos.get(0).getFullName();
+			dto.avatar = infos.get(0).getAvatar();
+			return dto;
 		}
 	}
 
