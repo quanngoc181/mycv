@@ -1,5 +1,5 @@
 export function buildBook(book, format) {
-  let authors = book.authors ? JSON.parse(book.authors) : []
+  let authors = book.authors ? book.authors : []
   authors = authors.map((author) => {
     let words = author.split(' ').filter((word) => word.trim().length > 0)
     if (format === 'mla') return words[words.length - 1]
@@ -16,7 +16,7 @@ export function buildBook(book, format) {
 }
 
 export function buildJournal(journal, format) {
-  let authors = journal.authors ? JSON.parse(journal.authors) : []
+  let authors = journal.authors ? journal.authors : []
   authors = authors.map((author) => {
     let words = author.split(' ').filter((word) => word.trim().length > 0)
     if (format === 'mla') return words[words.length - 1]

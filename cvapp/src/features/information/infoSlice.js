@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { GetToken } from '../../utilities/authenUtility'
+import { GetToken } from '../../util/authenUtil'
 const axios = require('axios')
 
 export const fetchInfo = createAsyncThunk('info/fetchInfo', async (arg, { rejectWithValue }) => {
   try {
-    let account = await axios.get('http://localhost:8080/user-info', { headers: GetToken() })
-    return account.data
+    let ret = await axios.get('http://localhost:8080/users/current/info', { headers: GetToken() })
+    return ret.data
   } catch (error) {
     return rejectWithValue(error.response.data)
   }
@@ -14,11 +14,15 @@ export const fetchInfo = createAsyncThunk('info/fetchInfo', async (arg, { reject
 export const updateInfo = createAsyncThunk('info/updateInfo', async (arg, { getState, rejectWithValue }) => {
   try {
     let language = getState().info.language
-    let viUser = getState().info.viUser
-    let enUser = getState().info.enUser
-    let info = language === 'vi' ? viUser : enUser
-    let account = await axios.put('http://localhost:8080/user-info', { ...info, ...arg }, { headers: GetToken() })
-    return { language, data: account.data }
+    let viInfo = getState().info.viInfo
+    let enInfo = getState().info.enInfo
+
+    if (language === 'vi') viInfo = { ...viInfo, ...arg }
+    else if (language === 'en') enInfo = { ...enInfo, ...arg }
+    else return rejectWithValue('Ngôn ngữ không hợp lệ')
+
+    let ret = await axios.put('http://localhost:8080/users/current/info', { viInfo, enInfo }, { headers: GetToken() })
+    return ret.data
   } catch (error) {
     return rejectWithValue(error.response.data)
   }
@@ -27,22 +31,22 @@ export const updateInfo = createAsyncThunk('info/updateInfo', async (arg, { getS
 export const infoSlice = createSlice({
   name: 'info',
   initialState: {
-    viUser: null,
-    enUser: null,
+    viInfo: null,
+    enInfo: null,
     language: 'vi',
-    updateStatus: 'pending',
+    updateStatus: null,
   },
   reducers: {
     resetUser(state, action) {
-      state.viUser = null
-      state.enUser = null
+      state.viInfo = null
+      state.enInfo = null
     },
     resetStatus(state, action) {
       state.updateStatus = 'pending'
     },
     updateAvatar(state, action) {
-      state.viUser.avatar = action.payload
-      state.enUser.avatar = action.payload
+      state.viInfo.avatar = action.payload
+      state.enInfo.avatar = action.payload
     },
     updateLanguage(state, action) {
       let { language } = action.payload
@@ -51,16 +55,12 @@ export const infoSlice = createSlice({
   },
   extraReducers: {
     [fetchInfo.pending]: (state, action) => {
-      state.viUser = null
-      state.enUser = null
+      state.viInfo = null
+      state.enInfo = null
     },
     [fetchInfo.fulfilled]: (state, action) => {
-      state.viUser = action.payload.find((info) => info.language === 'vi')
-      state.enUser = action.payload.find((info) => info.language === 'en')
-    },
-    [fetchInfo.rejected]: (state, action) => {
-      state.viUser = null
-      state.enUser = null
+      state.viInfo = action.payload.viInfo
+      state.enInfo = action.payload.enInfo
     },
 
     [updateInfo.pending]: (state, action) => {
@@ -68,9 +68,8 @@ export const infoSlice = createSlice({
     },
     [updateInfo.fulfilled]: (state, action) => {
       state.updateStatus = 'success'
-      let { language, data } = action.payload
-      if (language === 'vi') state.viUser = data
-      else state.enUser = data
+      state.viInfo = action.payload.viInfo
+      state.enInfo = action.payload.enInfo
     },
     [updateInfo.rejected]: (state, action) => {
       state.updateStatus = 'error'

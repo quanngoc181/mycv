@@ -12,13 +12,13 @@ export function Journal({ info, layout, tailLayout, locale }) {
 
   useEffect(() => {
     if (info) {
-      let journals = info.journals && info.journals.length > 0 ? info.journals.map((e) => ({ ...e, year: e.year ? moment(`${e.year}`) : null, authors: e.authors ? JSON.parse(e.authors) : [] })) : [{}]
+      let journals = info.journals && info.journals.length > 0 ? info.journals.map((e) => ({ ...e, year: e.year ? moment(`${e.year}`) : null })) : [{}]
       form.setFieldsValue({ journals })
     }
   }, [form, info])
 
   const onFinish = (values) => {
-    let journals = values.journals.map((e, i) => ({ ...e, year: e.year ? e.year.year() : null, authors: JSON.stringify(e.authors) }))
+    let journals = values.journals.map((e, i) => ({ ...e, year: e.year ? e.year.year() : null }))
     dispatch(updateInfo({ journals }))
   }
 

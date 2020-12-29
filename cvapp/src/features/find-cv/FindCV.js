@@ -3,10 +3,10 @@ import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { debounce } from 'lodash'
 import './find-cv.css'
-import { searchAddress, searchCompany, searchFilter, searchField, searchPosition, searchSchool, searchSkill, searchTag, searchKeyword } from './findCVSlice'
+import { searchFilter, getSuggest, searchKeyword } from './findCVSlice'
 import TemplateList from '../../templates/TemplateList'
 import { useHistory } from 'react-router-dom'
-import { saveCv } from '../save-cv/saveCVSlice'
+import { deleteCv, saveCv } from '../save-cv/saveCVSlice'
 import Search from 'antd/lib/input/Search'
 
 export function FindCV() {
@@ -44,123 +44,52 @@ export function FindCV() {
     setMarital(e.target.value)
   }
 
-  const [tag, setTag] = useState([])
-  const handleTag = (value) => {
-    setTag(value)
-  }
   // eslint-disable-next-line
-  const debouncedTag = useCallback(
-    debounce((value) => {
+  const debouncedSave = useCallback(
+    debounce((field, value) => {
       if (value.trim().length !== 0) {
-        dispatch(searchTag({ value: value.trim() }))
+        dispatch(getSuggest({ field, keyword: value.trim() }))
       }
     }, 500),
     []
   )
-  const handleKeyupTag = (value) => {
-    debouncedTag(value)
+  const handleKeyup = (field, value) => {
+    debouncedSave(field, value)
+  }
+
+  const [tag, setTag] = useState([])
+  const handleTag = (value) => {
+    setTag(value)
   }
 
   const [address, setAddress] = useState([])
   const handleAddress = (value) => {
     setAddress(value)
   }
-  // eslint-disable-next-line
-  const debouncedAddress = useCallback(
-    debounce((value) => {
-      if (value.trim().length !== 0) {
-        dispatch(searchAddress({ value: value.trim() }))
-      }
-    }, 500),
-    []
-  )
-  const handleKeyupAddress = (value) => {
-    debouncedAddress(value)
-  }
 
   const [school, setSchool] = useState([])
   const handleSchool = (value) => {
     setSchool(value)
-  }
-  // eslint-disable-next-line
-  const debouncedSchool = useCallback(
-    debounce((value) => {
-      if (value.trim().length !== 0) {
-        dispatch(searchSchool({ value: value.trim() }))
-      }
-    }, 500),
-    []
-  )
-  const handleKeyupSchool = (value) => {
-    debouncedSchool(value)
   }
 
   const [field, setField] = useState([])
   const handleField = (value) => {
     setField(value)
   }
-  // eslint-disable-next-line
-  const debouncedField = useCallback(
-    debounce((value) => {
-      if (value.trim().length !== 0) {
-        dispatch(searchField({ value: value.trim() }))
-      }
-    }, 500),
-    []
-  )
-  const handleKeyupField = (value) => {
-    debouncedField(value)
-  }
 
   const [company, setCompany] = useState([])
   const handleCompany = (value) => {
     setCompany(value)
-  }
-  // eslint-disable-next-line
-  const debouncedCompany = useCallback(
-    debounce((value) => {
-      if (value.trim().length !== 0) {
-        dispatch(searchCompany({ value: value.trim() }))
-      }
-    }, 500),
-    []
-  )
-  const handleKeyupCompany = (value) => {
-    debouncedCompany(value)
   }
 
   const [position, setPosition] = useState([])
   const handlePosition = (value) => {
     setPosition(value)
   }
-  // eslint-disable-next-line
-  const debouncedPosition = useCallback(
-    debounce((value) => {
-      if (value.trim().length !== 0) {
-        dispatch(searchPosition({ value: value.trim() }))
-      }
-    }, 500),
-    []
-  )
-  const handleKeyupPosition = (value) => {
-    debouncedPosition(value)
-  }
 
   const [skill, setSkill] = useState([])
   const handleSkill = (value) => {
     setSkill(value)
-  }
-  // eslint-disable-next-line
-  const debouncedSkill = useCallback(
-    debounce((value) => {
-      if (value.trim().length !== 0) {
-        dispatch(searchSkill({ value: value.trim() }))
-      }
-    }, 500),
-    []
-  )
-  const handleKeyupSkill = (value) => {
-    debouncedSkill(value)
   }
 
   const clickSearch = () => {
@@ -272,7 +201,8 @@ export function FindCV() {
                       <Button
                         type={saved !== -1 ? 'primary' : 'default'}
                         onClick={() => {
-                          dispatch(saveCv({ cvId: result.cvId }))
+                          if (saved === -1) dispatch(saveCv({ cvId: result.cvId }))
+                          else dispatch(deleteCv({ cvId: result.cvId }))
                         }}
                       >
                         {saved !== -1 ? 'Bỏ lưu' : 'Lưu CV'}
@@ -289,7 +219,7 @@ export function FindCV() {
             <h3 className='header'>
               <span>Thẻ (Tag)</span>
             </h3>
-            <Select mode='multiple' size='small' value={tag} onChange={handleTag} onSearch={handleKeyupTag} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn thẻ...'>
+            <Select mode='multiple' size='small' value={tag} onChange={handleTag} onSearch={(value) => handleKeyup('tag', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn thẻ...'>
               {suggestTag.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
@@ -299,7 +229,7 @@ export function FindCV() {
             <h3 className='header'>
               <span>Địa chỉ</span>
             </h3>
-            <Select mode='multiple' size='small' value={address} onChange={handleAddress} onSearch={handleKeyupAddress} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn khu vực...'>
+            <Select mode='multiple' size='small' value={address} onChange={handleAddress} onSearch={(value) => handleKeyup('address', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn khu vực...'>
               {suggestAddress.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
@@ -309,13 +239,13 @@ export function FindCV() {
             <h3 className='header'>
               <span>Học vấn</span>
             </h3>
-            <Select mode='multiple' size='small' value={school} onChange={handleSchool} onSearch={handleKeyupSchool} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn trường học...'>
+            <Select mode='multiple' size='small' value={school} onChange={handleSchool} onSearch={(value) => handleKeyup('school', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn trường học...'>
               {suggestSchool.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
             </Select>
             <div style={{ height: 10 }}></div>
-            <Select mode='multiple' size='small' value={field} onChange={handleField} onSearch={handleKeyupField} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn chuyên ngành...'>
+            <Select mode='multiple' size='small' value={field} onChange={handleField} onSearch={(value) => handleKeyup('field', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn chuyên ngành...'>
               {suggestField.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
@@ -325,13 +255,13 @@ export function FindCV() {
             <h3 className='header'>
               <span>Kinh nghiệm</span>
             </h3>
-            <Select mode='multiple' size='small' value={company} onChange={handleCompany} onSearch={handleKeyupCompany} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn công ty...'>
+            <Select mode='multiple' size='small' value={company} onChange={handleCompany} onSearch={(value) => handleKeyup('company', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn công ty...'>
               {suggestCompany.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
             </Select>
             <div style={{ height: 10 }}></div>
-            <Select mode='multiple' size='small' value={position} onChange={handlePosition} onSearch={handleKeyupPosition} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn vị trí...'>
+            <Select mode='multiple' size='small' value={position} onChange={handlePosition} onSearch={(value) => handleKeyup('position', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn vị trí...'>
               {suggestPosition.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}
@@ -341,7 +271,7 @@ export function FindCV() {
             <h3 className='header'>
               <span>Kỹ năng</span>
             </h3>
-            <Select mode='multiple' size='small' value={skill} onChange={handleSkill} onSearch={handleKeyupSkill} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn kỹ năng...'>
+            <Select mode='multiple' size='small' value={skill} onChange={handleSkill} onSearch={(value) => handleKeyup('skill', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn kỹ năng...'>
               {suggestSkill.map((t) => (
                 <Select.Option key={t.name}>{t.name}</Select.Option>
               ))}

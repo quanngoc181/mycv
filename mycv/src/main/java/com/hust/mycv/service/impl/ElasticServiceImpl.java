@@ -1,4 +1,4 @@
-package com.hust.mycv.task;
+package com.hust.mycv.service.impl;
 
 import java.net.URI;
 import java.util.List;
@@ -6,8 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.hust.mycv.entity.Address;
@@ -26,9 +27,10 @@ import com.hust.mycv.repository.PositionRepository;
 import com.hust.mycv.repository.SchoolRepository;
 import com.hust.mycv.repository.SkillTypeRepository;
 import com.hust.mycv.repository.TagRepository;
+import com.hust.mycv.service.ElasticService;
 
-@Component
-public class ScheduledTask {
+@Service
+public class ElasticServiceImpl implements ElasticService {
 
 	@Autowired
 	RestTemplate restTemplate;
@@ -57,8 +59,38 @@ public class ScheduledTask {
 	@Autowired
 	AddressRepository addressRepository;
 
-	@Scheduled(fixedRate = 60000 * 5)
-	public void syncDataElasticSearch() {
+	@Override
+	public String suggestField(String field, String keyword) {
+
+		try {
+			String body = "{\n"
+					+ "  \"query\": {\n"
+					+ "    \"match\": {\n"
+					+ "      \"name\": {\n"
+					+ "        \"query\": \"" + keyword + "\"\n"
+//						+ "        \"fuzziness\": \"1\"\n"
+					+ "      }\n"
+					+ "    }\n"
+					+ "  },\n"
+					+ "  \"size\": 5\n"
+					+ "}";
+
+			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/" + field
+					+ "/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
+
+			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+
+			return response.getBody();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return null;
+
+	}
+	
+	@Scheduled(fixedRate = 60000 * 10)
+	public void syncData() {
 		try {
 			String body = "{\"query\":{\"match_all\":{}}}";
 

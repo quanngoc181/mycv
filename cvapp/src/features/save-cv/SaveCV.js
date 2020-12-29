@@ -7,7 +7,7 @@ import phoneIcon from '../../templates/icon/phone.png'
 import './save-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { saveCv } from './saveCVSlice'
+import { deleteCv } from './saveCVSlice'
 
 export function SaveCV() {
   const history = useHistory()
@@ -67,7 +67,7 @@ export function SaveCV() {
                   size='small'
                   style={{ marginTop: 5 }}
                   onClick={() => {
-                    dispatch(saveCv({ cvId: save.cvId }))
+                    dispatch(deleteCv({ cvId: save.cvId }))
                   }}
                 >
                   Bỏ lưu

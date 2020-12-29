@@ -1,6 +1,6 @@
 package com.hust.mycv.dto;
 
-public class RegisterDTO {
+public class RegisterDto {
 
 	public String username;
 
@@ -12,11 +12,11 @@ public class RegisterDTO {
 	
 	public String role;
 
-	public RegisterDTO() {
+	public RegisterDto() {
 		super();
 	}
 
-	public RegisterDTO(String username, String password, String fullName, String email, String role) {
+	public RegisterDto(String username, String password, String fullName, String email, String role) {
 		super();
 		this.username = username;
 		this.password = password;

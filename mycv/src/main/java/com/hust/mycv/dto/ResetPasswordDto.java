@@ -1,15 +1,19 @@
 package com.hust.mycv.dto;
 
-public class ResetPasswordDTO {
-	public String newpassword;
-	
-	public String token;
-	
-	public ResetPasswordDTO() {}
+public class ResetPasswordDto {
 
-	public ResetPasswordDTO(String newpassword, String token) {
+	public String newpassword;
+
+	public String token;
+
+	public ResetPasswordDto() {
+		super();
+	}
+
+	public ResetPasswordDto(String newpassword, String token) {
 		super();
 		this.newpassword = newpassword;
 		this.token = token;
 	}
+
 }

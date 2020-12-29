@@ -1,6 +1,6 @@
 package com.hust.mycv.dto;
 
-public class ReceiveUserDTO {
+public class ReceiverInfoDto {
 
 	public String username;
 	
@@ -8,11 +8,11 @@ public class ReceiveUserDTO {
 	
 	public String avatar;
 	
-	public ReceiveUserDTO() {
+	public ReceiverInfoDto() {
 		super();
 	}
 
-	public ReceiveUserDTO(String username, String fullName, String avatar) {
+	public ReceiverInfoDto(String username, String fullName, String avatar) {
 		super();
 		this.username = username;
 		this.fullName = fullName;

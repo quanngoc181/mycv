@@ -28,8 +28,7 @@ public class TodoController {
 
 	@GetMapping("/todo/{id}")
 	public Todo findById(@PathVariable Integer id) {
-		Todo todo = todoRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo not found."));
+		Todo todo = todoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo not found."));
 		return todo;
 	}
 
@@ -47,8 +46,7 @@ public class TodoController {
 
 	@DeleteMapping("/todo/{id}")
 	public Todo deleteTodo(@PathVariable Integer id) {
-		Todo todo = todoRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo not found."));
+		Todo todo = todoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo not found."));
 		todoRepository.delete(todo);
 		return todo;
 	}

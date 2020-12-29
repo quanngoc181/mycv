@@ -2,12 +2,11 @@ import { CheckOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, EditOutline
 import { Button, Input, List, Modal, Popconfirm, Popover, Radio, Space, Steps, Switch } from 'antd'
 import './list-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { initCvInfo, editCvInfo, copyCvInfo, copyCvConfig } from '../create-cv/createCVSlice'
+import { initCvInfo, editCv, copyCvAll, copyCvTemplate } from '../create-cv/createCVSlice'
 import { useHistory } from 'react-router-dom'
-import { deleteCv, getReceiveUser, publicCv } from './listCVSlice'
+import { deleteCv, getReceiver, publicCv } from './listCVSlice'
 import TemplateList from '../../templates/TemplateList'
 import { useState } from 'react'
-const moment = require('moment')
 
 export function ListCV() {
   const dispatch = useDispatch()
@@ -29,7 +28,7 @@ export function ListCV() {
 
   const handleOk = () => {
     if (step === 0 && username !== null && username.length > 0) {
-      dispatch(getReceiveUser({ username }))
+      dispatch(getReceiver({ username }))
       setStep(1)
     }
     if (step === 1 && receiveUser) {
@@ -64,7 +63,7 @@ export function ListCV() {
   }
 
   const handleUpdate = (id) => {
-    dispatch(editCvInfo({ id }))
+    dispatch(editCv({ id }))
     history.push('/create-cv')
   }
 
@@ -81,12 +80,12 @@ export function ListCV() {
   }
 
   const handleCopyData = (id) => {
-    dispatch(copyCvInfo({ id }))
+    dispatch(copyCvAll({ id }))
     history.push('/create-cv')
   }
 
   const handleCopyConfig = (id) => {
-    dispatch(copyCvConfig({ id }))
+    dispatch(copyCvTemplate({ id }))
     history.push('/create-cv')
   }
 
@@ -113,7 +112,7 @@ export function ListCV() {
                     Lượt xem: {item.viewCount ? item.viewCount : 0} Lượt tải: {item.downloadCount ? item.downloadCount : 0}
                   </div>
                   <div>{item.cvNote}</div>
-                  <div className='create-at'>{moment(item.lastModified).format('HH:mm:ss DD/MM/YYYY')}</div>
+                  <div className='create-at'>{item.lastModified}</div>
                   <div className='button-group'>
                     <Space>
                       <Switch
@@ -230,7 +229,7 @@ export function ListCV() {
             <>
               {receiveUser ? (
                 <div className='receive-user'>
-                  <img src={'http://localhost:8080/resources/avatar/' + (receiveUser.avatar === null ? 'default-avatar.png' : receiveUser.avatar)} alt='avatar' />
+                  <img src={'http://localhost:8080/resources/avatar/' + receiveUser.avatar} alt='avatar' />
                   <div>{receiveUser.fullName}</div>
                 </div>
               ) : (

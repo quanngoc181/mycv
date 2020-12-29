@@ -1,5 +1,32 @@
+import moment from 'moment'
+import { buildBook, buildJournal, buildPresentation } from './citationUtil'
+
+const genders = {
+  vi: {
+    male: 'Nam',
+    female: 'Nữ',
+  },
+  en: {
+    male: 'Male',
+    female: 'Female',
+  },
+}
+const maritals = {
+  vi: {
+    single: 'Độc thân',
+    married: 'Kết hôn',
+    divorced: 'Ly hôn',
+    widowed: 'Góa',
+  },
+  en: {
+    single: 'Single',
+    married: 'Married',
+    divorced: 'Divorced',
+    widowed: 'Widowed',
+  },
+}
+
 export const defaultInfo = {
-  avatar: 'default-avatar.png',
   fullName: 'Nguyễn Văn Anh',
   position: 'Thực tập sinh',
   gender: 'Nam',
@@ -150,4 +177,54 @@ export const enLabel = {
   book: 'Books',
   journal: 'Publications',
   presentation: 'Presentations',
+}
+
+export const formatInfo = (info, language, citation) => {
+  let mappedInfo = {
+    ...info,
+    gender: info.gender ? genders[language][info.gender] : null,
+    marital: info.marital ? maritals[language][info.marital] : null,
+    dob: info.dob ? moment(info.dob).format('DD/MM/YYYY') : null,
+    socials: info.socials ? info.socials.join('\n') : null,
+    educations: info.educations.map((education) => ({
+      ...education,
+      start: education.start ? moment(education.start).format('MM/YYYY') : null,
+      end: education.end ? moment(education.end).format('MM/YYYY') : null,
+    })),
+    works: info.works.map((work) => ({
+      ...work,
+      start: work.start ? moment(work.start).format('MM/YYYY') : null,
+      end: work.end ? moment(work.end).format('MM/YYYY') : null,
+    })),
+    projects: info.projects.map((project) => ({
+      ...project,
+      start: project.start ? moment(project.start).format('MM/YYYY') : null,
+      end: project.end ? moment(project.end).format('MM/YYYY') : null,
+    })),
+    memberships: info.memberships.map((membership) => ({
+      ...membership,
+      start: membership.start ? moment(membership.start).format('MM/YYYY') : null,
+      end: membership.end ? moment(membership.end).format('MM/YYYY') : null,
+    })),
+    books: info.books.map((book) => buildBook(book, citation)),
+    journals: info.journals.map((journal) => buildJournal(journal, citation)),
+    presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
+  }
+
+  if (mappedInfo.hobbies.length === 0) mappedInfo.hobbies = [null]
+  if (mappedInfo.activities.length === 0) mappedInfo.activities = [null]
+  if (mappedInfo.educations.length === 0) mappedInfo.educations = [{}]
+  if (mappedInfo.works.length === 0) mappedInfo.works = [{}]
+  if (mappedInfo.projects.length === 0) mappedInfo.projects = [{}]
+  if (mappedInfo.memberships.length === 0) mappedInfo.memberships = [{}]
+  if (mappedInfo.skills.length === 0) mappedInfo.skills = [{}]
+  if (mappedInfo.theses.length === 0) mappedInfo.theses = [{}]
+  if (mappedInfo.awards.length === 0) mappedInfo.awards = [{}]
+  if (mappedInfo.certificates.length === 0) mappedInfo.certificates = [{}]
+  if (mappedInfo.scholarships.length === 0) mappedInfo.scholarships = [{}]
+  if (mappedInfo.books.length === 0) mappedInfo.books = [null]
+  if (mappedInfo.journals.length === 0) mappedInfo.journals = [null]
+  if (mappedInfo.presentations.length === 0) mappedInfo.presentations = [null]
+
+  return mappedInfo
 }

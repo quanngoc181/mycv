@@ -1,13 +1,13 @@
 import React from 'react'
 import { Upload } from 'antd'
-import { GetToken } from '../../utilities/authenUtility'
+import { GetToken } from '../../util/authenUtil'
 import ImgCrop from 'antd-img-crop'
 
 const UploadImage = React.forwardRef((props, ref) => {
   const attr = {
     name: 'file',
     showUploadList: false,
-    action: 'http://localhost:8080/cv/upload-image',
+    action: 'http://localhost:8080/resources/cv',
     headers: GetToken(),
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { GetToken } from '../../utilities/authenUtility'
+import { GetToken } from '../../util/authenUtil'
 const axios = require('axios')
 
 export const fetchTodo = createAsyncThunk('todo/fetchTodo', async (arg, { rejectWithValue }) => {

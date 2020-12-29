@@ -15,7 +15,9 @@ public class HelloController {
 
 	@GetMapping("/")
 	public HelloWorld greeting(@RequestParam(defaultValue = "World") String name) {
+
 		return new HelloWorld(counter.incrementAndGet(), String.format("Hello, %s!", name));
+
 	}
 
 }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hust.mycv.entity.SavedCv;
 
-public interface SavedCvRepository extends JpaRepository<SavedCv, Integer> {
+public interface SavedRepository extends JpaRepository<SavedCv, Integer> {
 	
 	SavedCv findByUsernameAndCvId(String username, Integer cvId);
 	

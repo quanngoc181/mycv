@@ -1,144 +1,85 @@
 package com.hust.mycv.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
-import com.hust.mycv.dto.ChangePasswordDTO;
-import com.hust.mycv.dto.RegisterDTO;
-import com.hust.mycv.dto.ResetPasswordDTO;
-import com.hust.mycv.entity.ApplicationUser;
-import com.hust.mycv.entity.Info;
-import com.hust.mycv.repository.InfoRepository;
-import com.hust.mycv.repository.UserRepository;
+import com.hust.mycv.dto.ChangePasswordDto;
+import com.hust.mycv.dto.EmailTokenDto;
+import com.hust.mycv.dto.RegisterDto;
+import com.hust.mycv.dto.ResetPasswordDto;
+import com.hust.mycv.dto.UserDto;
 import com.hust.mycv.service.EmailService;
+import com.hust.mycv.service.UserService;
 import com.hust.mycv.utility.StringUtility;
 
 @RestController
 public class UserController {
 
 	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	InfoRepository userInfoRepository;
-
-	@Autowired
-	PasswordEncoder passwordEncoder;
+	UserService userService;
 
 	@Autowired
 	EmailService emailService;
 
-	@GetMapping("/user")
-	public ApplicationUser register(Authentication auth) {
+	@GetMapping("/users/current")
+	public UserDto fetchUser(Authentication auth) {
+
 		String username = StringUtility.getUserName(auth.getName());
-		ApplicationUser user = userRepository.findByUsername(username);
-		user.setPassword(null);
-		return user;
+
+		UserDto dto = userService.findByUsername(username);
+
+		return dto;
+
 	}
 
-	@GetMapping("/confirm-email/{cet}")
-	public void register(@PathVariable String cet) {
-		ApplicationUser user = userRepository.findByConfirmEmailToken(cet);
+	@PostMapping("/users")
+	public void register(@RequestBody RegisterDto dto) {
 
-		if (user == null)
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
+		EmailTokenDto user = userService.register(dto);
 
-		user.setEnabled(true);
+		emailService.sendEnableAccountEmail(user.email, user.token);
 
-		userRepository.save(user);
 	}
 
-	@PostMapping("/user")
-	public ApplicationUser register(@RequestBody RegisterDTO dto) {
-		// kiểm tra tài khoản tồn tại
-		ApplicationUser exist = userRepository.findByUsername(dto.username);
-		if (exist != null)
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tài khoản này đã tồn tại");
+	@PostMapping("/users/confirm-email")
+	public void confirmEmail(@RequestParam String cet) {
 
-		// lưu account
-		ApplicationUser user = new ApplicationUser();
-		user.setUsername(dto.username);
-		user.setPassword(passwordEncoder.encode(dto.password));
-		user.setRole(dto.role);
+		userService.confirmEmail(cet);
 
-		String confirmEmailToken = UUID.randomUUID().toString();
-		user.setConfirmEmailToken(confirmEmailToken);
-
-		ApplicationUser res = userRepository.save(user);
-		res.setPassword(null);
-
-		Info info1 = new Info();
-		info1.setUsername(dto.username);
-		info1.setFullName(dto.fullName);
-		info1.setEmail(dto.email);
-		info1.setLanguage("vi");
-		userInfoRepository.save(info1);
-
-		Info info2 = new Info();
-		info2.setUsername(dto.username);
-		info2.setFullName(dto.fullName);
-		info2.setEmail(dto.email);
-		info2.setLanguage("en");
-		userInfoRepository.save(info2);
-
-		emailService.sendEnableAccountEmail(dto.email, confirmEmailToken);
-
-		return res;
 	}
 
-	@PutMapping("user/password")
-	public void changePassword(Authentication auth, @RequestBody ChangePasswordDTO dto) {
+	@PostMapping("/users/change-password")
+	public void changePassword(Authentication auth, @RequestBody ChangePasswordDto dto) {
+
 		String username = StringUtility.getUserName(auth.getName());
-		ApplicationUser user = userRepository.findByUsername(username);
 
-		if (user == null)
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
+		userService.changePassword(username, dto);
 
-		if (!passwordEncoder.matches(dto.oldpassword, user.getPassword()))
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mật khẩu cũ không chính xác");
-
-		user.setPassword(passwordEncoder.encode(dto.newpassword));
-
-		userRepository.save(user);
 	}
-	
-	@PostMapping("/forgot-password")
+
+	@PostMapping("/users/forgot-password")
 	public void forgotPassword(@RequestParam String username) {
-		String token = UUID.randomUUID().toString();
-		ApplicationUser user = userRepository.findByUsername(username);
-		List<Info> infos = userInfoRepository.findByUsername(username);
-		
-		if (user == null)
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
-		
-		user.setResetPasswordToken(token);
-		userRepository.save(user);
-		
-		emailService.sendResetPasswordEmail(infos.get(0).getEmail(), token);
+
+		List<EmailTokenDto> dtos = userService.forgotPassword(username);
+
+		for (EmailTokenDto dto : dtos) {
+			emailService.sendResetPasswordEmail(dto.email, dto.token);
+		}
+
 	}
-	
-	@PostMapping("/reset-password")
-	public void resetPassword(@RequestBody ResetPasswordDTO dto) {
-		ApplicationUser user = userRepository.findByResetPasswordToken(dto.token);
 
-		if (user == null)
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
+	@PostMapping("/users/reset-password")
+	public void resetPassword(@RequestBody ResetPasswordDto dto) {
 
-		user.setPassword(passwordEncoder.encode(dto.newpassword));
+		userService.resetPassword(dto);
 
-		userRepository.save(user);
 	}
+
 }

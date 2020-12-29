@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 // import moment from 'moment'
-import { GetToken } from '../../utilities/authenUtility'
+import { GetToken } from '../../util/authenUtil'
 const axios = require('axios')
 
 export const fetchCv = createAsyncThunk('list/fetchCv', async (arg, { rejectWithValue }) => {
   try {
-    let ret = await axios.get('http://localhost:8080/cv', { headers: GetToken() })
+    let ret = await axios.get('http://localhost:8080/users/current/cvs', { headers: GetToken() })
     return ret.data
   } catch (error) {
     return rejectWithValue(error.response.data)
@@ -14,11 +14,8 @@ export const fetchCv = createAsyncThunk('list/fetchCv', async (arg, { rejectWith
 
 export const deleteCv = createAsyncThunk('list/deleteCv', async ({ id }, { getState, rejectWithValue }) => {
   try {
-    let cv = getState().list.listCv.find((cv) => cv.id === id)
-    if (cv) {
-      await axios.delete('http://localhost:8080/cv', { headers: GetToken(), data: cv })
-      return id
-    }
+    await axios.delete('http://localhost:8080/users/current/cvs/' + id, { headers: GetToken() })
+    return id
   } catch (error) {
     return rejectWithValue(error.response.data)
   }
@@ -26,16 +23,16 @@ export const deleteCv = createAsyncThunk('list/deleteCv', async ({ id }, { getSt
 
 export const publicCv = createAsyncThunk('list/publicCv', async ({ id, cvPublic }, { getState, rejectWithValue }) => {
   try {
-    let ret = await axios.post('http://localhost:8080/cv/public', { id, cvPublic }, { headers: GetToken() })
+    let ret = await axios.post('http://localhost:8080/users/current/cvs/public-cv', { id, cvPublic }, { headers: GetToken() })
     return ret.data
   } catch (error) {
     return rejectWithValue(error.response.data)
   }
 })
 
-export const getReceiveUser = createAsyncThunk('list/getReceiveUser', async ({ username }, { getState, rejectWithValue }) => {
+export const getReceiver = createAsyncThunk('list/getReceiver', async ({ username }, { getState, rejectWithValue }) => {
   try {
-    let ret = await axios.post('http://localhost:8080/info/receive-user?username=' + username, {}, { headers: GetToken() })
+    let ret = await axios.get('http://localhost:8080/users/' + username + '/info', { headers: GetToken() })
     return ret.data
   } catch (error) {
     return rejectWithValue(error.response.data)
@@ -66,9 +63,6 @@ export const listCVSlice = createSlice({
     [fetchCv.fulfilled]: (state, action) => {
       state.listCv = action.payload
     },
-    [fetchCv.rejected]: (state, action) => {
-      state.listCv = null
-    },
 
     [deleteCv.fulfilled]: (state, action) => {
       let id = action.payload
@@ -81,10 +75,10 @@ export const listCVSlice = createSlice({
       if (exist !== -1) state.listCv[exist].cvPublic = cvPublic
     },
 
-    [getReceiveUser.pending]: (state, action) => {
+    [getReceiver.pending]: (state, action) => {
       state.receiveUser = null
     },
-    [getReceiveUser.fulfilled]: (state, action) => {
+    [getReceiver.fulfilled]: (state, action) => {
       state.receiveUser = action.payload
     },
   },

@@ -14,16 +14,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.hust.mycv.constant.SecurityConstant;
-import com.hust.mycv.service.UserDetailService;
+import com.hust.mycv.service.impl.UserDetailsServiceImpl;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private UserDetailService userDetailService;
+	private UserDetailsServiceImpl userDetailService;
 	private PasswordEncoder passwordEncoder;
 
-	public SecurityConfiguration(UserDetailService userDetailService, PasswordEncoder passwordEncoder) {
+	public SecurityConfiguration(UserDetailsServiceImpl userDetailService, PasswordEncoder passwordEncoder) {
 		this.userDetailService = userDetailService;
 		this.passwordEncoder = passwordEncoder;
 	}
@@ -33,11 +32,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable().authorizeRequests()
 		.antMatchers(HttpMethod.POST, SecurityConstant.SIGN_UP_URL).permitAll()
 		.antMatchers(HttpMethod.GET, "/resources/**").permitAll()
-		.antMatchers(HttpMethod.GET, "/cvwr/**").permitAll()
-		.antMatchers(HttpMethod.POST, "/cvwr/**").permitAll()
-		.antMatchers(HttpMethod.GET, "/confirm-email/**").permitAll()
-		.antMatchers(HttpMethod.POST, "/forgot-password/**").permitAll()
-		.antMatchers(HttpMethod.POST, "/reset-password/**").permitAll()
+		.antMatchers(HttpMethod.POST, "/users/confirm-email").permitAll()
+		.antMatchers(HttpMethod.POST, "/users/forgot-password").permitAll()
+		.antMatchers(HttpMethod.POST, "/users/reset-password").permitAll()
+		.antMatchers(HttpMethod.GET, "/cvs/**").permitAll()
+		.antMatchers(HttpMethod.POST, "/cvs/download-cv").permitAll()
 		.anyRequest().authenticated()
 		.and()
 		.addFilter(new AuthenticationFilter(authenticationManager()))

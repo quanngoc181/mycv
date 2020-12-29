@@ -1,6 +1,6 @@
 package com.hust.mycv.dto;
 
-public class SearchCvDTO {
+public class SearchCvDto {
 	
 	public String language;
 	
@@ -26,11 +26,11 @@ public class SearchCvDTO {
 	
 	public String keyword;
 	
-	public SearchCvDTO() {
+	public SearchCvDto() {
 		super();
 	}
 
-	public SearchCvDTO(String language, String gender, int[] age, String marital, String[] tag, String[] address, String[] school, String[] field, String[] company, String[] position, String[] skill, String keyword) {
+	public SearchCvDto(String language, String gender, int[] age, String marital, String[] tag, String[] address, String[] school, String[] field, String[] company, String[] position, String[] skill, String keyword) {
 		super();
 		this.language = language;
 		this.gender = gender;

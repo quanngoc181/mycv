@@ -12,13 +12,11 @@ import { fetchSaved } from './features/save-cv/saveCVSlice'
 export function NavBar() {
   const history = useHistory()
   const dispatch = useDispatch()
-  const info = useSelector((state) => state.info.viUser)
+  const info = useSelector((state) => state.info.viInfo)
   const user = useSelector((state) => state.user.user)
 
   const fullName = info ? info.fullName : null
-
   const avatar = info ? info.avatar : null
-  const avatarUrl = avatar ? avatar : 'default-avatar.png'
 
   useEffect(() => {
     dispatch(fetchUser())
@@ -82,7 +80,7 @@ export function NavBar() {
 
     rightNav = (
       <div className='my-nav'>
-        <img src={'http://localhost:8080/resources/avatar/' + avatarUrl} className='nav-avatar' alt='Avatar' />
+        <img src={'http://localhost:8080/resources/avatar/' + avatar} className='nav-avatar' alt='Avatar' />
         <div className='my-nav-link'>{fullName}</div>
         <Dropdown overlay={menu} placement='bottomRight' trigger={['click']}>
           <div className='my-nav-link'>

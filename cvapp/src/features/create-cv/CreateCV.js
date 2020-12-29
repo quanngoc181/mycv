@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button, Input, message, Radio, Select } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { resetStatus, updateCitation, updateCv, updateCvInfo, updateLanguage, updateTemplate } from '../create-cv/createCVSlice'
-import { searchTag } from '../find-cv/findCVSlice'
+import { getSuggest } from '../find-cv/findCVSlice'
 import { AppstoreOutlined, FontSizeOutlined, LineHeightOutlined } from '@ant-design/icons'
 import { UploadImage } from './UploadImage'
 import { Orders } from './Orders'
@@ -39,15 +39,15 @@ export function CreateCV() {
 
   // eslint-disable-next-line
   const debouncedSave = useCallback(
-    debounce((value) => {
+    debounce((field, value) => {
       if (value.trim().length !== 0) {
-        dispatch(searchTag({ value: value.trim() }))
+        dispatch(getSuggest({ field, keyword: value.trim() }))
       }
     }, 500),
     []
   )
-  const handleKeyup = (value) => {
-    debouncedSave(value)
+  const handleKeyup = (field, value) => {
+    debouncedSave(field, value)
   }
 
   if (info === null) return null
@@ -213,7 +213,7 @@ export function CreateCV() {
               onChange={(value) => {
                 dispatch(updateCvInfo({ field: 'tags', value }))
               }}
-              onSearch={handleKeyup}
+              onSearch={(value) => handleKeyup('tag', value)}
               style={{ width: '100%' }}
               placeholder='Gắn thẻ'
               filterOption={false}

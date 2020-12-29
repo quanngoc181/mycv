@@ -11,13 +11,13 @@ export function ContactInformation({ info, layout, tailLayout }) {
 
   useEffect(() => {
     if (info) {
-      let socials = info.socials ? JSON.parse(info.socials) : [null]
+      let socials = info.socials.length > 0 ? info.socials : [null]
       form.setFieldsValue({ email: info.email, phone: info.phone, socials })
     }
   }, [form, info])
 
   const onFinish = (values) => {
-    dispatch(updateInfo({ ...values, socials: JSON.stringify(values.socials) }))
+    dispatch(updateInfo(values))
   }
 
   return (

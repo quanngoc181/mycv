@@ -3,7 +3,7 @@ import { Button, Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { GetToken } from '../../utilities/authenUtility'
+import { GetToken } from '../../util/authenUtil'
 import { updateAvatar } from './infoSlice'
 
 export function UploadAvatar() {
@@ -13,7 +13,7 @@ export function UploadAvatar() {
   const props = {
     name: 'file',
     showUploadList: false,
-    action: 'http://localhost:8080/user-info/avatar',
+    action: 'http://localhost:8080/users/change-avatar',
     headers: GetToken(),
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'

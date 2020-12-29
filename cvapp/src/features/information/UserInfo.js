@@ -34,13 +34,12 @@ const tailLayout = {
 
 export function UserInfo() {
   const dispatch = useDispatch()
-  const viUser = useSelector((state) => state.info.viUser)
-  const enUser = useSelector((state) => state.info.enUser)
+  const viInfo = useSelector((state) => state.info.viInfo)
+  const enInfo = useSelector((state) => state.info.enInfo)
   const language = useSelector((state) => state.info.language)
   const updateStatus = useSelector((state) => state.info.updateStatus)
 
-  let info = language === 'vi' ? viUser : enUser
-
+  let info = language === 'vi' ? viInfo : enInfo
   let locale = language === 'vi' ? VI : EN
 
   useEffect(() => {
@@ -59,8 +58,6 @@ export function UserInfo() {
 
   if (info === null) return null
 
-  const avatarUrl = info.avatar ? info.avatar : 'default-avatar.png'
-
   const handleLanguageChange = (e) => {
     dispatch(updateLanguage({ language: e.target.value }))
   }
@@ -70,7 +67,7 @@ export function UserInfo() {
       <div className='homepage-region'>
         <img className='cover-image' src={coverImage} alt='Anh bia' />
         <div className='avatar-region'>
-          <img className='avatar-image' src={'http://localhost:8080/resources/avatar/' + avatarUrl} alt='Anh dai dien' />
+          <img className='avatar-image' src={'http://localhost:8080/resources/avatar/' + info.avatar} alt='Anh dai dien' />
           <UploadAvatar />
         </div>
       </div>

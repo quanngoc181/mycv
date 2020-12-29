@@ -1,16 +1,16 @@
 package com.hust.mycv.dto;
 
-public class PublicCvDTO {
+public class PublicCvDto {
 	
 	public Integer id;
 	
 	public boolean cvPublic;
 	
-	public PublicCvDTO() {
+	public PublicCvDto() {
 		super();
 	}
 
-	public PublicCvDTO(Integer id, boolean cvPublic) {
+	public PublicCvDto(Integer id, boolean cvPublic) {
 		super();
 		this.id = id;
 		this.cvPublic = cvPublic;

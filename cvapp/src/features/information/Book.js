@@ -12,13 +12,13 @@ export function Book({ info, layout, tailLayout, locale }) {
 
   useEffect(() => {
     if (info) {
-      let books = info.books && info.books.length > 0 ? info.books.map((e) => ({ ...e, year: e.year ? moment(`${e.year}`) : null, authors: e.authors ? JSON.parse(e.authors) : [] })) : [{}]
+      let books = info.books && info.books.length > 0 ? info.books.map((e) => ({ ...e, year: e.year ? moment(`${e.year}`) : null })) : [{}]
       form.setFieldsValue({ books })
     }
   }, [form, info])
 
   const onFinish = (values) => {
-    let books = values.books.map((e) => ({ ...e, year: e.year ? e.year.year() : null, authors: JSON.stringify(e.authors) }))
+    let books = values.books.map((e) => ({ ...e, year: e.year ? e.year.year() : null }))
     dispatch(updateInfo({ books }))
   }
 

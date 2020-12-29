@@ -1,119 +1,69 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import moment from 'moment'
-import { GetToken } from '../../utilities/authenUtility'
-import { mergeCv } from '../list-cv/listCVSlice'
+import { GetToken } from '../../util/authenUtil'
+import { formatInfo } from '../../util/dataUtil'
 import { buildBook, buildJournal, buildPresentation } from '../../util/citationUtil'
+import { mergeCv } from '../list-cv/listCVSlice'
 const axios = require('axios')
-
-const genders = {
-  vi: {
-    male: 'Nam',
-    female: 'Nữ',
-  },
-  en: {
-    male: 'Male',
-    female: 'Female',
-  },
-}
-const maritals = {
-  vi: {
-    single: 'Độc thân',
-    married: 'Kết hôn',
-    divorced: 'Ly hôn',
-    widowed: 'Góa',
-  },
-  en: {
-    single: 'Single',
-    married: 'Married',
-    divorced: 'Divorced',
-    widowed: 'Widowed',
-  },
-}
 
 export const updateCv = createAsyncThunk('create/updateCv', async (arg, { dispatch, getState, rejectWithValue }) => {
   try {
     let cvInfo = getState().create.cvInfo
     let isEditting = getState().create.isEditting
 
-    let body = {
-      ...cvInfo,
-      activities: JSON.stringify(cvInfo.activities),
-      hobbies: JSON.stringify(cvInfo.hobbies),
-      books: JSON.stringify(cvInfo.books),
-      journals: JSON.stringify(cvInfo.journals),
-      presentations: JSON.stringify(cvInfo.presentations),
-      orders: JSON.stringify(cvInfo.orders),
-      subs: JSON.stringify(cvInfo.subs),
-      tags: JSON.stringify(cvInfo.tags),
-    }
-
-    let res
+    let ret
     if (!isEditting) {
-      body = JSON.parse(JSON.stringify(body).replaceAll('"id":', '"unknown":'))
-      res = await axios.post('http://localhost:8080/cv', body, { headers: GetToken() })
+      ret = await axios.post('http://localhost:8080/users/current/cvs', cvInfo, { headers: GetToken() })
     } else {
-      res = await axios.put('http://localhost:8080/cv', body, { headers: GetToken() })
+      ret = await axios.put('http://localhost:8080/users/current/cvs/' + cvInfo.id, cvInfo, { headers: GetToken() })
     }
 
-    let cv = res.data
+    dispatch(mergeCv({ cv: ret.data }))
 
-    let parsed = {
-      ...cv,
-      activities: JSON.parse(cv.activities),
-      hobbies: JSON.parse(cv.hobbies),
-      books: JSON.parse(cv.books),
-      journals: JSON.parse(cv.journals),
-      presentations: JSON.parse(cv.presentations),
-      orders: JSON.parse(cv.orders),
-      subs: JSON.parse(cv.subs),
-      tags: JSON.parse(cv.tags),
-    }
-
-    dispatch(mergeCv({ cv }))
-
-    return parsed
+    return ret.data
   } catch (error) {
     return rejectWithValue(error.response.data)
   }
 })
 
 export const updateTemplate = createAsyncThunk('create/updateTemplate', async (config, { getState }) => {
-  let viUser = getState().info.viUser
-  let enUser = getState().info.enUser
-  return { config, viUser, enUser }
-})
-
-export const editCvInfo = createAsyncThunk('create/editCvInfo', async ({ id }, { getState }) => {
-  let cv = getState().list.listCv.find((c) => c.id === id)
-  return cv
-})
-
-export const copyCvInfo = createAsyncThunk('create/copyCvInfo', async ({ id }, { getState }) => {
-  let cv = getState().list.listCv.find((c) => c.id === id)
-  return cv
-})
-
-export const copyCvConfig = createAsyncThunk('create/copyCvConfig', async ({ id }, { getState }) => {
-  let cv = getState().list.listCv.find((c) => c.id === id)
-  let viUser = getState().info.viUser
-  let enUser = getState().info.enUser
-  let info = cv.language === 'vi' ? viUser : enUser
-  return { cv, info }
+  let language = getState().create.cvInfo.language
+  let viInfo = getState().info.viInfo
+  let enInfo = getState().info.enInfo
+  let info = language === 'vi' ? viInfo : enInfo
+  return { info, config }
 })
 
 export const updateLanguage = createAsyncThunk('create/updateLanguage', async ({ language }, { getState }) => {
-  let viUser = getState().info.viUser
-  let enUser = getState().info.enUser
-  let info = language === 'vi' ? viUser : enUser
+  let viInfo = getState().info.viInfo
+  let enInfo = getState().info.enInfo
+  let info = language === 'vi' ? viInfo : enInfo
   return { info, language }
 })
 
 export const updateCitation = createAsyncThunk('create/updateCitation', async ({ citation }, { getState }) => {
   let language = getState().create.cvInfo.language
-  let viUser = getState().info.viUser
-  let enUser = getState().info.enUser
-  let info = language === 'vi' ? viUser : enUser
+  let viInfo = getState().info.viInfo
+  let enInfo = getState().info.enInfo
+  let info = language === 'vi' ? viInfo : enInfo
   return { info, citation }
+})
+
+export const editCv = createAsyncThunk('create/editCv', async ({ id }, { getState }) => {
+  let cv = getState().list.listCv.find((c) => c.id === id)
+  return cv
+})
+
+export const copyCvAll = createAsyncThunk('create/copyCvAll', async ({ id }, { getState }) => {
+  let cv = getState().list.listCv.find((c) => c.id === id)
+  return cv
+})
+
+export const copyCvTemplate = createAsyncThunk('create/copyCvTemplate', async ({ id }, { getState }) => {
+  let cv = getState().list.listCv.find((c) => c.id === id)
+  let viInfo = getState().info.viInfo
+  let enInfo = getState().info.enInfo
+  let info = cv.language === 'vi' ? viInfo : enInfo
+  return { cv, info }
 })
 
 export const createCVSlice = createSlice({
@@ -174,62 +124,18 @@ export const createCVSlice = createSlice({
   },
   extraReducers: {
     [updateTemplate.fulfilled]: (state, action) => {
-      let { config, viUser, enUser } = action.payload
+      let { info, config } = action.payload
 
-      let info = state.cvInfo.language === 'vi' ? viUser : enUser
+      let language = state.cvInfo.language
+      let citation = state.cvInfo.citation
 
       if (!state.cvInfo.template) {
         // first time choose template
         let mappedInfo = {
           ...state.cvInfo,
           ...config,
-          ...info,
-          avatar: info.avatar ? info.avatar : 'default-avatar.png',
-          gender: info.gender ? genders[state.cvInfo.language][info.gender] : null,
-          dob: info.dob ? moment(info.dob).format('DD/MM/YYYY') : null,
-          marital: info.marital ? maritals[state.cvInfo.language][info.marital] : null,
-          socials: info.socials ? JSON.parse(info.socials).join('\n') : null,
-          activities: info.activities ? JSON.parse(info.activities) : [],
-          hobbies: info.hobbies ? JSON.parse(info.hobbies) : [],
-          educations: info.educations.map((education) => ({
-            ...education,
-            start: education.start ? moment(education.start).format('MM/YYYY') : null,
-            end: education.end ? moment(education.end).format('MM/YYYY') : null,
-          })),
-          works: info.works.map((work) => ({
-            ...work,
-            start: work.start ? moment(work.start).format('MM/YYYY') : null,
-            end: work.end ? moment(work.end).format('MM/YYYY') : null,
-          })),
-          projects: info.projects.map((project) => ({
-            ...project,
-            start: project.start ? moment(project.start).format('MM/YYYY') : null,
-            end: project.end ? moment(project.end).format('MM/YYYY') : null,
-          })),
-          memberships: info.memberships.map((membership) => ({
-            ...membership,
-            start: membership.start ? moment(membership.start).format('MM/YYYY') : null,
-            end: membership.end ? moment(membership.end).format('MM/YYYY') : null,
-          })),
-          books: info.books.map((book) => buildBook(book, state.cvInfo.citation)),
-          journals: info.journals.map((journal) => buildJournal(journal, state.cvInfo.citation)),
-          presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
+          ...formatInfo(info, language, citation),
         }
-
-        if (mappedInfo.hobbies.length === 0) mappedInfo.hobbies = [null]
-        if (mappedInfo.activities.length === 0) mappedInfo.activities = [null]
-        if (mappedInfo.educations.length === 0) mappedInfo.educations = [{}]
-        if (mappedInfo.works.length === 0) mappedInfo.works = [{}]
-        if (mappedInfo.projects.length === 0) mappedInfo.projects = [{}]
-        if (mappedInfo.memberships.length === 0) mappedInfo.memberships = [{}]
-        if (mappedInfo.skills.length === 0) mappedInfo.skills = [{}]
-        if (mappedInfo.theses.length === 0) mappedInfo.theses = [{}]
-        if (mappedInfo.awards.length === 0) mappedInfo.awards = [{}]
-        if (mappedInfo.certificates.length === 0) mappedInfo.certificates = [{}]
-        if (mappedInfo.scholarships.length === 0) mappedInfo.scholarships = [{}]
-        if (mappedInfo.books.length === 0) mappedInfo.books = [null]
-        if (mappedInfo.journals.length === 0) mappedInfo.journals = [null]
-        if (mappedInfo.presentations.length === 0) mappedInfo.presentations = [null]
 
         state.cvInfo = mappedInfo
       } else {
@@ -244,62 +150,21 @@ export const createCVSlice = createSlice({
     [updateLanguage.fulfilled]: (state, action) => {
       let { info, language } = action.payload
 
+      let citation = state.cvInfo.citation
+
       let mappedInfo = {
         ...state.cvInfo,
-        ...info,
+        ...formatInfo(info, language, citation),
         language,
-        avatar: info.avatar ? info.avatar : 'default-avatar.png',
-        gender: info.gender ? genders[language][info.gender] : null,
-        dob: info.dob ? moment(info.dob).format('DD/MM/YYYY') : null,
-        marital: info.marital ? maritals[language][info.marital] : null,
-        socials: info.socials ? JSON.parse(info.socials).join('\n') : null,
-        activities: info.activities ? JSON.parse(info.activities) : [],
-        hobbies: info.hobbies ? JSON.parse(info.hobbies) : [],
-        educations: info.educations.map((education) => ({
-          ...education,
-          start: education.start ? moment(education.start).format('MM/YYYY') : null,
-          end: education.end ? moment(education.end).format('MM/YYYY') : null,
-        })),
-        works: info.works.map((work) => ({
-          ...work,
-          start: work.start ? moment(work.start).format('MM/YYYY') : null,
-          end: work.end ? moment(work.end).format('MM/YYYY') : null,
-        })),
-        projects: info.projects.map((project) => ({
-          ...project,
-          start: project.start ? moment(project.start).format('MM/YYYY') : null,
-          end: project.end ? moment(project.end).format('MM/YYYY') : null,
-        })),
-        memberships: info.memberships.map((membership) => ({
-          ...membership,
-          start: membership.start ? moment(membership.start).format('MM/YYYY') : null,
-          end: membership.end ? moment(membership.end).format('MM/YYYY') : null,
-        })),
-        books: info.books.map((book) => buildBook(book, state.cvInfo.citation)),
-        journals: info.journals.map((journal) => buildJournal(journal, state.cvInfo.citation)),
-        presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
       }
-
-      if (mappedInfo.hobbies.length === 0) mappedInfo.hobbies = [null]
-      if (mappedInfo.activities.length === 0) mappedInfo.activities = [null]
-      if (mappedInfo.educations.length === 0) mappedInfo.educations = [{}]
-      if (mappedInfo.works.length === 0) mappedInfo.works = [{}]
-      if (mappedInfo.projects.length === 0) mappedInfo.projects = [{}]
-      if (mappedInfo.memberships.length === 0) mappedInfo.memberships = [{}]
-      if (mappedInfo.skills.length === 0) mappedInfo.skills = [{}]
-      if (mappedInfo.theses.length === 0) mappedInfo.theses = [{}]
-      if (mappedInfo.awards.length === 0) mappedInfo.awards = [{}]
-      if (mappedInfo.certificates.length === 0) mappedInfo.certificates = [{}]
-      if (mappedInfo.scholarships.length === 0) mappedInfo.scholarships = [{}]
-      if (mappedInfo.books.length === 0) mappedInfo.books = [null]
-      if (mappedInfo.journals.length === 0) mappedInfo.journals = [null]
-      if (mappedInfo.presentations.length === 0) mappedInfo.presentations = [null]
 
       state.cvInfo = mappedInfo
     },
 
     [updateCitation.fulfilled]: (state, action) => {
       let { info, citation } = action.payload
+
+      state.cvInfo.citation = citation
 
       let books = info.books.map((book) => buildBook(book, citation))
       let journals = info.journals.map((journal) => buildJournal(journal, citation))
@@ -309,109 +174,33 @@ export const createCVSlice = createSlice({
       if (journals.length === 0) journals = [null]
       if (presentations.length === 0) presentations = [null]
 
-      state.cvInfo.citation = citation
       state.cvInfo.books = books
       state.cvInfo.journals = journals
       state.cvInfo.presentations = presentations
     },
 
-    [editCvInfo.fulfilled]: (state, action) => {
+    [editCv.fulfilled]: (state, action) => {
       state.isEditting = true
-
-      let info = action.payload
-
-      let mappedInfo = {
-        ...info,
-        activities: JSON.parse(info.activities),
-        hobbies: JSON.parse(info.hobbies),
-        books: JSON.parse(info.books),
-        journals: JSON.parse(info.journals),
-        presentations: JSON.parse(info.presentations),
-        orders: JSON.parse(info.orders),
-        subs: JSON.parse(info.subs),
-        tags: JSON.parse(info.tags),
-      }
-
-      state.cvInfo = mappedInfo
+      state.cvInfo = action.payload
     },
 
-    [copyCvInfo.fulfilled]: (state, action) => {
+    [copyCvAll.fulfilled]: (state, action) => {
       state.isEditting = false
-
-      let cv = action.payload
-
-      let mappedInfo = {
-        ...cv,
-        activities: JSON.parse(cv.activities),
-        hobbies: JSON.parse(cv.hobbies),
-        books: JSON.parse(cv.books),
-        journals: JSON.parse(cv.journals),
-        presentations: JSON.parse(cv.presentations),
-        orders: JSON.parse(cv.orders),
-        subs: JSON.parse(cv.subs),
-        tags: JSON.parse(cv.tags),
-      }
-
-      state.cvInfo = mappedInfo
+      state.cvInfo = action.payload
     },
 
-    [copyCvConfig.fulfilled]: (state, action) => {
+    [copyCvTemplate.fulfilled]: (state, action) => {
       state.isEditting = false
 
       let { info, cv } = action.payload
 
+      let language = cv.language
+      let citation = cv.citation
+
       let mappedInfo = {
         ...cv,
-        orders: JSON.parse(cv.orders),
-        subs: JSON.parse(cv.subs),
-        tags: JSON.parse(cv.tags),
-        ...info,
-        avatar: info.avatar ? info.avatar : 'default-avatar.png',
-        gender: info.gender ? genders[cv.language][info.gender] : null,
-        dob: info.dob ? moment(info.dob).format('DD/MM/YYYY') : null,
-        marital: info.marital ? maritals[cv.language][info.marital] : null,
-        socials: info.socials ? JSON.parse(info.socials).join('\n') : null,
-        activities: info.activities ? JSON.parse(info.activities) : [],
-        hobbies: info.hobbies ? JSON.parse(info.hobbies) : [],
-        educations: info.educations.map((education) => ({
-          ...education,
-          start: education.start ? moment(education.start).format('MM/YYYY') : null,
-          end: education.end ? moment(education.end).format('MM/YYYY') : null,
-        })),
-        works: info.works.map((work) => ({
-          ...work,
-          start: work.start ? moment(work.start).format('MM/YYYY') : null,
-          end: work.end ? moment(work.end).format('MM/YYYY') : null,
-        })),
-        projects: info.projects.map((project) => ({
-          ...project,
-          start: project.start ? moment(project.start).format('MM/YYYY') : null,
-          end: project.end ? moment(project.end).format('MM/YYYY') : null,
-        })),
-        memberships: info.memberships.map((membership) => ({
-          ...membership,
-          start: membership.start ? moment(membership.start).format('MM/YYYY') : null,
-          end: membership.end ? moment(membership.end).format('MM/YYYY') : null,
-        })),
-        books: info.books.map((book) => buildBook(book, cv.citation)),
-        journals: info.journals.map((journal) => buildJournal(journal, cv.citation)),
-        presentations: info.presentations.map((presentation) => buildPresentation(presentation)),
+        ...formatInfo(info, language, citation),
       }
-
-      if (mappedInfo.hobbies.length === 0) mappedInfo.hobbies = [null]
-      if (mappedInfo.activities.length === 0) mappedInfo.activities = [null]
-      if (mappedInfo.educations.length === 0) mappedInfo.educations = [{}]
-      if (mappedInfo.works.length === 0) mappedInfo.works = [{}]
-      if (mappedInfo.projects.length === 0) mappedInfo.projects = [{}]
-      if (mappedInfo.memberships.length === 0) mappedInfo.memberships = [{}]
-      if (mappedInfo.skills.length === 0) mappedInfo.skills = [{}]
-      if (mappedInfo.theses.length === 0) mappedInfo.theses = [{}]
-      if (mappedInfo.awards.length === 0) mappedInfo.awards = [{}]
-      if (mappedInfo.certificates.length === 0) mappedInfo.certificates = [{}]
-      if (mappedInfo.scholarships.length === 0) mappedInfo.scholarships = [{}]
-      if (mappedInfo.books.length === 0) mappedInfo.books = [null]
-      if (mappedInfo.journals.length === 0) mappedInfo.journals = [null]
-      if (mappedInfo.presentations.length === 0) mappedInfo.presentations = [null]
 
       state.cvInfo = mappedInfo
     },

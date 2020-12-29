@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER")
-public class ApplicationUser {
+public class AppUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,11 +26,11 @@ public class ApplicationUser {
 	
 	private String resetPasswordToken;
 
-	public ApplicationUser() {
+	public AppUser() {
 		super();
 	}
 
-	public ApplicationUser(Integer id, String username, String password, boolean enabled, String role, String confirmEmailToken, String resetPasswordToken) {
+	public AppUser(Integer id, String username, String password, boolean enabled, String role, String confirmEmailToken, String resetPasswordToken) {
 		super();
 		this.id = id;
 		this.username = username;

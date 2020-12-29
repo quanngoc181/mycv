@@ -6,44 +6,52 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.hust.mycv.dto.ElasticResponse;
 import com.hust.mycv.dto.HitsElement;
-import com.hust.mycv.dto.SearchCvDTO;
-import com.hust.mycv.dto.SearchResultDTO;
+import com.hust.mycv.dto.SavedCvDto;
+import com.hust.mycv.dto.SearchCvDto;
+import com.hust.mycv.dto.SearchResultDto;
 import com.hust.mycv.entity.Cv;
-import com.hust.mycv.entity.SavedCv;
 import com.hust.mycv.repository.CvRepository;
-import com.hust.mycv.repository.SavedCvRepository;
+import com.hust.mycv.repository.SavedRepository;
+import com.hust.mycv.service.ElasticService;
+import com.hust.mycv.service.SavedService;
 import com.hust.mycv.utility.SearchUtility;
 import com.hust.mycv.utility.StringUtility;
 
 @RestController
-public class SearchController {
+public class EmployerController {
+
+	@Autowired
+	ElasticService elasticService;
+
+	@Autowired
+	SavedService savedService;
 
 	@Autowired
 	CvRepository cvRepository;
 
 	@Autowired
-	SavedCvRepository savedCvRepository;
+	SavedRepository savedCvRepository;
 
 	@Autowired
 	RestTemplate restTemplate;
 
 	@PostMapping("/search/keyword")
-	public List<SearchResultDTO> searchKeyword(@RequestBody SearchCvDTO dto) {
+	public List<SearchResultDto> searchKeyword(@RequestBody SearchCvDto dto) {
 		List<Cv> cvs = new ArrayList<>();
 
 		if (dto.keyword == null || dto.keyword.trim().length() == 0) {
@@ -153,12 +161,12 @@ public class SearchController {
 			cvs = cvs.stream().filter(cv -> SearchUtility.checkAge(cv.getDob(), dto.age)).collect(Collectors.toList());
 		}
 
-		List<SearchResultDTO> res = new ArrayList<>();
+		List<SearchResultDto> res = new ArrayList<>();
 
 		for (int i = 0; i < cvs.size(); i++) {
 			Cv cv = cvs.get(i);
 			String identifier = cv.isCvPublic() ? cv.getIdentifier() : null;
-			SearchResultDTO result = new SearchResultDTO(cv.getId(), cv.getCvName(), cv.getTemplate(), cv.getLanguage(), cv.getFullName(), cv.getGender(), cv.getDob(), cv.getAddress(), cv.getPhone(), identifier);
+			SearchResultDto result = new SearchResultDto(cv.getId(), cv.getCvName(), cv.getTemplate(), cv.getLanguage(), cv.getFullName(), cv.getGender(), cv.getDob(), cv.getAddress(), cv.getPhone(), identifier);
 			res.add(result);
 		}
 
@@ -166,7 +174,7 @@ public class SearchController {
 	}
 
 	@PostMapping("/search/filter")
-	public List<SearchResultDTO> searchFilter(@RequestBody SearchCvDTO dto) {
+	public List<SearchResultDto> searchFilter(@RequestBody SearchCvDto dto) {
 		List<Cv> cvs = cvRepository.findAll();
 		List<Cv> skills = cvRepository.fetchSkills();
 		List<Cv> scholarships = cvRepository.fetchScholarships();
@@ -257,253 +265,56 @@ public class SearchController {
 			cvs = cvs.stream().filter(cv -> SearchUtility.checkSkill(cv, dto.skill)).collect(Collectors.toList());
 		}
 
-		List<SearchResultDTO> res = new ArrayList<>();
+		List<SearchResultDto> res = new ArrayList<>();
 
 		for (int i = 0; i < cvs.size(); i++) {
 			Cv cv = cvs.get(i);
 			String identifier = cv.isCvPublic() ? cv.getIdentifier() : null;
-			SearchResultDTO result = new SearchResultDTO(cv.getId(), cv.getCvName(), cv.getTemplate(), cv.getLanguage(), cv.getFullName(), cv.getGender(), cv.getDob(), cv.getAddress(), cv.getPhone(), identifier);
+			SearchResultDto result = new SearchResultDto(cv.getId(), cv.getCvName(), cv.getTemplate(), cv.getLanguage(), cv.getFullName(), cv.getGender(), cv.getDob(), cv.getAddress(), cv.getPhone(), identifier);
 			res.add(result);
 		}
 
 		return res;
 	}
 
-	@GetMapping("/save")
-	public List<SearchResultDTO> fetchCv(Authentication auth) {
+	@GetMapping("/users/current/saved")
+	public List<SearchResultDto> fetchSaved(Authentication auth) {
+
 		String username = StringUtility.getUserName(auth.getName());
 
-		List<SavedCv> saveList = savedCvRepository.findByUsername(username);
+		List<SearchResultDto> dtos = savedService.findByUsername(username);
 
-		List<SearchResultDTO> result = new ArrayList<>();
+		return dtos;
 
-		for (SavedCv savedCv : saveList) {
-			Cv cv = cvRepository.findById(savedCv.getCvId()).orElse(null);
-
-			if (cv != null) {
-				String identifier = cv.isCvPublic() ? cv.getIdentifier() : null;
-				SearchResultDTO dto = new SearchResultDTO(cv.getId(), cv.getCvName(), cv.getTemplate(), cv.getLanguage(), cv.getFullName(), cv.getGender(), cv.getDob(), cv.getAddress(), cv.getPhone(), identifier);
-				result.add(dto);
-			}
-		}
-
-		return result;
 	}
 
-	@PostMapping("/save/{cvId}")
-	public SearchResultDTO searchCv(Authentication auth, @PathVariable Integer cvId) {
+	@PostMapping("/users/current/saved")
+	public SearchResultDto saveCv(Authentication auth, @RequestBody SavedCvDto dto) {
+
 		String username = StringUtility.getUserName(auth.getName());
 
-		Cv cv = cvRepository.findById(cvId).orElse(null);
+		SearchResultDto ret = savedService.saveCv(username, dto);
 
-		if (cv == null)
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot find cv.");
+		return ret;
 
-		SavedCv saved = savedCvRepository.findByUsernameAndCvId(username, cvId);
-
-		if (saved == null) {
-			SavedCv newCv = new SavedCv();
-			newCv.setCvId(cvId);
-			newCv.setUsername(username);
-
-			savedCvRepository.save(newCv);
-		} else {
-			savedCvRepository.delete(saved);
-		}
-
-		String identifier = cv.isCvPublic() ? cv.getIdentifier() : null;
-		SearchResultDTO dto = new SearchResultDTO(cv.getId(), cv.getCvName(), cv.getTemplate(), cv.getLanguage(), cv.getFullName(), cv.getGender(), cv.getDob(), cv.getAddress(), cv.getPhone(), identifier);
-
-		return dto;
 	}
 
-	@PostMapping("/search/tag/{keyword}")
-	public String searchTag(@PathVariable String keyword) {
-		try {
-			String body = "{\n"
-					+ "  \"query\": {\n"
-					+ "    \"match\": {\n"
-					+ "      \"name\": {\n"
-					+ "        \"query\": \"" + keyword + "\"\n"
-//						+ "        \"fuzziness\": \"1\"\n"
-					+ "      }\n"
-					+ "    }\n"
-					+ "  },\n"
-					+ "  \"size\": 5\n"
-					+ "}";
+	@DeleteMapping("/users/current/saved/{id}")
+	public void deleteCv(Authentication auth, @PathVariable Integer id) {
+		
+		String username = StringUtility.getUserName(auth.getName());
 
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/tag/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
-			return response.getBody();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		return "null";
+		savedService.deleteCv(username, id);
+		
 	}
 
-	@PostMapping("/search/address/{keyword}")
-	public String searchAddress(@PathVariable String keyword) {
-		try {
-			String body = "{\n"
-					+ "  \"query\": {\n"
-					+ "    \"match\": {\n"
-					+ "      \"name\": {\n"
-					+ "        \"query\": \"" + keyword + "\"\n"
-//						+ "        \"fuzziness\": \"1\"\n"
-					+ "      }\n"
-					+ "    }\n"
-					+ "  },\n"
-					+ "  \"size\": 5\n"
-					+ "}";
+	@GetMapping("/suggester/{field}")
+	public String suggestField(@PathVariable String field, @RequestParam String keyword) {
 
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/address/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
+		String ret = elasticService.suggestField(field, keyword);
 
-			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+		return ret;
 
-			return response.getBody();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		return "null";
-	}
-
-	@PostMapping("/search/school/{keyword}")
-	public String searchSchool(@PathVariable String keyword) {
-		try {
-			String body = "{\n"
-					+ "  \"query\": {\n"
-					+ "    \"match\": {\n"
-					+ "      \"name\": {\n"
-					+ "        \"query\": \"" + keyword + "\"\n"
-//						+ "        \"fuzziness\": \"1\"\n"
-					+ "      }\n"
-					+ "    }\n"
-					+ "  },\n"
-					+ "  \"size\": 5\n"
-					+ "}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/school/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
-			return response.getBody();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		return "null";
-	}
-
-	@PostMapping("/search/field/{keyword}")
-	public String searchField(@PathVariable String keyword) {
-		try {
-			String body = "{\n"
-					+ "  \"query\": {\n"
-					+ "    \"match\": {\n"
-					+ "      \"name\": {\n"
-					+ "        \"query\": \"" + keyword + "\"\n"
-//						+ "        \"fuzziness\": \"1\"\n"
-					+ "      }\n"
-					+ "    }\n"
-					+ "  },\n"
-					+ "  \"size\": 5\n"
-					+ "}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/field/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
-			return response.getBody();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		return "null";
-	}
-
-	@PostMapping("/search/company/{keyword}")
-	public String searchCompany(@PathVariable String keyword) {
-		try {
-			String body = "{\n"
-					+ "  \"query\": {\n"
-					+ "    \"match\": {\n"
-					+ "      \"name\": {\n"
-					+ "        \"query\": \"" + keyword + "\"\n"
-//						+ "        \"fuzziness\": \"1\"\n"
-					+ "      }\n"
-					+ "    }\n"
-					+ "  },\n"
-					+ "  \"size\": 5\n"
-					+ "}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/company/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
-			return response.getBody();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		return "null";
-	}
-
-	@PostMapping("/search/position/{keyword}")
-	public String searchPosition(@PathVariable String keyword) {
-		try {
-			String body = "{\n"
-					+ "  \"query\": {\n"
-					+ "    \"match\": {\n"
-					+ "      \"name\": {\n"
-					+ "        \"query\": \"" + keyword + "\"\n"
-//						+ "        \"fuzziness\": \"1\"\n"
-					+ "      }\n"
-					+ "    }\n"
-					+ "  },\n"
-					+ "  \"size\": 5\n"
-					+ "}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/position/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
-			return response.getBody();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		return "null";
-	}
-
-	@PostMapping("/search/skill/{keyword}")
-	public String searchSkill(@PathVariable String keyword) {
-		try {
-			String body = "{\n"
-					+ "  \"query\": {\n"
-					+ "    \"match\": {\n"
-					+ "      \"name\": {\n"
-					+ "        \"query\": \"" + keyword + "\"\n"
-//						+ "        \"fuzziness\": \"1\"\n"
-					+ "      }\n"
-					+ "    }\n"
-					+ "  },\n"
-					+ "  \"size\": 5\n"
-					+ "}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/skill/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
-			return response.getBody();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		return "null";
 	}
 
 }

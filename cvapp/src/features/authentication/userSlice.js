@@ -1,24 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { GetToken } from '../../utilities/authenUtility'
+import { GetToken } from '../../util/authenUtil'
 const axios = require('axios')
-
-export const fetchUser = createAsyncThunk('info/fetchUser', async (arg, { rejectWithValue }) => {
-  try {
-    let res = await axios.get('http://localhost:8080/user', { headers: GetToken() })
-    return res.data
-  } catch (error) {
-    return rejectWithValue(error.response.data)
-  }
-})
-
-export const registerUser = createAsyncThunk('user/register', async ({ fullName, email, username, password, role }, { rejectWithValue }) => {
-  try {
-    let user = await axios.post('http://localhost:8080/user', { fullName, email, username, password, role })
-    return user.data
-  } catch (error) {
-    return rejectWithValue(error.response.data)
-  }
-})
 
 export const loginUser = createAsyncThunk('user/login', async ({ username, password }, { rejectWithValue }) => {
   try {
@@ -29,9 +11,27 @@ export const loginUser = createAsyncThunk('user/login', async ({ username, passw
   }
 })
 
+export const fetchUser = createAsyncThunk('user/fetchUser', async (arg, { rejectWithValue }) => {
+  try {
+    let res = await axios.get('http://localhost:8080/users/current', { headers: GetToken() })
+    return res.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export const registerUser = createAsyncThunk('user/register', async ({ fullName, email, username, password, role }, { rejectWithValue }) => {
+  try {
+    let user = await axios.post('http://localhost:8080/users', { fullName, email, username, password, role })
+    return user.data
+  } catch (error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export const confirmEmail = createAsyncThunk('user/confirmEmail', async ({ cet }, { rejectWithValue }) => {
   try {
-    let response = await axios.get('http://localhost:8080/confirm-email/' + cet)
+    let response = await axios.post('http://localhost:8080/users/confirm-email?cet=' + cet)
     return response.data
   } catch (error) {
     return rejectWithValue(error.response.data)
@@ -40,7 +40,7 @@ export const confirmEmail = createAsyncThunk('user/confirmEmail', async ({ cet }
 
 export const changePassword = createAsyncThunk('user/changePassword', async ({ oldpassword, newpassword }, { rejectWithValue }) => {
   try {
-    let response = await axios.put('http://localhost:8080/user/password', { oldpassword, newpassword }, { headers: GetToken() })
+    let response = await axios.post('http://localhost:8080/users/change-password', { oldpassword, newpassword }, { headers: GetToken() })
     return response.data
   } catch (error) {
     return rejectWithValue(error.response.data)
@@ -49,7 +49,7 @@ export const changePassword = createAsyncThunk('user/changePassword', async ({ o
 
 export const forgotPassword = createAsyncThunk('user/forgotPassword', async ({ username }, { rejectWithValue }) => {
   try {
-    let response = await axios.post('http://localhost:8080/forgot-password?username=' + username)
+    let response = await axios.post('http://localhost:8080/users/forgot-password?username=' + username)
     return response.data
   } catch (error) {
     return rejectWithValue(error.response.data)
@@ -58,7 +58,7 @@ export const forgotPassword = createAsyncThunk('user/forgotPassword', async ({ u
 
 export const resetPassword = createAsyncThunk('user/resetPassword', async ({ newpassword, token }, { rejectWithValue }) => {
   try {
-    let response = await axios.post('http://localhost:8080/reset-password', { newpassword, token })
+    let response = await axios.post('http://localhost:8080/users/reset-password', { newpassword, token })
     return response.data
   } catch (error) {
     return rejectWithValue(error.response.data)

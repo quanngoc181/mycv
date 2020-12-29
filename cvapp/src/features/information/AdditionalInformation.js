@@ -11,14 +11,13 @@ export function AdditionalInformation({ info, layout, tailLayout }) {
 
   useEffect(() => {
     if (info) {
-      let activities = info.activities ? JSON.parse(info.activities) : [null]
-      let hobbies = info.hobbies ? JSON.parse(info.hobbies) : []
-      form.setFieldsValue({ additional: info.additional, activities, hobbies })
+      let activities = info.activities.length > 0 ? info.activities : [null]
+      form.setFieldsValue({ additional: info.additional, hobbies: info.hobbies, activities })
     }
   }, [form, info])
 
   const onFinish = (values) => {
-    dispatch(updateInfo({ ...values, activities: JSON.stringify(values.activities), hobbies: JSON.stringify(values.hobbies) }))
+    dispatch(updateInfo(values))
   }
 
   return (

@@ -4,7 +4,7 @@ import Particles from 'react-particles-js'
 import './landing.css'
 
 export function Landing() {
-  const info = useSelector((state) => state.info.viUser)
+  const info = useSelector((state) => state.info.viInfo)
   const user = useSelector((state) => state.user.user)
 
   let action

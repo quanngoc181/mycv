@@ -2,12 +2,14 @@ package com.hust.mycv.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.hust.mycv.entity.ApplicationUser;
+import com.hust.mycv.entity.AppUser;
 
-public interface UserRepository extends JpaRepository<ApplicationUser, Integer> {
-	ApplicationUser findByUsername(String username);
-	
-	ApplicationUser findByConfirmEmailToken(String confirmEmailToken);
-	
-	ApplicationUser findByResetPasswordToken(String resetPasswordToken);
+public interface UserRepository extends JpaRepository<AppUser, Integer> {
+
+	AppUser findByUsername(String username);
+
+	AppUser findByConfirmEmailToken(String confirmEmailToken);
+
+	AppUser findByResetPasswordToken(String resetPasswordToken);
+
 }
