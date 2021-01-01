@@ -13,10 +13,6 @@ public class EmailServiceImpl implements EmailService {
 	@Autowired
 	public JavaMailSender emailSender;
 
-	public EmailServiceImpl() {
-		super();
-	}
-
 	public void sendEnableAccountEmail(String to, String token) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(to);

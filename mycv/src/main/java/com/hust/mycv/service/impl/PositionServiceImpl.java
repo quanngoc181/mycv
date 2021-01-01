@@ -17,12 +17,9 @@ public class PositionServiceImpl implements PositionService {
 	@Autowired
 	PositionRepository positionRepository;
 
-	public PositionServiceImpl() {
-		super();
-	}
-
 	public void updatePosition(CvDto dto) {
 		List<String> positions = dto.works.stream().map(e -> e.position).collect(Collectors.toList());
+
 		if (dto.position != null) {
 			positions.add(dto.position);
 		}

@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.hust.mycv.entity.Cv;
+import com.hust.mycv.dto.CvDto;
 
 public class SearchUtility {
 	public static boolean checkMale(String gender) {
@@ -84,88 +84,86 @@ public class SearchUtility {
 		return cvAge >= age[0] && cvAge <= age[1];
 	}
 
-	public static boolean checkTag(String tagString, String[] tag) {
-		if (tagString == null)
+	public static boolean checkTag(List<String> cvTag, String[] searchTag) {
+		if (cvTag == null || searchTag == null)
 			return false;
 
-		List<String> listTag = StringUtility.jsonToList(tagString);
-
 		boolean ret = false;
-		for (String string : tag) {
-			if (listTag.contains(string))
+		for (String tag : searchTag) {
+			if (cvTag.contains(tag))
 				ret = true;
 		}
 
 		return ret;
 	}
 	
-	public static boolean checkAddress(String addressString, String[] address) {
-		if (addressString == null)
+	public static boolean checkAddress(String cvAddress, String[] searchAddress) {
+		if (cvAddress == null || searchAddress == null)
 			return false;
 		
 		boolean ret = false;
-		for (String string : address) {
-			if (addressString.contains(string))
+		for (String address : searchAddress) {
+			if (cvAddress.contains(address))
 				ret = true;
 		}
 
 		return ret;
 	}
 	
-	public static boolean checkSchool(Cv cv, String[] field) {
-		List<String> list = cv.getEducations().stream().map(c -> c.getSchool()).collect(Collectors.toList());
+	public static boolean checkSchool(CvDto cv, String[] schools) {
+		List<String> list = cv.educations.stream().map(c -> c.school).collect(Collectors.toList());
 		
 		boolean ret = false;
-		for (String string : field) {
-			if (list.contains(string))
+		for (String field : schools) {
+			if (list.contains(field))
 				ret = true;
 		}
 
 		return ret;
 	}
 	
-	public static boolean checkField(Cv cv, String[] field) {
-		List<String> list = cv.getEducations().stream().map(c -> c.getField()).collect(Collectors.toList());
+	public static boolean checkField(CvDto cv, String[] fields) {
+		List<String> list = cv.educations.stream().map(c -> c.field).collect(Collectors.toList());
 		
 		boolean ret = false;
-		for (String string : field) {
-			if (list.contains(string))
+		for (String field : fields) {
+			if (list.contains(field))
 				ret = true;
 		}
 
 		return ret;
 	}
 	
-	public static boolean checkCompany(Cv cv, String[] field) {
-		List<String> list = cv.getWorks().stream().map(c -> c.getCompany()).collect(Collectors.toList());
+	public static boolean checkCompany(CvDto cv, String[] companies) {
+		List<String> list = cv.works.stream().map(c -> c.company).collect(Collectors.toList());
 		
 		boolean ret = false;
-		for (String string : field) {
-			if (list.contains(string))
+		for (String company : companies) {
+			if (list.contains(company))
 				ret = true;
 		}
 
 		return ret;
 	}
 	
-	public static boolean checkPosition(Cv cv, String[] field) {
-		List<String> list = cv.getWorks().stream().map(c -> c.getPosition()).collect(Collectors.toList());
+	public static boolean checkPosition(CvDto cv, String[] positions) {
+		List<String> list = cv.works.stream().map(c -> c.position).collect(Collectors.toList());
 		
 		boolean ret = false;
-		for (String string : field) {
-			if (list.contains(string))
+		for (String position : positions) {
+			if (list.contains(position))
 				ret = true;
 		}
 
 		return ret;
 	}
 	
-	public static boolean checkSkill(Cv cv, String[] field) {
-		List<String> list = cv.getSkills().stream().map(c -> c.getName()).collect(Collectors.toList());
+	public static boolean checkSkill(CvDto cv, String[] skills) {
+		List<String> list = cv.skills.stream().map(c -> c.name).collect(Collectors.toList());
 		
 		boolean ret = false;
-		for (String string : field) {
-			if (list.contains(string))
+		for (String skill : skills) {
+			if (list.contains(skill))
 				ret = true;
 		}
 

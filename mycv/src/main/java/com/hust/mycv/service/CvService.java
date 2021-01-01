@@ -9,7 +9,13 @@ public interface CvService {
 	
 	List<CvDto> findByUsername(String username);
 	
+	List<CvDto> findAll();
+	
 	CvDto findByIdentifier(String identifier);
+	
+	CvDto findById(Integer id);
+	
+	List<CvDto> findByIds(List<Integer> ids);
 	
 	void deleteById(Integer id);
 	

@@ -22,8 +22,4 @@ public interface UserService {
 
 	public void resetPassword(ResetPasswordDto dto);
 
-	public void createInfo(RegisterDto dto);
-
-	public List<String> findEmailByUsername(String username);
-
 }

@@ -32,7 +32,7 @@ const tailLayout = {
   wrapperCol: { offset: 6, span: 12 },
 }
 
-export function UserInfo() {
+export function Information() {
   const dispatch = useDispatch()
   const viInfo = useSelector((state) => state.info.viInfo)
   const enInfo = useSelector((state) => state.info.enInfo)

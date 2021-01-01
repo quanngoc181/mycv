@@ -72,7 +72,7 @@ export const findCVSlice = createSlice({
     [getSuggest.fulfilled]: (state, action) => {
       let { field, res } = action.payload
       let stateName = 'suggest' + field[0].toUpperCase() + field.substring(1)
-      state[stateName] = res.hits.hits.map((o) => o._source)
+      state[stateName] = res
       state.searchStatus = 'success'
     },
     [getSuggest.rejected]: (state, action) => {

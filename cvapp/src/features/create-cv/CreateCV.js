@@ -220,7 +220,7 @@ export function CreateCV() {
               loading={searchStatus === 'pending'}
             >
               {suggestTag.map((t) => (
-                <Select.Option key={t.name}>{t.name}</Select.Option>
+                <Select.Option key={t}>{t}</Select.Option>
               ))}
             </Select>
           </div>

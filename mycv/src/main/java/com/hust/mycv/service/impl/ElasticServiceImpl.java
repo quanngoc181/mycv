@@ -1,27 +1,30 @@
 package com.hust.mycv.service.impl;
 
-import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
+import com.hust.mycv.dto.CvDto;
 import com.hust.mycv.entity.Address;
 import com.hust.mycv.entity.Company;
 import com.hust.mycv.entity.Cv;
+import com.hust.mycv.entity.ElasticResponse;
 import com.hust.mycv.entity.Field;
+import com.hust.mycv.entity.HitsElement;
+import com.hust.mycv.entity.HitsSource;
 import com.hust.mycv.entity.Position;
 import com.hust.mycv.entity.School;
 import com.hust.mycv.entity.SkillType;
 import com.hust.mycv.entity.Tag;
+import com.hust.mycv.mapper.CvMapper;
 import com.hust.mycv.repository.AddressRepository;
 import com.hust.mycv.repository.CompanyRepository;
 import com.hust.mycv.repository.CvRepository;
+import com.hust.mycv.repository.ElasticRepository;
 import com.hust.mycv.repository.FieldRepository;
 import com.hust.mycv.repository.PositionRepository;
 import com.hust.mycv.repository.SchoolRepository;
@@ -33,333 +36,161 @@ import com.hust.mycv.service.ElasticService;
 public class ElasticServiceImpl implements ElasticService {
 
 	@Autowired
-	RestTemplate restTemplate;
-	
+	ElasticRepository elasticRepository;
+
 	@Autowired
 	CvRepository cvRepository;
 
 	@Autowired
 	TagRepository tagRepository;
-	
+
 	@Autowired
 	SchoolRepository schoolRepository;
-	
+
 	@Autowired
 	CompanyRepository companyRepository;
-	
+
 	@Autowired
 	FieldRepository fieldRepository;
-	
+
 	@Autowired
 	PositionRepository positionRepository;
-	
+
 	@Autowired
 	SkillTypeRepository skillTypeRepository;
-	
+
 	@Autowired
 	AddressRepository addressRepository;
 
 	@Override
-	public String suggestField(String field, String keyword) {
+	public List<String> suggestField(String field, String keyword) {
 
-		try {
-			String body = "{\n"
-					+ "  \"query\": {\n"
-					+ "    \"match\": {\n"
-					+ "      \"name\": {\n"
-					+ "        \"query\": \"" + keyword + "\"\n"
-//						+ "        \"fuzziness\": \"1\"\n"
-					+ "      }\n"
-					+ "    }\n"
-					+ "  },\n"
-					+ "  \"size\": 5\n"
-					+ "}";
+		ElasticResponse response = elasticRepository.search(field, keyword, "0");
 
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/" + field
-					+ "/_search")).contentType(MediaType.APPLICATION_JSON).body(body);
+		if (response == null)
+			return new ArrayList<>();
 
-			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+		List<String> ret = response.getHits().getHits().stream().map(e -> e.get_source().getName()).collect(Collectors.toList());
 
-			return response.getBody();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		return null;
+		return ret;
 
 	}
-	
+
 	@Scheduled(fixedRate = 60000 * 10)
 	public void syncData() {
-		try {
-			String body = "{\"query\":{\"match_all\":{}}}";
 
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/cv/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
+		elasticRepository.deleteAll("cv");
+		elasticRepository.deleteAll("tag");
+		elasticRepository.deleteAll("school");
+		elasticRepository.deleteAll("field");
+		elasticRepository.deleteAll("company");
+		elasticRepository.deleteAll("position");
+		elasticRepository.deleteAll("skill");
+		elasticRepository.deleteAll("address");
 
-			restTemplate.exchange(request, String.class);
+		elasticRepository.buldAdd("cv", this.allCvHits());
+		elasticRepository.buldAdd("tag", this.allTagHits());
+		elasticRepository.buldAdd("school", this.allSchoolHits());
+		elasticRepository.buldAdd("field", this.allFieldHits());
+		elasticRepository.buldAdd("company", this.allCompanyHits());
+		elasticRepository.buldAdd("position", this.allPositionHits());
+		elasticRepository.buldAdd("skill", this.allSkillHits());
+		elasticRepository.buldAdd("address", this.allAddressHits());
 
-			System.out.println("delete cv done");
-		} catch (Exception e) {
-			System.out.println(e);
+	}
+
+	public List<HitsElement> allCvHits() {
+
+		List<Cv> cvs = cvRepository.findAll();
+
+		List<Cv> skills = cvRepository.fetchSkills();
+		List<Cv> scholarships = cvRepository.fetchScholarships();
+		List<Cv> awards = cvRepository.fetchAwards();
+		List<Cv> certificates = cvRepository.fetchCertificates();
+		List<Cv> memberships = cvRepository.fetchMemberships();
+		List<Cv> theses = cvRepository.fetchTheses();
+		List<Cv> educations = cvRepository.fetchEducations();
+		List<Cv> works = cvRepository.fetchWorks();
+		List<Cv> projects = cvRepository.fetchProjects();
+
+		for (int i = 0; i < cvs.size(); i++) {
+			cvs.get(i).setSkills(skills.get(i).getSkills());
+			cvs.get(i).setScholarships(scholarships.get(i).getScholarships());
+			cvs.get(i).setAwards(awards.get(i).getAwards());
+			cvs.get(i).setCertificates(certificates.get(i).getCertificates());
+			cvs.get(i).setMemberships(memberships.get(i).getMemberships());
+			cvs.get(i).setTheses(theses.get(i).getTheses());
+			cvs.get(i).setEducations(educations.get(i).getEducations());
+			cvs.get(i).setWorks(works.get(i).getWorks());
+			cvs.get(i).setProjects(projects.get(i).getProjects());
 		}
 
-		try {
-			String body = "";
-			
-			List<Cv> cvs = cvRepository.findAll();
-			List<Cv> skills = cvRepository.fetchSkills();
-			List<Cv> scholarships = cvRepository.fetchScholarships();
-			List<Cv> awards = cvRepository.fetchAwards();
-			List<Cv> certificates = cvRepository.fetchCertificates();
-			List<Cv> memberships = cvRepository.fetchMemberships();
-			List<Cv> theses = cvRepository.fetchTheses();
-			List<Cv> educations = cvRepository.fetchEducations();
-			List<Cv> works = cvRepository.fetchWorks();
-			List<Cv> projects = cvRepository.fetchProjects();
+		List<CvDto> dtos = new ArrayList<>();
 
-			for (int i = 0; i < cvs.size(); i++) {
-				cvs.get(i).setSkills(skills.get(i).getSkills());
-				cvs.get(i).setScholarships(scholarships.get(i).getScholarships());
-				cvs.get(i).setAwards(awards.get(i).getAwards());
-				cvs.get(i).setCertificates(certificates.get(i).getCertificates());
-				cvs.get(i).setMemberships(memberships.get(i).getMemberships());
-				cvs.get(i).setTheses(theses.get(i).getTheses());
-				cvs.get(i).setEducations(educations.get(i).getEducations());
-				cvs.get(i).setWorks(works.get(i).getWorks());
-				cvs.get(i).setProjects(projects.get(i).getProjects());
-			}
-
-			for (Cv cv : cvs) {
-				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", cv.getId());
-				body += String.format("{\"name\":\"%s\"}\n", cv.toString());
-			}
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/cv/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("add cv done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		try {
-			String body = "{\"query\":{\"match_all\":{}}}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/tag/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("delete tag done");
-		} catch (Exception e) {
-			System.out.println(e);
+		for (Cv cv : cvs) {
+			dtos.add(CvMapper.cvToCvDto(cv));
 		}
 
-		try {
-			String body = "";
+		List<HitsElement> cvList = dtos.stream().map(e -> new HitsElement(e.id, new HitsSource(e.toString()))).collect(Collectors.toList());
 
-			List<Tag> tags = tagRepository.findAll();
+		return cvList;
 
-			for (Tag tag : tags) {
-				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", tag.getId());
-				body += String.format("{\"name\":\"%s\"}\n", tag.getName());
-			}
+	}
 
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/tag/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
+	public List<HitsElement> allTagHits() {
+		List<Tag> tags = tagRepository.findAll();
+		List<HitsElement> tagList = tags.stream().map(e -> new HitsElement(e.getId(), new HitsSource(e.getName()))).collect(Collectors.toList());
+		return tagList;
+	}
 
-			restTemplate.exchange(request, String.class);
+	public List<HitsElement> allSchoolHits() {
+		List<School> schools = schoolRepository.findAll();
+		List<HitsElement> schoolList = schools.stream().map(e -> new HitsElement(e.getId(), new HitsSource(e.getName()))).collect(Collectors.toList());
+		return schoolList;
+	}
 
-			System.out.println("add tag done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		try {
-			String body = "{\"query\":{\"match_all\":{}}}";
+	public List<HitsElement> allFieldHits() {
+		List<Field> fields = fieldRepository.findAll();
+		List<HitsElement> fieldList = fields.stream().map(e -> new HitsElement(e.getId(), new HitsSource(e.getName()))).collect(Collectors.toList());
+		return fieldList;
+	}
 
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/school/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
+	public List<HitsElement> allCompanyHits() {
+		List<Company> companies = companyRepository.findAll();
+		List<HitsElement> companyList = companies.stream().map(e -> new HitsElement(e.getId(), new HitsSource(e.getName()))).collect(Collectors.toList());
+		return companyList;
+	}
 
-			restTemplate.exchange(request, String.class);
+	public List<HitsElement> allPositionHits() {
+		List<Position> positions = positionRepository.findAll();
+		List<HitsElement> positionList = positions.stream().map(e -> new HitsElement(e.getId(), new HitsSource(e.getName()))).collect(Collectors.toList());
+		return positionList;
+	}
 
-			System.out.println("delete school done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+	public List<HitsElement> allSkillHits() {
+		List<SkillType> skills = skillTypeRepository.findAll();
+		List<HitsElement> skillList = skills.stream().map(e -> new HitsElement(e.getId(), new HitsSource(e.getName()))).collect(Collectors.toList());
+		return skillList;
+	}
 
-		try {
-			String body = "";
+	public List<HitsElement> allAddressHits() {
+		List<Address> addresses = addressRepository.findAll();
+		List<HitsElement> addressList = addresses.stream().map(e -> new HitsElement(e.getId(), new HitsSource(e.getName()))).collect(Collectors.toList());
+		return addressList;
+	}
 
-			List<School> schools = schoolRepository.findAll();
+	@Override
+	public List<Integer> searchCv(String keyword) {
 
-			for (School school : schools) {
-				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", school.getId());
-				body += String.format("{\"name\":\"%s\"}\n", school.getName());
-			}
+		ElasticResponse response = elasticRepository.search("cv", keyword, "1");
 
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/school/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
+		if (response == null)
+			return new ArrayList<>();
 
-			restTemplate.exchange(request, String.class);
+		List<Integer> ret = response.getHits().getHits().stream().map(e -> e.get_id()).collect(Collectors.toList());
 
-			System.out.println("add school done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		try {
-			String body = "{\"query\":{\"match_all\":{}}}";
+		return ret;
 
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/company/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("delete company done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		try {
-			String body = "";
-
-			List<Company> companies = companyRepository.findAll();
-
-			for (Company company : companies) {
-				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", company.getId());
-				body += String.format("{\"name\":\"%s\"}\n", company.getName());
-			}
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/company/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("add company done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		try {
-			String body = "{\"query\":{\"match_all\":{}}}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/field/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("delete field done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		try {
-			String body = "";
-
-			List<Field> fields = fieldRepository.findAll();
-
-			for (Field field : fields) {
-				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", field.getId());
-				body += String.format("{\"name\":\"%s\"}\n", field.getName());
-			}
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/field/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("add field done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		try {
-			String body = "{\"query\":{\"match_all\":{}}}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/position/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("delete position done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		try {
-			String body = "";
-
-			List<Position> positions = positionRepository.findAll();
-
-			for (Position position : positions) {
-				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", position.getId());
-				body += String.format("{\"name\":\"%s\"}\n", position.getName());
-			}
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/position/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("add position done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		try {
-			String body = "{\"query\":{\"match_all\":{}}}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/skill/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("delete skill done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		try {
-			String body = "";
-
-			List<SkillType> sks = skillTypeRepository.findAll();
-
-			for (SkillType skill : sks) {
-				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", skill.getId());
-				body += String.format("{\"name\":\"%s\"}\n", skill.getName());
-			}
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/skill/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("add skill done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		
-		try {
-			String body = "{\"query\":{\"match_all\":{}}}";
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/address/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("delete address done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		try {
-			String body = "";
-
-			List<Address> addresses = addressRepository.findAll();
-
-			for (Address address : addresses) {
-				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", address.getId());
-				body += String.format("{\"name\":\"%s\"}\n", address.getName());
-			}
-
-			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/address/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
-
-			restTemplate.exchange(request, String.class);
-
-			System.out.println("add address done");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
 	}
 
 }

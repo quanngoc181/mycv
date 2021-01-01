@@ -17,7 +17,6 @@ import com.hust.mycv.dto.ResetPasswordDto;
 import com.hust.mycv.dto.UserDto;
 import com.hust.mycv.entity.AppUser;
 import com.hust.mycv.entity.Info;
-import com.hust.mycv.mapper.UserMapper;
 import com.hust.mycv.repository.InfoRepository;
 import com.hust.mycv.repository.UserRepository;
 import com.hust.mycv.service.UserService;
@@ -41,9 +40,12 @@ public class UserServiceImpl implements UserService {
 
 		if (user == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
-
-		UserDto dto = UserMapper.appUserToUserDto(user);
-
+		
+		UserDto dto = new UserDto();
+		
+		dto.username = user.getUsername();
+		dto.role = user.getRole();
+		
 		return dto;
 
 	}
@@ -139,7 +141,6 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	@Override
 	public void createInfo(RegisterDto dto) {
 
 		Info info1 = new Info();
@@ -162,7 +163,6 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	@Override
 	public List<String> findEmailByUsername(String username) {
 
 		List<Info> infos = infoRepository.findByUsername(username);

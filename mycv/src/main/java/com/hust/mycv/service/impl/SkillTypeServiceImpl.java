@@ -17,10 +17,6 @@ public class SkillTypeServiceImpl implements SkillTypeService {
 	@Autowired
 	SkillTypeRepository skillTypeRepository;
 	
-	public SkillTypeServiceImpl() {
-		super();
-	}
-	
 	public void updateSkill(CvDto dto) {
 		List<String> skills = dto.skills.stream().map(e -> e.name).collect(Collectors.toList());
 		

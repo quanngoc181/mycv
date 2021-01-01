@@ -221,7 +221,7 @@ export function FindCV() {
             </h3>
             <Select mode='multiple' size='small' value={tag} onChange={handleTag} onSearch={(value) => handleKeyup('tag', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn thẻ...'>
               {suggestTag.map((t) => (
-                <Select.Option key={t.name}>{t.name}</Select.Option>
+                <Select.Option key={t}>{t}</Select.Option>
               ))}
             </Select>
           </div>
@@ -231,7 +231,7 @@ export function FindCV() {
             </h3>
             <Select mode='multiple' size='small' value={address} onChange={handleAddress} onSearch={(value) => handleKeyup('address', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn khu vực...'>
               {suggestAddress.map((t) => (
-                <Select.Option key={t.name}>{t.name}</Select.Option>
+                <Select.Option key={t}>{t}</Select.Option>
               ))}
             </Select>
           </div>
@@ -241,13 +241,13 @@ export function FindCV() {
             </h3>
             <Select mode='multiple' size='small' value={school} onChange={handleSchool} onSearch={(value) => handleKeyup('school', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn trường học...'>
               {suggestSchool.map((t) => (
-                <Select.Option key={t.name}>{t.name}</Select.Option>
+                <Select.Option key={t}>{t}</Select.Option>
               ))}
             </Select>
             <div style={{ height: 10 }}></div>
             <Select mode='multiple' size='small' value={field} onChange={handleField} onSearch={(value) => handleKeyup('field', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn chuyên ngành...'>
               {suggestField.map((t) => (
-                <Select.Option key={t.name}>{t.name}</Select.Option>
+                <Select.Option key={t}>{t}</Select.Option>
               ))}
             </Select>
           </div>
@@ -257,13 +257,13 @@ export function FindCV() {
             </h3>
             <Select mode='multiple' size='small' value={company} onChange={handleCompany} onSearch={(value) => handleKeyup('company', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn công ty...'>
               {suggestCompany.map((t) => (
-                <Select.Option key={t.name}>{t.name}</Select.Option>
+                <Select.Option key={t}>{t}</Select.Option>
               ))}
             </Select>
             <div style={{ height: 10 }}></div>
             <Select mode='multiple' size='small' value={position} onChange={handlePosition} onSearch={(value) => handleKeyup('position', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn vị trí...'>
               {suggestPosition.map((t) => (
-                <Select.Option key={t.name}>{t.name}</Select.Option>
+                <Select.Option key={t}>{t}</Select.Option>
               ))}
             </Select>
           </div>
@@ -273,7 +273,7 @@ export function FindCV() {
             </h3>
             <Select mode='multiple' size='small' value={skill} onChange={handleSkill} onSearch={(value) => handleKeyup('skill', value)} style={{ width: '100%' }} filterOption={false} loading={searchStatus === 'pending'} placeholder='Chọn kỹ năng...'>
               {suggestSkill.map((t) => (
-                <Select.Option key={t.name}>{t.name}</Select.Option>
+                <Select.Option key={t}>{t}</Select.Option>
               ))}
             </Select>
           </div>

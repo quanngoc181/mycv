@@ -1,7 +1,11 @@
 package com.hust.mycv.service;
 
+import java.util.List;
+
 public interface ElasticService {
 	
-	String suggestField(String field, String keyword);
+	List<String> suggestField(String field, String keyword);
+	
+	List<Integer> searchCv(String keyword);
 
 }

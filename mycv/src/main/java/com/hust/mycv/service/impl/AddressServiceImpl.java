@@ -14,13 +14,10 @@ public class AddressServiceImpl implements AddressService {
 	@Autowired
 	AddressRepository addressRepository;
 
-	public AddressServiceImpl() {
-		super();
-	}
-
 	public void updateAddress(CvDto dto) {
 		if (dto.address == null)
 			return;
+		
 		String[] addresses = dto.address.split("[-|,]");
 
 		for (String address : addresses) {

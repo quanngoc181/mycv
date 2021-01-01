@@ -17,10 +17,6 @@ public class CompanyServiceImpl implements CompanyService {
 	@Autowired
 	CompanyRepository companyRepository;
 	
-	public CompanyServiceImpl() {
-		super();
-	}
-	
 	public void updateCompany(CvDto dto) {
 		List<String> companies = dto.works.stream().map(e -> e.company).collect(Collectors.toList());
 		

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hust.mycv.dto.CvDto;
 import com.hust.mycv.dto.PublicCvDto;
-import com.hust.mycv.repository.CvRepository;
 import com.hust.mycv.service.AddressService;
 import com.hust.mycv.service.CompanyService;
 import com.hust.mycv.service.CvService;
@@ -28,9 +27,6 @@ import com.hust.mycv.utility.StringUtility;
 
 @RestController
 public class CvController {
-
-	@Autowired
-	CvRepository cvRepository;
 
 	@Autowired
 	CvService cvService;

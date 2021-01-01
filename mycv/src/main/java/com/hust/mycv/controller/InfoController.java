@@ -16,16 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hust.mycv.dto.ReceiverInfoDto;
 import com.hust.mycv.dto.UserInfoDto;
-import com.hust.mycv.repository.InfoRepository;
 import com.hust.mycv.service.InfoService;
 import com.hust.mycv.service.ResourceService;
 import com.hust.mycv.utility.StringUtility;
 
 @RestController
 public class InfoController {
-
-	@Autowired
-	InfoRepository infoRepository;
 
 	@Autowired
 	InfoService infoService;

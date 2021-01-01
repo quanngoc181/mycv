@@ -17,10 +17,6 @@ public class FieldServiceImpl implements FieldService {
 	@Autowired
 	FieldRepository fieldRepository;
 	
-	public FieldServiceImpl() {
-		super();
-	}
-	
 	public void updateField(CvDto dto) {
 		List<String> fields = dto.educations.stream().map(e -> e.field).collect(Collectors.toList());
 		

@@ -7,7 +7,7 @@ import { EditTodoForm } from './features/todo/EditTodoForm'
 import { Login } from './features/authentication/Login'
 import { Footer } from './Footer'
 import { Register } from './features/authentication/Register'
-import { UserInfo } from './features/information/UserInfo'
+import { Information } from './features/information/Information'
 import { ListCV } from './features/list-cv/ListCV'
 import { CreateCV } from './features/create-cv/CreateCV'
 import { ViewCV } from './features/view-cv/ViewCV'
@@ -63,7 +63,7 @@ function App() {
                 <TodoList></TodoList>
               </Route>
               <Route exact path='/my-info'>
-                <UserInfo></UserInfo>
+                <Information></Information>
               </Route>
               <Route exact path='/list-cv'>
                 <ListCV></ListCV>

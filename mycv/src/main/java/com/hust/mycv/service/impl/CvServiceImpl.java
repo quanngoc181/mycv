@@ -137,23 +137,23 @@ public class CvServiceImpl implements CvService {
 		cv.setEducations(education.getEducations());
 		cv.setWorks(work.getWorks());
 		cv.setProjects(project.getProjects());
-		
+
 		CvDto dto = CvMapper.cvToCvDto(cv);
-		
+
 		return dto;
-		
+
 	}
 
 	@Override
 	public void addView(String identifier) {
 
 		Cv cv = cvRepository.findByIdentifier(identifier);
-		
+
 		int oldView = cv.getViewCount() == null ? 0 : cv.getViewCount();
 		cv.setViewCount(oldView + 1);
 
 		cvRepository.save(cv);
-		
+
 	}
 
 	@Override
@@ -165,7 +165,118 @@ public class CvServiceImpl implements CvService {
 		cv.setDownloadCount(oldDown + 1);
 
 		cvRepository.save(cv);
+
+	}
+
+	@Override
+	public List<CvDto> findAll() {
+
+		List<Cv> cvs = cvRepository.findAll();
+
+		List<Cv> skills = cvRepository.fetchSkills();
+		List<Cv> scholarships = cvRepository.fetchScholarships();
+		List<Cv> awards = cvRepository.fetchAwards();
+		List<Cv> certificates = cvRepository.fetchCertificates();
+		List<Cv> memberships = cvRepository.fetchMemberships();
+		List<Cv> theses = cvRepository.fetchTheses();
+		List<Cv> educations = cvRepository.fetchEducations();
+		List<Cv> works = cvRepository.fetchWorks();
+		List<Cv> projects = cvRepository.fetchProjects();
+
+		for (int i = 0; i < cvs.size(); i++) {
+			cvs.get(i).setSkills(skills.get(i).getSkills());
+			cvs.get(i).setScholarships(scholarships.get(i).getScholarships());
+			cvs.get(i).setAwards(awards.get(i).getAwards());
+			cvs.get(i).setCertificates(certificates.get(i).getCertificates());
+			cvs.get(i).setMemberships(memberships.get(i).getMemberships());
+			cvs.get(i).setTheses(theses.get(i).getTheses());
+			cvs.get(i).setEducations(educations.get(i).getEducations());
+			cvs.get(i).setWorks(works.get(i).getWorks());
+			cvs.get(i).setProjects(projects.get(i).getProjects());
+		}
+
+		List<CvDto> dtos = new ArrayList<>();
+
+		for (Cv cv : cvs) {
+			dtos.add(CvMapper.cvToCvDto(cv));
+		}
+
+		return dtos;
+
+	}
+
+	@Override
+	public CvDto findById(Integer id) {
+
+		Cv cv = cvRepository.findById(id).orElse(null);
+
+		if (cv == null)
+			return null;
+
+		Cv skill = cvRepository.fetchSkillsById(id);
+		Cv scholarship = cvRepository.fetchScholarshipsById(id);
+		Cv award = cvRepository.fetchAwardsById(id);
+		Cv certificate = cvRepository.fetchCertificatesById(id);
+		Cv membership = cvRepository.fetchMembershipsById(id);
+		Cv thesis = cvRepository.fetchThesesById(id);
+		Cv education = cvRepository.fetchEducationsById(id);
+		Cv work = cvRepository.fetchWorksById(id);
+		Cv project = cvRepository.fetchProjectsById(id);
+
+		cv.setSkills(skill.getSkills());
+		cv.setScholarships(scholarship.getScholarships());
+		cv.setAwards(award.getAwards());
+		cv.setCertificates(certificate.getCertificates());
+		cv.setMemberships(membership.getMemberships());
+		cv.setTheses(thesis.getTheses());
+		cv.setEducations(education.getEducations());
+		cv.setWorks(work.getWorks());
+		cv.setProjects(project.getProjects());
+
+		CvDto dto = CvMapper.cvToCvDto(cv);
+
+		return dto;
+
+	}
+
+	@Override
+	public List<CvDto> findByIds(List<Integer> ids) {
 		
+		List<CvDto> ret = new ArrayList<>();
+		
+		for (Integer id : ids) {
+			Cv cv = cvRepository.findById(id).orElse(null);
+
+			if (cv == null)
+				continue;
+
+			Cv skill = cvRepository.fetchSkillsById(id);
+			Cv scholarship = cvRepository.fetchScholarshipsById(id);
+			Cv award = cvRepository.fetchAwardsById(id);
+			Cv certificate = cvRepository.fetchCertificatesById(id);
+			Cv membership = cvRepository.fetchMembershipsById(id);
+			Cv thesis = cvRepository.fetchThesesById(id);
+			Cv education = cvRepository.fetchEducationsById(id);
+			Cv work = cvRepository.fetchWorksById(id);
+			Cv project = cvRepository.fetchProjectsById(id);
+
+			cv.setSkills(skill.getSkills());
+			cv.setScholarships(scholarship.getScholarships());
+			cv.setAwards(award.getAwards());
+			cv.setCertificates(certificate.getCertificates());
+			cv.setMemberships(membership.getMemberships());
+			cv.setTheses(thesis.getTheses());
+			cv.setEducations(education.getEducations());
+			cv.setWorks(work.getWorks());
+			cv.setProjects(project.getProjects());
+
+			CvDto dto = CvMapper.cvToCvDto(cv);
+			
+			ret.add(dto);
+		}
+
+		return ret;
+
 	}
 
 }

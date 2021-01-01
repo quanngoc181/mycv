@@ -17,10 +17,6 @@ public class SchoolServiceImpl implements SchoolService {
 	@Autowired
 	SchoolRepository schoolRepository;
 	
-	public SchoolServiceImpl() {
-		super();
-	}
-	
 	public void updateSchool(CvDto dto) {
 		List<String> schools = dto.educations.stream().map(e -> e.school).collect(Collectors.toList());
 		

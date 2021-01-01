@@ -1,5 +1,7 @@
 package com.hust.mycv.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,11 @@ public class TagServiceImpl implements TagService {
 	@Autowired
 	TagRepository tagRepository;
 
-	public TagServiceImpl() {
-		super();
-	}
-
 	public void updateTag(CvDto dto) {
-		try {
-			for (String tag : dto.tags) {
+		List<String> tags = dto.tags;
+
+		for (String tag : tags) {
+			if (tag != null) {
 				tag = tag.trim();
 
 				Tag existTag = tagRepository.findByName(tag);
@@ -31,8 +31,6 @@ public class TagServiceImpl implements TagService {
 					tagRepository.save(newTag);
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 

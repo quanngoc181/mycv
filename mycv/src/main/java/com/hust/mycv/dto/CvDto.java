@@ -149,5 +149,76 @@ public class CvDto {
 		this.works = works;
 		this.projects = projects;
 	}
+	
+	public String toString() {
+		String string = "";
+
+		string += fullName + " " + position + " " + profile + " " + address + " " + nationality + " "
+				+ religion + " " + additional;
+		
+		for (String tag : tags) {
+			string += " " + tag;
+		}
+		
+		for (String activity : activities) {
+			string += " " + activity;
+		}
+		
+		for (String hobby : hobbies) {
+			string += " " + hobby;
+		}
+		
+		for (String book : books) {
+			string += " " + book;
+		}
+		
+		for (String journal : journals) {
+			string += " " + journal;
+		}
+		
+		for (String presentation : presentations) {
+			string += " " + presentation;
+		}
+		
+		for (SkillDto skill : skills) {
+			string += " " + skill.name;
+		}
+
+		for (AwardDto award : awards) {
+			string += " " + award.name + " " + award.organization;
+		}
+
+		for (CertificateDto certificate : certificates) {
+			string += " " + certificate.name + " " + certificate.organization;
+		}
+
+		for (ScholarshipDto scholarship : scholarships) {
+			string += " " + scholarship.name + " " + scholarship.organization;
+		}
+
+		for (MembershipDto membership : memberships) {
+			string += " " + membership.role + " " + membership.organization;
+		}
+
+		for (ThesisDto thesis : theses) {
+			string += " " + thesis.title + " " + thesis.advisor + " " + thesis.description;
+		}
+
+		for (EducationDto education : educations) {
+			string += " " + education.school + " " + education.field + " " + education.description;
+		}
+
+		for (WorkDto work : works) {
+			string += " " + work.company + " " + work.position + " " + work.description;
+		}
+
+		for (ProjectDto project : projects) {
+			string += " " + project.name + " " + project.company + " " + project.description;
+		}
+		
+		string = string.replaceAll("\"", "");
+
+		return string;
+	}
 
 }
