@@ -2,7 +2,7 @@ import { Button, Card, Divider, Form, Input, message } from 'antd'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import './login.css'
+import '../../css/login.css'
 import { changePassword, resetChangeStatus } from './userSlice'
 
 export function ChangePassword() {

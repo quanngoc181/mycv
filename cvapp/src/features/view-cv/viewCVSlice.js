@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 const axios = require('axios')
 
-export const fetchCvView = createAsyncThunk('view/fetchCvView', async ({ identifier }, { getState, rejectWithValue }) => {
+export const fetchCv = createAsyncThunk('view/fetchCv', async ({ identifier }, { getState, rejectWithValue }) => {
   try {
     let ret = await axios.get('http://localhost:8080/cvs/' + identifier)
     return ret.data
@@ -26,10 +26,10 @@ export const viewCVSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    [fetchCvView.pending]: (state, action) => {
+    [fetchCv.pending]: (state, action) => {
       state.cvView = null
     },
-    [fetchCvView.fulfilled]: (state, action) => {
+    [fetchCv.fulfilled]: (state, action) => {
       state.cvView = action.payload
     },
   },

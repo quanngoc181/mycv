@@ -21,13 +21,17 @@ public class ElasticRepositoryImpl implements ElasticRepository {
 	RestTemplate restTemplate;
 
 	@Override
-	public void deleteAll(String index) {
-
+	public void bulkDelete(String index, List<HitsElement> elements) {
+		
 		try {
-			String body = "{\"query\":{\"match_all\":{}}}";
+			String body = "";
+
+			for (HitsElement element : elements) {
+				body += String.format("{\"delete\":{\"_id\":\"%s\"}}\n", element.get_id());
+			}
 
 			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/" + index
-					+ "/_delete_by_query")).contentType(MediaType.APPLICATION_JSON).body(body);
+					+ "/_bulk")).contentType(MediaType.APPLICATION_JSON).body(body);
 
 			restTemplate.exchange(request, String.class);
 
@@ -45,7 +49,7 @@ public class ElasticRepositoryImpl implements ElasticRepository {
 			String body = "";
 
 			for (HitsElement element : elements) {
-				body += String.format("{\"index\":{\"_id\":\"%s\"}}\n", element.get_id());
+				body += String.format("{\"create\":{\"_id\":\"%s\"}}\n", element.get_id());
 				body += String.format("{\"name\":\"%s\"}\n", element.get_source().getName());
 			}
 

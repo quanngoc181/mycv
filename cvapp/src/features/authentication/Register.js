@@ -2,7 +2,7 @@ import { Button, Card, Checkbox, Divider, Form, Input, message, notification } f
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { registerUser, resetRegisterStatus } from './userSlice'
+import { register, resetRegisterStatus } from './userSlice'
 
 export function Register() {
   const dispatch = useDispatch()
@@ -29,10 +29,10 @@ export function Register() {
     }
   }, [dispatch])
 
-  const onFinish = (values) => {
+  const submitRegister = (values) => {
     if (values.isCompany) values.role = 'EMPLOYER'
     else values.role = 'EMPLOYEE'
-    dispatch(registerUser(values))
+    dispatch(register(values))
   }
 
   return (
@@ -44,7 +44,7 @@ export function Register() {
               <div className='app-logo'>MYCV</div>
             </Link>
           </div>
-          <Form form={registerForm} onFinish={onFinish}>
+          <Form form={registerForm} onFinish={submitRegister}>
             <Form.Item name='fullName' rules={[{ required: true, message: 'Hãy nhập họ tên' }]}>
               <Input placeholder='Họ tên' />
             </Form.Item>

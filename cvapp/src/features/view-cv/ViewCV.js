@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import TemplateList from '../../templates/TemplateList'
-import { addDownload, fetchCvView } from './viewCVSlice'
-import './view-cv.css'
+import { addDownload, fetchCv } from './viewCVSlice'
+import '../../css/view-cv.css'
 import { Button } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
 import html2canvas from 'html2canvas'
@@ -30,7 +30,7 @@ export function ViewCV() {
   const info = useSelector((state) => state.view.cvView)
 
   useEffect(() => {
-    dispatch(fetchCvView({ identifier }))
+    dispatch(fetchCv({ identifier }))
   }, [dispatch, identifier])
 
   if (info === null) return null

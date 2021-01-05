@@ -7,7 +7,7 @@ import com.hust.mycv.entity.HitsElement;
 
 public interface ElasticRepository {
 
-	void deleteAll(String index);
+	void bulkDelete(String index, List<HitsElement> elements);
 	
 	void buldAdd(String index, List<HitsElement> elements);
 	

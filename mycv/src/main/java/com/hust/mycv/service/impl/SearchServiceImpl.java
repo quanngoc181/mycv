@@ -16,7 +16,7 @@ import com.hust.mycv.utility.SearchUtility;
 public class SearchServiceImpl implements SearchService {
 
 	@Override
-	public List<SearchResultDto> searchByFilter(List<CvDto> cvs, SearchCvDto dto) {
+	public List<SearchResultDto> filterCvs(List<CvDto> cvs, SearchCvDto dto) {
 
 		// filter language
 		if (dto.language != null) {
@@ -99,7 +99,7 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<SearchResultDto> searchByKeyword(List<CvDto> cvs, SearchCvDto dto) {
+	public List<SearchResultDto> searchCvs(List<CvDto> cvs, SearchCvDto dto) {
 
 		// filter language
 		if (dto.language != null) {

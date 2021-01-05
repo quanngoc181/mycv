@@ -1,6 +1,6 @@
 import { CheckOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, EditOutlined, EyeOutlined, FacebookOutlined, GiftOutlined, LinkedinOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons'
 import { Button, Input, List, Modal, Popconfirm, Popover, Radio, Space, Steps, Switch } from 'antd'
-import './list-cv.css'
+import '../../css/list-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { initCvInfo, editCv, copyCvAll, copyCvTemplate } from '../create-cv/createCVSlice'
 import { useHistory } from 'react-router-dom'
@@ -59,7 +59,7 @@ export function ListCV() {
   }
 
   const handleView = (identifier) => {
-    history.push('/cvwr/' + identifier)
+    window.open('http://localhost:3000/cvwr/' + identifier)
   }
 
   const handleUpdate = (id) => {

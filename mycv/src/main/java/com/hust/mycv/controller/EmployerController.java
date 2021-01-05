@@ -50,7 +50,7 @@ public class EmployerController {
 			cvs = cvService.findByIds(ids);
 		}
 
-		List<SearchResultDto> ret = searchService.searchByKeyword(cvs, dto);
+		List<SearchResultDto> ret = searchService.searchCvs(cvs, dto);
 		
 		return ret;
 		
@@ -61,7 +61,7 @@ public class EmployerController {
 
 		List<CvDto> cvs = cvService.findAll();
 
-		List<SearchResultDto> ret = searchService.searchByFilter(cvs, dto);
+		List<SearchResultDto> ret = searchService.filterCvs(cvs, dto);
 
 		return ret;
 

@@ -120,9 +120,7 @@ public class CvController {
 	@GetMapping("/cvs/{identifier}")
 	public CvDto viewCv(@PathVariable String identifier) {
 
-		CvDto dto = cvService.findByIdentifier(identifier);
-
-		cvService.addView(identifier);
+		CvDto dto = cvService.viewCv(identifier);
 
 		return dto;
 

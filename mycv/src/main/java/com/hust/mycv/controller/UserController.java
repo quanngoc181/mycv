@@ -29,7 +29,7 @@ public class UserController {
 	EmailService emailService;
 
 	@GetMapping("/users/current")
-	public UserDto fetchUser(Authentication auth) {
+	public UserDto getUser(Authentication auth) {
 
 		String username = StringUtility.getUserName(auth.getName());
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,6 +29,7 @@ public class Info {
 
 	private String position;
 
+	@Column(columnDefinition = "TEXT")
 	private String profile;
 
 	private String gender;
@@ -46,12 +48,16 @@ public class Info {
 
 	private String phone;
 	
+	@Column(columnDefinition = "TEXT")
 	private String additional;
 
+	@Column(columnDefinition = "TEXT")
 	private String socials;
 
+	@Column(columnDefinition = "TEXT")
 	private String activities;
 
+	@Column(columnDefinition = "TEXT")
 	private String hobbies;
 	
 	private String language;

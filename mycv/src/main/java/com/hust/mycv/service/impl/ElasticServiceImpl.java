@@ -79,14 +79,14 @@ public class ElasticServiceImpl implements ElasticService {
 	@Scheduled(fixedRate = 60000 * 10)
 	public void syncData() {
 
-		elasticRepository.deleteAll("cv");
-		elasticRepository.deleteAll("tag");
-		elasticRepository.deleteAll("school");
-		elasticRepository.deleteAll("field");
-		elasticRepository.deleteAll("company");
-		elasticRepository.deleteAll("position");
-		elasticRepository.deleteAll("skill");
-		elasticRepository.deleteAll("address");
+		elasticRepository.bulkDelete("cv", this.allCvHits());
+		elasticRepository.bulkDelete("tag", this.allTagHits());
+		elasticRepository.bulkDelete("school", this.allSchoolHits());
+		elasticRepository.bulkDelete("field", this.allFieldHits());
+		elasticRepository.bulkDelete("company", this.allCompanyHits());
+		elasticRepository.bulkDelete("position", this.allPositionHits());
+		elasticRepository.bulkDelete("skill", this.allSkillHits());
+		elasticRepository.bulkDelete("address", this.allAddressHits());
 
 		elasticRepository.buldAdd("cv", this.allCvHits());
 		elasticRepository.buldAdd("tag", this.allTagHits());

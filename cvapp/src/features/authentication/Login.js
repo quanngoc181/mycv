@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Button, Card, Divider, Form, Input, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
-import './login.css'
+import '../../css/login.css'
 import { loginUser, resetLoginStatus } from './userSlice'
 
 export function Login() {

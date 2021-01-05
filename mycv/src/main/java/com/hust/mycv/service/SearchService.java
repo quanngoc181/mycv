@@ -8,8 +8,8 @@ import com.hust.mycv.dto.SearchResultDto;
 
 public interface SearchService {
 	
-	List<SearchResultDto> searchByFilter(List<CvDto> cvs, SearchCvDto dto);
+	List<SearchResultDto> filterCvs(List<CvDto> cvs, SearchCvDto dto);
 	
-	List<SearchResultDto> searchByKeyword(List<CvDto> cvs, SearchCvDto dto);
+	List<SearchResultDto> searchCvs(List<CvDto> cvs, SearchCvDto dto);
 
 }

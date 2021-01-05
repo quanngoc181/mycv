@@ -1,5 +1,5 @@
 import React from 'react'
-import { Upload } from 'antd'
+import { message, Upload } from 'antd'
 import { GetToken } from '../../util/authenUtil'
 import ImgCrop from 'antd-img-crop'
 
@@ -11,10 +11,10 @@ const UploadImage = React.forwardRef((props, ref) => {
     headers: GetToken(),
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-      if (!isJpgOrPng) console.log('You can only upload JPG/PNG file!')
+      if (!isJpgOrPng) message.error({ content: 'You can only upload JPG/PNG file!' })
 
-      const isLt10M = file.size / 1024 / 1024 < 10
-      if (!isLt10M) console.log('Image must smaller than 10MB!')
+      const isLt10M = file.size / 1024 / 1024 < 1
+      if (!isLt10M) message.error({ content: 'File của bạn lớn hơn cho phép.' })
 
       return isJpgOrPng && isLt10M
     },
@@ -28,7 +28,7 @@ const UploadImage = React.forwardRef((props, ref) => {
   return (
     <div style={{ height: 0, overflow: 'hidden' }}>
       <ImgCrop aspect={props.aspect} shape={props.shape} grid quality={1} modalTitle='Cắt ảnh' modalOk='Cắt' modalCancel='Hủy' cropperProps={{ zoomSpeed: 0.2 }}>
-        <Upload {...attr}>
+        <Upload accept='.png,.jpg' {...attr}>
           <div ref={ref}></div>
         </Upload>
       </ImgCrop>

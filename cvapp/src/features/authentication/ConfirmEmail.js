@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Card, Result } from 'antd'
 import { Link, useParams } from 'react-router-dom'
-import './login.css'
+import '../../css/login.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { confirmEmail } from './userSlice'
 

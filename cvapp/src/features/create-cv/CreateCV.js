@@ -1,7 +1,7 @@
-import './create-cv.css'
+import '../../css/create-cv.css'
 import TemplateList from '../../templates/TemplateList'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Button, Input, message, Radio, Select } from 'antd'
+import { Button, Input, message, Radio, Select, Tooltip } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { resetStatus, updateCitation, updateCv, updateCvInfo, updateLanguage, updateTemplate } from '../create-cv/createCVSlice'
 import { getSuggest } from '../find-cv/findCVSlice'
@@ -58,7 +58,8 @@ export function CreateCV() {
   const TemplateComponent = templateObj ? templateObj.component : null
 
   const saveCV = () => {
-    dispatch(updateCv())
+    if (!template) message.warning({ content: 'Vui lòng chọn template trước.' })
+    else dispatch(updateCv())
   }
 
   const uploadImage = ({ aspect, shape }) => {
@@ -96,100 +97,112 @@ export function CreateCV() {
           </Radio.Group>
         </div> */}
         <div className='my-divider'></div>
-        <div className='my-tool'>
-          <Button
-            size='small'
-            icon={<AppstoreOutlined />}
-            onClick={() => {
-              if (orders) setIsModalVisible(true)
-            }}
-          />
-        </div>
+        <Tooltip title='Sắp xếp bố cục' placement='bottom'>
+          <div className='my-tool'>
+            <Button
+              size='small'
+              icon={<AppstoreOutlined />}
+              onClick={() => {
+                if (orders) setIsModalVisible(true)
+              }}
+            />
+          </div>
+        </Tooltip>
         <div className='my-divider'></div>
-        <div className='my-tool'>
-          <Radio.Group
-            value={citation}
-            onChange={(e) => {
-              if (isEditting) message.warning({ content: 'Không thể thay đổi.' })
-              else dispatch(updateCitation({ citation: e.target.value }))
-            }}
-            size='small'
-          >
-            <Radio.Button value='apa'>APA</Radio.Button>
-            <Radio.Button value='mla'>MLA</Radio.Button>
-          </Radio.Group>
-        </div>
+        <Tooltip title='Định dạng trích dẫn' placement='bottom'>
+          <div className='my-tool'>
+            <Radio.Group
+              value={citation}
+              onChange={(e) => {
+                if (isEditting) message.warning({ content: 'Không thể thay đổi.' })
+                else dispatch(updateCitation({ citation: e.target.value }))
+              }}
+              size='small'
+            >
+              <Radio.Button value='apa'>APA</Radio.Button>
+              <Radio.Button value='mla'>MLA</Radio.Button>
+            </Radio.Group>
+          </div>
+        </Tooltip>
         <div className='my-divider'></div>
-        <div className='my-tool'>
-          <Radio.Group
-            size='small'
-            value={language}
-            onChange={(e) => {
-              if (isEditting) message.warning({ content: 'Không thể thay đổi.' })
-              else dispatch(updateLanguage({ language: e.target.value }))
-            }}
-          >
-            <Radio.Button value='vi'>VI</Radio.Button>
-            <Radio.Button value='en'>EN</Radio.Button>
-          </Radio.Group>
-        </div>
+        <Tooltip title='Ngôn ngữ' placement='bottom'>
+          <div className='my-tool'>
+            <Radio.Group
+              size='small'
+              value={language}
+              onChange={(e) => {
+                if (isEditting) message.warning({ content: 'Không thể thay đổi.' })
+                else dispatch(updateLanguage({ language: e.target.value }))
+              }}
+            >
+              <Radio.Button value='vi'>VI</Radio.Button>
+              <Radio.Button value='en'>EN</Radio.Button>
+            </Radio.Group>
+          </div>
+        </Tooltip>
         <div className='my-divider'></div>
-        <div className='my-tool'>
-          <Select
-            size='small'
-            value={fontFamily}
-            onChange={(value) => {
-              dispatch(updateCvInfo({ field: 'fontFamily', value }))
-            }}
-            style={{ width: 105 }}
-          >
-            <Select.Option value='arial'>Arial</Select.Option>
-            <Select.Option value='cambria'>Cambria</Select.Option>
-            <Select.Option value='calibri'>Calibri</Select.Option>
-            <Select.Option value='didot'>Didot</Select.Option>
-            <Select.Option value='garamond'>Garamond</Select.Option>
-          </Select>
-        </div>
+        <Tooltip title='Font chữ' placement='bottom'>
+          <div className='my-tool'>
+            <Select
+              size='small'
+              value={fontFamily}
+              onChange={(value) => {
+                dispatch(updateCvInfo({ field: 'fontFamily', value }))
+              }}
+              style={{ width: 105 }}
+            >
+              <Select.Option value='arial'>Arial</Select.Option>
+              <Select.Option value='cambria'>Cambria</Select.Option>
+              <Select.Option value='calibri'>Calibri</Select.Option>
+              <Select.Option value='didot'>Didot</Select.Option>
+              <Select.Option value='garamond'>Garamond</Select.Option>
+            </Select>
+          </div>
+        </Tooltip>
         <div className='my-divider'></div>
-        <div className='my-tool'>
-          <Radio.Group
-            size='small'
-            value={fontSize}
-            onChange={(e) => {
-              dispatch(updateCvInfo({ field: 'fontSize', value: e.target.value }))
-            }}
-          >
-            <Radio.Button value={10}>
-              <FontSizeOutlined style={{ fontSize: 10 }} />
-            </Radio.Button>
-            <Radio.Button value={11}>
-              <FontSizeOutlined style={{ fontSize: 14 }} />
-            </Radio.Button>
-            <Radio.Button value={12}>
-              <FontSizeOutlined style={{ fontSize: 18 }} />
-            </Radio.Button>
-          </Radio.Group>
-        </div>
+        <Tooltip title='Kích thước font' placement='bottom'>
+          <div className='my-tool'>
+            <Radio.Group
+              size='small'
+              value={fontSize}
+              onChange={(e) => {
+                dispatch(updateCvInfo({ field: 'fontSize', value: e.target.value }))
+              }}
+            >
+              <Radio.Button value={10}>
+                <FontSizeOutlined style={{ fontSize: 10 }} />
+              </Radio.Button>
+              <Radio.Button value={11}>
+                <FontSizeOutlined style={{ fontSize: 14 }} />
+              </Radio.Button>
+              <Radio.Button value={12}>
+                <FontSizeOutlined style={{ fontSize: 18 }} />
+              </Radio.Button>
+            </Radio.Group>
+          </div>
+        </Tooltip>
         <div className='my-divider'></div>
-        <div className='my-tool'>
-          <Radio.Group
-            size='small'
-            value={lineHeight}
-            onChange={(e) => {
-              dispatch(updateCvInfo({ field: 'lineHeight', value: e.target.value }))
-            }}
-          >
-            <Radio.Button value={1.3}>
-              <LineHeightOutlined style={{ fontSize: 10 }} />
-            </Radio.Button>
-            <Radio.Button value={1.4}>
-              <LineHeightOutlined style={{ fontSize: 14 }} />
-            </Radio.Button>
-            <Radio.Button value={1.5}>
-              <LineHeightOutlined style={{ fontSize: 18 }} />
-            </Radio.Button>
-          </Radio.Group>
-        </div>
+        <Tooltip title='Kích thước dòng' placement='bottom'>
+          <div className='my-tool'>
+            <Radio.Group
+              size='small'
+              value={lineHeight}
+              onChange={(e) => {
+                dispatch(updateCvInfo({ field: 'lineHeight', value: e.target.value }))
+              }}
+            >
+              <Radio.Button value={1.3}>
+                <LineHeightOutlined style={{ fontSize: 10 }} />
+              </Radio.Button>
+              <Radio.Button value={1.4}>
+                <LineHeightOutlined style={{ fontSize: 14 }} />
+              </Radio.Button>
+              <Radio.Button value={1.5}>
+                <LineHeightOutlined style={{ fontSize: 18 }} />
+              </Radio.Button>
+            </Radio.Group>
+          </div>
+        </Tooltip>
         <div className='my-divider'></div>
       </div>
       <div className='d-flex'>

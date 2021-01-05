@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { GetToken } from '../../util/authenUtil'
 const axios = require('axios')
 
-export const fetchCv = createAsyncThunk('list/fetchCv', async (arg, { rejectWithValue }) => {
+export const fetchCvs = createAsyncThunk('list/fetchCvs', async (arg, { rejectWithValue }) => {
   try {
     let ret = await axios.get('http://localhost:8080/users/current/cvs', { headers: GetToken() })
     return ret.data
@@ -57,10 +57,10 @@ export const listCVSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchCv.pending]: (state, action) => {
+    [fetchCvs.pending]: (state, action) => {
       state.listCv = null
     },
-    [fetchCv.fulfilled]: (state, action) => {
+    [fetchCvs.fulfilled]: (state, action) => {
       state.listCv = action.payload
     },
 

@@ -4,13 +4,11 @@ import genderIcon from '../../templates/icon/gender.png'
 import dobIcon from '../../templates/icon/dob.png'
 import addressIcon from '../../templates/icon/address.png'
 import phoneIcon from '../../templates/icon/phone.png'
-import './save-cv.css'
+import '../../css/save-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import { deleteCv } from './saveCVSlice'
 
 export function SaveCV() {
-  const history = useHistory()
   const dispatch = useDispatch()
 
   let savedCv = useSelector((state) => state.save.savedCv)
@@ -55,7 +53,7 @@ export function SaveCV() {
                     if (save.identifier === null) {
                       message.error({ content: 'CV này được cài đặt riêng tư' })
                     } else {
-                      history.push('/cvwr/' + save.identifier)
+                      window.open('http://localhost:3000/cvwr/' + save.identifier)
                     }
                   }}
                 >

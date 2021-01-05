@@ -114,7 +114,7 @@ public class CvServiceImpl implements CvService {
 	}
 
 	@Override
-	public CvDto findByIdentifier(String identifier) {
+	public CvDto viewCv(String identifier) {
 
 		Cv cv = cvRepository.findByIdentifier(identifier);
 
@@ -139,6 +139,8 @@ public class CvServiceImpl implements CvService {
 		cv.setProjects(project.getProjects());
 
 		CvDto dto = CvMapper.cvToCvDto(cv);
+
+		this.addView(identifier);
 
 		return dto;
 
@@ -241,9 +243,9 @@ public class CvServiceImpl implements CvService {
 
 	@Override
 	public List<CvDto> findByIds(List<Integer> ids) {
-		
+
 		List<CvDto> ret = new ArrayList<>();
-		
+
 		for (Integer id : ids) {
 			Cv cv = cvRepository.findById(id).orElse(null);
 
@@ -271,7 +273,7 @@ public class CvServiceImpl implements CvService {
 			cv.setProjects(project.getProjects());
 
 			CvDto dto = CvMapper.cvToCvDto(cv);
-			
+
 			ret.add(dto);
 		}
 

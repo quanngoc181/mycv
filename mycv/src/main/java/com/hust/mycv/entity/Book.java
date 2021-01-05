@@ -1,5 +1,6 @@
 package com.hust.mycv.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ public class Book {
 	
 	private String location;
 	
+	@Column(columnDefinition = "TEXT")
 	private String authors;
 	
 	private Integer year;

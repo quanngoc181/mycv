@@ -1,5 +1,5 @@
 import { CameraOutlined, LoadingOutlined } from '@ant-design/icons'
-import { Button, Upload } from 'antd'
+import { Button, message, Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -17,10 +17,10 @@ export function UploadAvatar() {
     headers: GetToken(),
     beforeUpload(file) {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-      if (!isJpgOrPng) console.log('You can only upload JPG/PNG file!')
+      if (!isJpgOrPng) message.error({ content: 'You can only upload JPG/PNG file!' })
 
-      const isLt10M = file.size / 1024 / 1024 < 10
-      if (!isLt10M) console.log('Image must smaller than 10MB!')
+      const isLt10M = file.size / 1024 / 1024 < 1
+      if (!isLt10M) message.error({ content: 'File của bạn lớn hơn cho phép.' })
 
       return isJpgOrPng && isLt10M
     },
@@ -37,7 +37,7 @@ export function UploadAvatar() {
 
   return (
     <ImgCrop aspect={1} shape='round' grid quality={1} modalTitle='Cắt ảnh' modalOk='Cắt' modalCancel='Hủy' cropperProps={{ zoomSpeed: 0.2 }}>
-      <Upload {...props}>
+      <Upload accept='.png,.jpg' {...props}>
         <Button className='change-avatar' shape='circle' icon={loading ? <LoadingOutlined /> : <CameraOutlined />} />
       </Upload>
     </ImgCrop>

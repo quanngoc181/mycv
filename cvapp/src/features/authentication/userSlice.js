@@ -20,7 +20,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (arg, { reject
   }
 })
 
-export const registerUser = createAsyncThunk('user/register', async ({ fullName, email, username, password, role }, { rejectWithValue }) => {
+export const register = createAsyncThunk('user/register', async ({ fullName, email, username, password, role }, { rejectWithValue }) => {
   try {
     let user = await axios.post('http://localhost:8080/users', { fullName, email, username, password, role })
     return user.data
@@ -111,13 +111,13 @@ export const userSlice = createSlice({
       state.user = null
     },
 
-    [registerUser.pending]: (state, action) => {
+    [register.pending]: (state, action) => {
       state.registerStatus = 'pending'
     },
-    [registerUser.fulfilled]: (state, action) => {
+    [register.fulfilled]: (state, action) => {
       state.registerStatus = 'success'
     },
-    [registerUser.rejected]: (state, action) => {
+    [register.rejected]: (state, action) => {
       state.registerStatus = 'error'
       state.registerError = action.payload.message
     },

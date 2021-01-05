@@ -2,16 +2,14 @@ import { Button, Col, message, Radio, Row, Select, Slider } from 'antd'
 import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { debounce } from 'lodash'
-import './find-cv.css'
+import '../../css/find-cv.css'
 import { searchFilter, getSuggest, searchKeyword } from './findCVSlice'
 import TemplateList from '../../templates/TemplateList'
-import { useHistory } from 'react-router-dom'
 import { deleteCv, saveCv } from '../save-cv/saveCVSlice'
 import Search from 'antd/lib/input/Search'
 
 export function FindCV() {
   const dispatch = useDispatch()
-  const history = useHistory()
 
   let savedCv = useSelector((state) => state.save.savedCv)
   let searchResult = useSelector((state) => state.find.searchResult)
@@ -92,11 +90,11 @@ export function FindCV() {
     setSkill(value)
   }
 
-  const clickSearch = () => {
+  const submitSearchFilter = () => {
     dispatch(searchFilter({ language, gender, age, marital, tag, address, school, field, company, position, skill }))
   }
 
-  const onSearch = (keyword) => {
+  const submitSearchKeyword = (keyword) => {
     dispatch(searchKeyword({ language, gender, age, marital, tag, address, school, field, company, position, skill, keyword }))
   }
 
@@ -151,7 +149,7 @@ export function FindCV() {
                 <span className='keyword-label'>Nhập từ khóa tìm kiếm:</span>
               </Col>
               <Col span={12}>
-                <Search placeholder='Tìm theo từ khóa' onSearch={onSearch} enterButton />
+                <Search placeholder='Tìm theo từ khóa' onSearch={submitSearchKeyword} enterButton />
               </Col>
               <Col span={6}>
                 <span className='keyword-label'>hoặc sử dụng bộ lọc sau:</span>
@@ -192,7 +190,7 @@ export function FindCV() {
                           if (result.identifier === null) {
                             message.error({ content: 'CV này được cài đặt riêng tư' })
                           } else {
-                            history.push('/cvwr/' + result.identifier)
+                            window.open('http://localhost:3000/cvwr/' + result.identifier)
                           }
                         }}
                       >
@@ -277,7 +275,7 @@ export function FindCV() {
               ))}
             </Select>
           </div>
-          <Button type='primary' onClick={clickSearch} block>
+          <Button type='primary' onClick={submitSearchFilter} block>
             Tìm theo bộ lọc
           </Button>
         </div>

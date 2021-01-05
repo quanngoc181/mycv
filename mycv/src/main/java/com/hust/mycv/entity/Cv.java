@@ -24,8 +24,10 @@ public class Cv {
 
 	private boolean cvPublic;
 
+	@Column(columnDefinition = "TEXT")
 	private String tags;
 
+	@Column(columnDefinition = "TEXT")
 	private String cvNote;
 
 	private LocalDateTime lastModified;
@@ -64,6 +66,7 @@ public class Cv {
 
 	private String position;
 
+	@Column(columnDefinition = "TEXT")
 	private String profile;
 
 	private String gender;
@@ -82,18 +85,25 @@ public class Cv {
 
 	private String phone;
 
+	@Column(columnDefinition = "TEXT")
 	private String additional;
 
+	@Column(columnDefinition = "TEXT")
 	private String socials;
 
+	@Column(columnDefinition = "TEXT")
 	private String activities;
 
+	@Column(columnDefinition = "TEXT")
 	private String hobbies;
 
+	@Column(columnDefinition = "TEXT")
 	private String books;
 
+	@Column(columnDefinition = "TEXT")
 	private String journals;
 
+	@Column(columnDefinition = "TEXT")
 	private String presentations;
 
 	@OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

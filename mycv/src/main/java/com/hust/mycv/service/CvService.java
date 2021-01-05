@@ -11,7 +11,7 @@ public interface CvService {
 	
 	List<CvDto> findAll();
 	
-	CvDto findByIdentifier(String identifier);
+	CvDto viewCv(String identifier);
 	
 	CvDto findById(Integer id);
 	
