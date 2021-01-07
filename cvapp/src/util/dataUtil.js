@@ -11,6 +11,7 @@ const genders = {
     female: 'Female',
   },
 }
+
 const maritals = {
   vi: {
     single: 'Độc thân',
