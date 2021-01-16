@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hust.mycv.dto.CvDto;
 import com.hust.mycv.dto.PublicCvDto;
+import com.hust.mycv.dto.SendCvDto;
 
 public interface CvService {
 	
@@ -28,5 +29,7 @@ public interface CvService {
 	void addView(String identifier);
 	
 	void addDownload(String identifier);
+	
+	void sendCv(SendCvDto dto, String username);
 
 }

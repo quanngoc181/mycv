@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hust.mycv.dto.CvDto;
 import com.hust.mycv.dto.PublicCvDto;
+import com.hust.mycv.dto.SendCvDto;
 import com.hust.mycv.service.AddressService;
 import com.hust.mycv.service.CompanyService;
 import com.hust.mycv.service.CvService;
@@ -114,6 +115,15 @@ public class CvController {
 		cvService.publicCv(dto);
 		
 		return dto;
+
+	}
+	
+	@PostMapping("/users/current/cvs/send-cv")
+	public void sendCv(Authentication auth, @RequestBody SendCvDto dto) {
+
+		String username = StringUtility.getUserName(auth.getName());
+		
+		cvService.sendCv(dto, username);
 
 	}
 

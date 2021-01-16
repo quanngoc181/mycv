@@ -10,9 +10,21 @@ import org.springframework.stereotype.Service;
 
 import com.hust.mycv.dto.CvDto;
 import com.hust.mycv.dto.PublicCvDto;
+import com.hust.mycv.dto.SendCvDto;
+import com.hust.mycv.entity.Award;
+import com.hust.mycv.entity.Certificate;
 import com.hust.mycv.entity.Cv;
+import com.hust.mycv.entity.Education;
+import com.hust.mycv.entity.Info;
+import com.hust.mycv.entity.Membership;
+import com.hust.mycv.entity.Project;
+import com.hust.mycv.entity.Scholarship;
+import com.hust.mycv.entity.Skill;
+import com.hust.mycv.entity.Thesis;
+import com.hust.mycv.entity.Work;
 import com.hust.mycv.mapper.CvMapper;
 import com.hust.mycv.repository.CvRepository;
+import com.hust.mycv.repository.InfoRepository;
 import com.hust.mycv.service.CvService;
 
 @Service
@@ -20,6 +32,9 @@ public class CvServiceImpl implements CvService {
 
 	@Autowired
 	CvRepository cvRepository;
+
+	@Autowired
+	InfoRepository infoRepository;
 
 	@Override
 	public List<CvDto> findByUsername(String username) {
@@ -69,6 +84,7 @@ public class CvServiceImpl implements CvService {
 		cv.setViewCount(0);
 		cv.setDownloadCount(0);
 		cv.setIdentifier(UUID.randomUUID().toString());
+		cv.setSender(null);
 
 		Cv retCv = cvRepository.save(cv);
 
@@ -278,6 +294,105 @@ public class CvServiceImpl implements CvService {
 		}
 
 		return ret;
+
+	}
+
+	@Override
+	public void sendCv(SendCvDto dto, String username) {
+
+		CvDto cvDto = this.findById(dto.cvId);
+
+		if (cvDto == null)
+			return;
+
+		Cv cv = CvMapper.cvDtoToCv(cvDto);
+
+		cv.setId(null);
+		cv.setUsername(dto.receiver);
+		cv.setLastModified(LocalDateTime.now());
+		cv.setViewCount(0);
+		cv.setDownloadCount(0);
+		cv.setIdentifier(UUID.randomUUID().toString());
+		
+		String sender = this.findFullnameByUsername(username);
+		cv.setSender(sender);
+
+		if (dto.type.equals("all")) {
+			cvRepository.save(cv);
+		} else if (dto.type.equals("template")) {
+			cv.setTags("[]");
+			cv.setFullName(null);
+			cv.setPosition(null);
+			cv.setGender(null);
+			cv.setDob(null);
+			cv.setAddress(null);
+			cv.setMarital(null);
+			cv.setChilds(null);
+			cv.setNationality(null);
+			cv.setReligion(null);
+			cv.setPhone(null);
+			cv.setEmail(null);
+			cv.setSocials(null);
+			cv.setProfile(null);
+			cv.setAdditional(null);
+
+			List<Education> educations = new ArrayList<>();
+			educations.add(new Education());
+			cv.setEducations(educations);
+
+			List<Work> works = new ArrayList<>();
+			works.add(new Work());
+			cv.setWorks(works);
+
+			List<Project> projects = new ArrayList<>();
+			projects.add(new Project());
+			cv.setProjects(projects);
+
+			List<Membership> memberships = new ArrayList<>();
+			memberships.add(new Membership());
+			cv.setMemberships(memberships);
+
+			List<Skill> skills = new ArrayList<>();
+			skills.add(new Skill());
+			cv.setSkills(skills);
+
+			List<Award> awards = new ArrayList<>();
+			awards.add(new Award());
+			cv.setAwards(awards);
+
+			List<Certificate> certificates = new ArrayList<>();
+			certificates.add(new Certificate());
+			cv.setCertificates(certificates);
+
+			List<Scholarship> scholarships = new ArrayList<>();
+			scholarships.add(new Scholarship());
+			cv.setScholarships(scholarships);
+
+			List<Thesis> theses = new ArrayList<>();
+			theses.add(new Thesis());
+			cv.setTheses(theses);
+
+			cv.setBooks("[null]");
+			cv.setJournals("[null]");
+			cv.setPresentations("[null]");
+			cv.setActivities("[null]");
+			cv.setHobbies("[null]");
+
+			cvRepository.save(cv);
+		}
+
+	}
+
+	public String findFullnameByUsername(String username) {
+
+		List<Info> infos = infoRepository.findByUsername(username);
+
+		if (infos.get(0).getFullName() != null)
+			return infos.get(0).getFullName();
+		else if (infos.get(1).getFullName() != null)
+			return infos.get(1).getFullName();
+		else
+			return "Không có tên";
 
 	}
 

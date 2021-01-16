@@ -5,6 +5,8 @@ import java.util.List;
 public class CvDto {
 	
 	public Integer id;
+	
+	public String sender;
 
 	public String cvName;
 
@@ -100,9 +102,10 @@ public class CvDto {
 		super();
 	}
 
-	public CvDto(Integer id, String cvName, boolean cvPublic, List<String> tags, String cvNote, String lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, List<List<CvSectionDto>> orders, List<CvSectionDto> subs, Integer viewCount, Integer downloadCount, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, List<String> activities, List<String> hobbies, List<String> books, List<String> journals, List<String> presentations, List<SkillDto> skills, List<ScholarshipDto> scholarships, List<AwardDto> awards, List<CertificateDto> certificates, List<MembershipDto> memberships, List<ThesisDto> theses, List<EducationDto> educations, List<WorkDto> works, List<ProjectDto> projects) {
+	public CvDto(Integer id, String sender, String cvName, boolean cvPublic, List<String> tags, String cvNote, String lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, List<List<CvSectionDto>> orders, List<CvSectionDto> subs, Integer viewCount, Integer downloadCount, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, List<String> activities, List<String> hobbies, List<String> books, List<String> journals, List<String> presentations, List<SkillDto> skills, List<ScholarshipDto> scholarships, List<AwardDto> awards, List<CertificateDto> certificates, List<MembershipDto> memberships, List<ThesisDto> theses, List<EducationDto> educations, List<WorkDto> works, List<ProjectDto> projects) {
 		super();
 		this.id = id;
+		this.sender = sender;
 		this.cvName = cvName;
 		this.cvPublic = cvPublic;
 		this.tags = tags;

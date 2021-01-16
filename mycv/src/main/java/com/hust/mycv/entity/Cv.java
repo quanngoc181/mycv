@@ -57,6 +57,8 @@ public class Cv {
 	private Integer downloadCount;
 
 	private String username;
+	
+	private String sender;
 
 	private String fullName;
 
@@ -137,7 +139,7 @@ public class Cv {
 		super();
 	}
 
-	public Cv(Integer id, String cvName, boolean cvPublic, String tags, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, String subs, Integer viewCount, Integer downloadCount, String username, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
+	public Cv(Integer id, String cvName, boolean cvPublic, String tags, String cvNote, LocalDateTime lastModified, String identifier, String template, String citation, String language, String fontFamily, Integer fontSize, Float lineHeight, String orders, String subs, Integer viewCount, Integer downloadCount, String username, String sender, String fullName, String email, String avatar, String position, String profile, String gender, String address, String marital, String childs, String nationality, String religion, String dob, String phone, String additional, String socials, String activities, String hobbies, String books, String journals, String presentations) {
 		super();
 		this.id = id;
 		this.cvName = cvName;
@@ -157,6 +159,7 @@ public class Cv {
 		this.viewCount = viewCount;
 		this.downloadCount = downloadCount;
 		this.username = username;
+		this.sender = sender;
 		this.fullName = fullName;
 		this.email = email;
 		this.avatar = avatar;
@@ -321,6 +324,14 @@ public class Cv {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
 	}
 
 	public String getFullName() {

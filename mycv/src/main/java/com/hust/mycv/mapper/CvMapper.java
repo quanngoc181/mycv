@@ -34,6 +34,7 @@ public class CvMapper {
 		CvDto dto = new CvDto();
 
 		dto.id = cv.getId();
+		dto.sender = cv.getSender();
 		dto.cvName = cv.getCvName();
 		dto.cvPublic = cv.isCvPublic();
 		dto.cvNote = cv.getCvNote();

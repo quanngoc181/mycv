@@ -1,12 +1,12 @@
 import { CheckOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, EditOutlined, EyeOutlined, FacebookOutlined, GiftOutlined, LinkedinOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons'
-import { Button, Input, List, Modal, Popconfirm, Popover, Radio, Space, Steps, Switch } from 'antd'
+import { Button, Input, List, message, Modal, Popconfirm, Popover, Radio, Space, Steps, Switch } from 'antd'
 import '../../css/list-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { initCvInfo, editCv, copyCvAll, copyCvTemplate } from '../create-cv/createCVSlice'
 import { useHistory } from 'react-router-dom'
-import { deleteCv, getReceiver, publicCv } from './listCVSlice'
+import { deleteCv, getReceiver, publicCv, sendCv } from './listCVSlice'
 import TemplateList from '../../templates/TemplateList'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export function ListCV() {
   const dispatch = useDispatch()
@@ -19,6 +19,18 @@ export function ListCV() {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   let receiveUser = useSelector((state) => state.list.receiveUser)
+  let sendStatus = useSelector((state) => state.list.sendStatus)
+
+  useEffect(() => {
+    if(sendStatus === 'success') {
+      setIsModalVisible(false)
+      message.success({ content: 'Thành công' })
+    }
+    if(sendStatus === 'error') {
+      setIsModalVisible(false)
+      message.error({ content: 'Thất bại' })
+    }
+  }, [sendStatus])
 
   const showModal = (cvId) => {
     setGiftCv(cvId)
@@ -33,6 +45,9 @@ export function ListCV() {
     }
     if (step === 1 && receiveUser) {
       setStep(2)
+    }
+    if (step === 2) {
+      dispatch(sendCv({ cvId: giftCv, type }))
     }
   }
 
@@ -109,7 +124,7 @@ export function ListCV() {
                 <div className='content'>
                   <h2 style={{ marginBottom: 0 }}>{item.cvName}</h2>
                   <div>
-                    Lượt xem: {item.viewCount ? item.viewCount : 0} Lượt tải: {item.downloadCount ? item.downloadCount : 0}
+                    Lượt xem: {item.viewCount ? item.viewCount : 0} Lượt tải: {item.downloadCount ? item.downloadCount : 0} Người tặng: {item.sender ? item.sender : ''}
                   </div>
                   <div>{item.cvNote}</div>
                   <div className='create-at'>{item.lastModified}</div>
@@ -208,7 +223,7 @@ export function ListCV() {
           <Button key='back' onClick={handleBack}>
             {step === 0 ? 'Hủy bỏ' : 'Quay lại'}
           </Button>,
-          <Button key='submit' type='primary' onClick={handleOk}>
+          <Button key='submit' type='primary' onClick={handleOk} loading={sendStatus === 'pending'}>
             {step === 2 ? 'Tặng CV' : 'Tiếp tục'}
           </Button>,
         ]}
