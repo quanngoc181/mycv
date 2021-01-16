@@ -23,7 +23,6 @@
   padding: 20px;
   box-shadow: 7px 0px 5px -2px rgba(0, 0, 0, 0.3);
   height: calc(100vh - 158px);
-  overflow-y: scroll;
 }
 
 .my-sidebar .header {
@@ -45,6 +44,11 @@
   background-color: green;
   left: 0;
   top: 50%;
+}
+
+.my-sidebar .template-container {
+  height: 180px;
+  overflow-y: auto;
 }
 
 .my-sidebar .template-item {
@@ -79,17 +83,17 @@
 }
 
 .my-body::-webkit-scrollbar,
-.my-sidebar::-webkit-scrollbar {
+.template-container::-webkit-scrollbar {
   width: 6px;
 }
 
 .my-body::-webkit-scrollbar-track,
-.my-sidebar::-webkit-scrollbar-track {
+.template-container::-webkit-scrollbar-track {
   box-shadow: none;
 }
 
 .my-body::-webkit-scrollbar-thumb,
-.my-sidebar::-webkit-scrollbar-thumb {
+.template-container::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 3px;
 }

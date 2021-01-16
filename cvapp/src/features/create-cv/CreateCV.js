@@ -244,6 +244,7 @@ export function CreateCV() {
                 dispatch(updateCvInfo({ field: 'cvNote', value: e.target.value }))
               }}
               placeholder='Ghi chú...'
+              style={{ resize: 'none', height: 62 }}
             />
           </div>
           <h3 className='header'>
