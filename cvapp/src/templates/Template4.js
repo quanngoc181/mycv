@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { addCvInfo, updateCvInfo, deleteCvInfo } from '../features/create-cv/createCVSlice'
 import $ from 'jquery'
 import { defaultPlaceholder, viLabel, enLabel } from '../util/dataUtil'
-import './template3.css'
+import './template4.css'
 import gender from './icon/gender.png'
 import dob from './icon/dob.png'
 import address from './icon/address.png'
@@ -15,7 +15,7 @@ import phone from './icon/phone.png'
 import email from './icon/email.png'
 import website from './icon/website.png'
 
-export function Template3({ info, uploadImage, updateRating, viewMode }) {
+export function Template4({ info, uploadImage, updateRating, viewMode }) {
   const dispatch = useDispatch()
 
   let { fontFamily, fontSize, lineHeight, language } = info
@@ -75,7 +75,6 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
   const sections = {
     information: (
       <div className='cv-section information'>
-        <div className='cv-section-header'>{label.information}</div>
         <div className='cv-info-item' style={{ display: subs['gender'] ? 'block' : 'none' }}>
           <img src={gender} alt='gender' className='cv-icon' />
           <span field='gender'>{info.gender}</span>
@@ -133,24 +132,24 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
         <div className='cv-section-header'>{label.education}</div>
         {info.educations.map((education, index) => (
           <div className='cv-section-item cv-education-item' key={index}>
-            <div className='cv-sub-header'>
-              <span field='educations' index={index} subfield='school' className='mw-30'>
+            <div className='d-flex justify-content-between mb-5'>
+              <span field='educations' index={index} subfield='school' className='flex-grow font-bold'>
                 {education.school}
               </span>
-              <span>&nbsp;[&nbsp;</span>
-              <span field='educations' index={index} subfield='start' className='mw-30'>
-                {education.start}
+              <span>
+                <span field='educations' index={index} subfield='start' className='mw-30'>
+                  {education.start}
+                </span>
+                <span>&nbsp;-&nbsp;</span>
+                <span field='educations' index={index} subfield='end' className='mw-30'>
+                  {education.end}
+                </span>
               </span>
-              <span>&nbsp;-&nbsp;</span>
-              <span field='educations' index={index} subfield='end' className='mw-30'>
-                {education.end}
-              </span>
-              <span>&nbsp;]&nbsp;</span>
             </div>
-            <div field='educations' index={index} subfield='field' className='mb-5'>
+            <div field='educations' index={index} subfield='field' className='font-bold mb-5'>
               {education.field}
             </div>
-            <div className='cv-page pre-line' field='educations' index={index} subfield='description'>
+            <div field='educations' index={index} subfield='description' className='cv-page pre-line'>
               {education.description}
             </div>
           </div>
@@ -162,24 +161,24 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
         <div className='cv-section-header'>{label.work}</div>
         {info.works.map((work, index) => (
           <div className='cv-section-item cv-work-item' key={index}>
-            <div className='cv-sub-header'>
-              <span field='works' index={index} subfield='company' className='mw-30'>
+            <div className='d-flex justify-content-between mb-5'>
+              <span field='works' index={index} subfield='company' className='flex-grow font-bold'>
                 {work.company}
               </span>
-              <span>&nbsp;[&nbsp;</span>
-              <span field='works' index={index} subfield='start' className='mw-30'>
-                {work.start}
+              <span>
+                <span field='works' index={index} subfield='start' className='mw-30'>
+                  {work.start}
+                </span>
+                <span>&nbsp;-&nbsp;</span>
+                <span field='works' index={index} subfield='end' className='mw-30'>
+                  {work.end}
+                </span>
               </span>
-              <span>&nbsp;-&nbsp;</span>
-              <span field='works' index={index} subfield='end' className='mw-30'>
-                {work.end}
-              </span>
-              <span>&nbsp;]&nbsp;</span>
             </div>
-            <div field='works' index={index} subfield='position' className='mb-5'>
+            <div field='works' index={index} subfield='position' className='font-bold mb-5'>
               {work.position}
             </div>
-            <div className='cv-page pre-line' field='works' index={index} subfield='description'>
+            <div field='works' index={index} subfield='description' className='cv-page pre-line'>
               {work.description}
             </div>
           </div>
@@ -191,24 +190,24 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
         <div className='cv-section-header'>{label.project}</div>
         {info.projects.map((project, index) => (
           <div className='cv-section-item cv-project-item' key={index}>
-            <div className='cv-sub-header'>
-              <span field='projects' index={index} subfield='name' className='mw-30'>
+            <div className='d-flex justify-content-between mb-5'>
+              <span field='projects' index={index} subfield='name' className='flex-grow font-bold'>
                 {project.name}
               </span>
-              <span>&nbsp;[&nbsp;</span>
-              <span field='projects' index={index} subfield='start' className='mw-30'>
-                {project.start}
+              <span>
+                <span field='projects' index={index} subfield='start' className='mw-30'>
+                  {project.start}
+                </span>
+                <span>&nbsp;-&nbsp;</span>
+                <span field='projects' index={index} subfield='end' className='mw-30'>
+                  {project.end}
+                </span>
               </span>
-              <span>&nbsp;-&nbsp;</span>
-              <span field='projects' index={index} subfield='end' className='mw-30'>
-                {project.end}
-              </span>
-              <span>&nbsp;]&nbsp;</span>
             </div>
-            <div field='projects' index={index} subfield='company' className='mb-5'>
+            <div field='projects' index={index} subfield='company' className='font-bold mb-5'>
               {project.company}
             </div>
-            <div className='cv-page pre-line' field='projects' index={index} subfield='description'>
+            <div field='projects' index={index} subfield='description' className='cv-page pre-line'>
               {project.description}
             </div>
           </div>
@@ -220,19 +219,19 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
         <div className='cv-section-header'>{label.membership}</div>
         {info.memberships.map((membership, index) => (
           <div className='cv-section-item cv-membership-item' key={index}>
-            <div className='cv-sub-header'>
-              <span field='memberships' index={index} subfield='organization' className='mw-30'>
+            <div className='d-flex justify-content-between mb-5'>
+              <span field='memberships' index={index} subfield='organization' className='flex-grow font-bold'>
                 {membership.organization}
               </span>
-              <span>&nbsp;[&nbsp;</span>
-              <span field='memberships' index={index} subfield='start' className='mw-30'>
-                {membership.start}
+              <span>
+                <span field='memberships' index={index} subfield='start' className='mw-30'>
+                  {membership.start}
+                </span>
+                <span>&nbsp;-&nbsp;</span>
+                <span field='memberships' index={index} subfield='end' className='mw-30'>
+                  {membership.end}
+                </span>
               </span>
-              <span>&nbsp;-&nbsp;</span>
-              <span field='memberships' index={index} subfield='end' className='mw-30'>
-                {membership.end}
-              </span>
-              <span>&nbsp;]&nbsp;</span>
             </div>
             <div field='memberships' index={index} subfield='role'>
               {membership.role}
@@ -266,15 +265,15 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
         <div className='cv-section-header'>{label.award}</div>
         {info.awards.map((award, index) => (
           <div className='cv-section-item cv-award-item' key={index}>
-            <div className='cv-sub-header'>
-              <span field='awards' index={index} subfield='name' className='mw-30'>
+            <div className='d-flex justify-content-between mb-5'>
+              <span field='awards' index={index} subfield='name' className='flex-grow font-bold'>
                 {award.name}
               </span>
-              <span>&nbsp;[&nbsp;</span>
-              <span field='awards' index={index} subfield='year' className='mw-30'>
-                {award.year}
+              <span>
+                <span field='awards' index={index} subfield='year' className='mw-30'>
+                  {award.year}
+                </span>
               </span>
-              <span>&nbsp;]&nbsp;</span>
             </div>
             <div field='awards' index={index} subfield='organization'>
               {award.organization}
@@ -288,15 +287,15 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
         <div className='cv-section-header'>{label.certificate}</div>
         {info.certificates.map((certificate, index) => (
           <div className='cv-section-item cv-certificate-item' key={index}>
-            <div className='cv-sub-header'>
-              <span field='certificates' index={index} subfield='name' className='mw-30'>
+            <div className='d-flex justify-content-between mb-5'>
+              <span field='certificates' index={index} subfield='name' className='flex-grow font-bold'>
                 {certificate.name}
               </span>
-              <span>&nbsp;[&nbsp;</span>
-              <span field='certificates' index={index} subfield='year' className='mw-30'>
-                {certificate.year}
+              <span>
+                <span field='certificates' index={index} subfield='year' className='mw-30'>
+                  {certificate.year}
+                </span>
               </span>
-              <span>&nbsp;]&nbsp;</span>
             </div>
             <div field='certificates' index={index} subfield='organization'>
               {certificate.organization}
@@ -310,15 +309,15 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
         <div className='cv-section-header'>{label.scholarship}</div>
         {info.scholarships.map((scholarship, index) => (
           <div className='cv-section-item cv-scholarship-item' key={index}>
-            <div className='cv-sub-header'>
-              <span field='scholarships' index={index} subfield='name' className='mw-30'>
+            <div className='d-flex justify-content-between mb-5'>
+              <span field='scholarships' index={index} subfield='name' className='flex-grow font-bold'>
                 {scholarship.name}
               </span>
-              <span>&nbsp;[&nbsp;</span>
-              <span field='scholarships' index={index} subfield='year' className='mw-30'>
-                {scholarship.year}
+              <span>
+                <span field='scholarships' index={index} subfield='year' className='mw-30'>
+                  {scholarship.year}
+                </span>
               </span>
-              <span>&nbsp;]&nbsp;</span>
             </div>
             <div field='scholarships' index={index} subfield='organization'>
               {scholarship.organization}
@@ -332,16 +331,16 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
         <div className='cv-section-header'>{label.thesis}</div>
         {info.theses.map((thesis, index) => (
           <div className='cv-section-item cv-thesis-item' key={index}>
-            <div field='theses' index={index} subfield='title' className='cv-sub-header'>
+            <div field='theses' index={index} subfield='title' className='font-bold mb-5'>
               {thesis.title}
             </div>
-            <div className='mb-5'>
+            <div className='font-bold mb-5'>
               <span>{label.advisor}:&nbsp;</span>
               <span field='theses' index={index} subfield='advisor' className='mw-30'>
                 {thesis.advisor}
               </span>
             </div>
-            <div className='cv-page pre-line' field='theses' index={index} subfield='description'>
+            <div field='theses' index={index} subfield='description' className='cv-page pre-line'>
               {thesis.description}
             </div>
           </div>
@@ -352,9 +351,7 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
       <div className='cv-section publication'>
         <div className='cv-section-header'>{label.publication}</div>
         <div className='cv-book-item' style={{ marginBottom: 10, display: subs['book'] ? 'block' : 'none' }}>
-          <div className='font-bold' style={{ color: '#444444' }}>
-            {label.book}
-          </div>
+          <div className='font-bold'>{label.book}</div>
           {info.books.map((book, index) => (
             <div className='cv-section-item mb-0' key={index}>
               <div className='font-italic cv-page' field='books' index={index}>
@@ -364,9 +361,7 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
           ))}
         </div>
         <div className='cv-journal-item' style={{ marginBottom: 10, display: subs['journal'] ? 'block' : 'none' }}>
-          <div className='font-bold' style={{ color: '#444444' }}>
-            {label.journal}
-          </div>
+          <div className='font-bold'>{label.journal}</div>
           {info.journals.map((journal, index) => (
             <div className='cv-section-item mb-0' key={index}>
               <div className='font-italic cv-page' field='journals' index={index}>
@@ -376,9 +371,7 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
           ))}
         </div>
         <div className='cv-presentation-item' style={{ marginBottom: 10, display: subs['presentation'] ? 'block' : 'none' }}>
-          <div className='font-bold' style={{ color: '#444444' }}>
-            {label.presentation}
-          </div>
+          <div className='font-bold'>{label.presentation}</div>
           {info.presentations.map((presentation, index) => (
             <div className='cv-section-item mb-0' key={index}>
               <div className='font-italic cv-page' field='presentations' index={index}>
@@ -394,7 +387,7 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
         <div className='cv-section-header'>{label.hobby}</div>
         {info.hobbies.map((hobby, index) => (
           <div className='cv-section-item mb-0 cv-hobby' key={index}>
-            <div field='hobbies' index={index}>
+            <div field='hobbies' index={index} className='mw-30'>
               {hobby}
             </div>
           </div>
@@ -405,14 +398,14 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
       <div className='cv-section skill'>
         <div className='cv-section-header'>{label.skill}</div>
         {info.skills.map((skill, index) => (
-          <div className='cv-section-item cv-skill-item d-flex' key={index}>
-            <div className='cv-skill' field='skills' index={index} subfield='name'>
+          <div className='cv-section-item cv-skill-item' key={index}>
+            <div field='skills' index={index} subfield='name' className='font-bold mb-5'>
               {skill.name}
             </div>
             <div className='rating'>
               {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((number, i) => (
                 <span
-                  style={{ backgroundColor: skill.rate * 2 > number ? '#7cc398' : '#c5d8cc' }}
+                  style={{ backgroundColor: skill.rate * 2 > number ? '#999999' : '#ededed' }}
                   onClick={() => {
                     updateRating(index, number + 1)
                   }}
@@ -428,31 +421,29 @@ export function Template3({ info, uploadImage, updateRating, viewMode }) {
 
   return (
     <>
-      <div className={'cv-container cv-container3' + (viewMode ? ' view-mode' : '')} spellCheck={false} onBlur={onBlur} onClick={onClick} style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
-        <div className='cv-top text-center'>
-          <div className={`cv-avatar${viewMode ? '' : ' editable'}`} style={{ backgroundImage: `url(http://localhost:8080/resources/cv/${info.avatar})` }} onClick={() => uploadImage({ aspect: 1 / 1, shape: 'round' })}></div>
+      <div className={'cv-container cv-container4' + (viewMode ? ' view-mode' : '')} spellCheck={false} onBlur={onBlur} onClick={onClick} style={{ fontFamily, fontSize: fontSize + 'pt', lineHeight }}>
+        <div style={{ position: 'relative' }}>
+          <div className={`cv-avatar${viewMode ? '' : ' editable'}`} style={{ backgroundImage: `url(http://localhost:8080/resources/cv/${info.avatar})` }} onClick={() => uploadImage({ aspect: 1 / 1, shape: 'rect' })}></div>
           <div className='cv-fullname' field='fullName'>
             {info.fullName}
           </div>
-          <div className='cv-position' field='position'>
-            {info.position}
+          <div>
+            <span>-&nbsp;</span>
+            <span className='cv-position mw-30' field='position'>
+              {info.position}
+            </span>
+            <span>&nbsp;-</span>
           </div>
         </div>
-        <div className='d-flex'>
-          <div className='cv-col-1'>
-            {info.orders[0]
-              .filter((s) => s.display)
-              .map((s) => (
-                <Fragment key={s.name}>{sections[s.name]}</Fragment>
-              ))}
-          </div>
-          <div className='cv-col-2'>
-            {info.orders[1]
-              .filter((s) => s.display)
-              .map((s) => (
-                <Fragment key={s.name}>{sections[s.name]}</Fragment>
-              ))}
-          </div>
+        <div>
+          {info.orders[0]
+            .filter((s) => s.display)
+            .map((s, index) => (
+              <Fragment key={s.name}>
+                <div className='cv-divider' style={{width: index !== 0 ? '100%' : 'calc(100% - 185px)'}}></div>
+                <Fragment>{sections[s.name]}</Fragment>
+              </Fragment>
+            ))}
         </div>
       </div>
     </>

@@ -11,8 +11,11 @@ export function buildBook(book, format) {
     words.unshift(tmp)
     return words.join(' ')
   })
-  if (format === 'apa') return `${authors.join(', ')}${book.year ? ` (${book.year})` : ''}${book.title ? `. ${book.title}` : ''}${book.location ? `. ${book.location}` : ''}${book.publisher ? `: ${book.publisher}` : ''}.`
-  else return `${authors.join(', ')}${book.title ? `. ${book.title}` : ''}${book.publisher ? `. ${book.publisher}` : ''}${book.year ? `, ${book.year}` : ''}.`
+  let retStr = ''
+  if (format === 'apa') retStr = `${authors.join(', ')}${book.year ? ` (${book.year})` : ''}${book.title ? `. ${book.title}` : ''}${book.location ? `. ${book.location}` : ''}${book.publisher ? `: ${book.publisher}` : ''}`
+  else retStr = `${authors.join(', ')}${book.title ? `. ${book.title}` : ''}${book.publisher ? `. ${book.publisher}` : ''}${book.year ? `, ${book.year}` : ''}`
+  if (retStr.length > 0) retStr += '.'
+  return retStr
 }
 
 export function buildJournal(journal, format) {
@@ -28,10 +31,15 @@ export function buildJournal(journal, format) {
     words.unshift(tmp)
     return words.join(' ')
   })
-  if (format === 'apa') return `${authors.join(', ')}${journal.year ? ` (${journal.year})` : ''}${journal.title ? `. ${journal.title}` : ''}${journal.name ? `. ${journal.name}` : ''}${journal.volume && journal.issue ? `, ${journal.volume}(${journal.issue})` : ''}${journal.start && journal.end ? `, ${journal.start}-${journal.end}` : ''}.`
-  else return `${authors.join(', ')}${journal.title ? `. "${journal.title}."` : ''}${journal.name ? ` ${journal.name}` : ''}${journal.volume ? `, vol. ${journal.volume}` : ''}${journal.issue ? `, no. ${journal.issue}` : ''}${journal.year ? `, ${journal.year}` : ''}${journal.start && journal.end ? `, pp. ${journal.start}-${journal.end}` : ''}.`
+  let retStr = ''
+  if (format === 'apa') retStr = `${authors.join(', ')}${journal.year ? ` (${journal.year})` : ''}${journal.title ? `. ${journal.title}` : ''}${journal.name ? `. ${journal.name}` : ''}${journal.volume && journal.issue ? `, ${journal.volume}(${journal.issue})` : ''}${journal.start && journal.end ? `, ${journal.start}-${journal.end}` : ''}`
+  else retStr = `${authors.join(', ')}${journal.title ? `. "${journal.title}."` : ''}${journal.name ? ` ${journal.name}` : ''}${journal.volume ? `, vol. ${journal.volume}` : ''}${journal.issue ? `, no. ${journal.issue}` : ''}${journal.year ? `, ${journal.year}` : ''}${journal.start && journal.end ? `, pp. ${journal.start}-${journal.end}` : ''}`
+  if (retStr.length > 0) retStr += '.'
+  return retStr
 }
 
 export function buildPresentation(presentation) {
-  return `${presentation.title ? `"${presentation.title}."` : ''}${presentation.conference ? ` ${presentation.conference}` : ''}${presentation.location ? `. ${presentation.location}` : ''}${presentation.year ? `, ${presentation.year}` : ''}.`
+  let retStr = `${presentation.title ? `"${presentation.title}."` : ''}${presentation.conference ? ` ${presentation.conference}` : ''}${presentation.location ? `. ${presentation.location}` : ''}${presentation.year ? `, ${presentation.year}` : ''}`
+  if (retStr.length > 0) retStr += '.'
+  return retStr
 }

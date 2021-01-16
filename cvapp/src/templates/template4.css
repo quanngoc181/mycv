@@ -1,0 +1,223 @@
+.cv-container4 {
+  width: 794px;
+  margin: 0 auto;
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  position: relative;
+  transition: all 0.2s;
+}
+
+.cv-container4 table {
+  width: 100%;
+}
+
+.cv-container4 td {
+  padding: 0;
+  vertical-align: top;
+}
+
+.cv-container4 p {
+  margin-bottom: 0;
+}
+
+.cv-container4 [contenteditable='true']:focus,
+.cv-container4 [contenteditable='true']:hover {
+  outline: 1px dashed #333;
+}
+
+.cv-container4 .cv-avatar {
+  cursor: pointer;
+}
+
+.cv-container4 .cv-avatar.editable:hover {
+  outline: 1px dashed #333;
+}
+
+.cv-container4 .cv-section-header {
+  font-size: calc(1em + 2pt);
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.cv-container4 ul {
+  margin: 0;
+  padding-left: 15px;
+}
+
+.cv-container4 .cv-section-item {
+  margin-bottom: 10px;
+  position: relative;
+}
+.cv-container4:not(.view-mode) .cv-section-item:hover {
+  outline: 1px dashed #333;
+  outline-offset: 3px;
+}
+
+.cv-container4 .cv-section-item:last-child {
+  margin-bottom: 0;
+}
+
+.cv-container4 .cv-section-item:hover .cv-action {
+  display: block;
+}
+.cv-container4 .cv-section-item .cv-action {
+  position: absolute;
+  top: -26px;
+  right: 0;
+  display: none;
+  padding-bottom: 6px;
+}
+.cv-container4 .cv-action button {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 0;
+  border: none;
+  color: white;
+  background: #1890ff;
+  cursor: pointer;
+  font-weight: bold;
+}
+.cv-container4 .cv-action button.cv-add {
+  background: #1890ff;
+}
+.cv-container4 .cv-action button.cv-remove {
+  background: #ff4d4f;
+}
+.cv-container4 .cv-action button:focus {
+  outline: none;
+}
+
+.cv-container4 .d-flex {
+  display: flex;
+}
+.cv-container4 .flex-grow {
+  flex-grow: 1;
+}
+.cv-container4 .justify-content-between {
+  justify-content: space-between;
+}
+.cv-container4 .font-bold {
+  font-weight: bold;
+}
+.cv-container4 .font-italic {
+  font-style: italic;
+}
+.cv-container4 .text-justify {
+  text-align: justify;
+}
+.cv-container4 .pre-line {
+  white-space: pre-line;
+}
+.cv-container4 .mb-0 {
+  margin-bottom: 0 !important;
+}
+.cv-container4 .d-inline-block {
+  display: inline-block !important;
+}
+
+.cv-container4 .cv-bullet {
+  padding-left: 12px;
+  position: relative;
+}
+.cv-container4 .cv-bullet::before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: #000;
+  border-radius: 50%;
+  left: 0;
+  top: 50%;
+  margin-top: -3px;
+}
+
+[field]:empty:not(:focus):after {
+  content: attr(data-placeholder);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Template Specific */
+.cv-container4 {
+  padding: 35px;
+}
+
+.cv-container4 .cv-avatar {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  right: 0;
+}
+
+.cv-container4 .cv-fullname {
+  font-size: 2em;
+  width: calc(100% - 185px);
+}
+
+.cv-container4 .cv-position {
+  text-transform: uppercase;
+}
+
+.cv-container4 .cv-divider {
+  height: 1px;
+  background-color: #000000;
+  margin: 15px 0;
+}
+
+.cv-container4 .cv-icon {
+  width: 15px;
+  height: 15px;
+  vertical-align: top;
+  margin-right: 5px;
+  margin-top: 2px;
+}
+
+.cv-container4 span {
+  display: inline-block;
+}
+
+.cv-container4 .cv-info-item span {
+  width: calc(100% - 205px);
+}
+
+.cv-container4 .mb-5 {
+  margin-bottom: 5px !important;
+}
+
+.cv-container4 .cv-page {
+  line-height: 1.2;
+}
+
+.cv-container4 .cv-hobby {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #999;
+  color: #fff;
+  font-weight: bold;
+  border-radius: calc(0.5em + 10px);
+  line-height: 1;
+  margin-right: 5px;
+}
+
+.cv-container4 .cv-skill-item {
+  display: inline-block;
+  width: 50%;
+}
+.cv-container4 .rating span {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin-right: 3px;
+}
+
+.cv-container4 .mw-30 {
+  min-width: 30px;
+}
