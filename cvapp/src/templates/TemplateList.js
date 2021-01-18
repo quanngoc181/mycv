@@ -2,10 +2,12 @@ import template1Logo from './template1.png'
 import template2Logo from './template2.png'
 import template3Logo from './template3.png'
 import template4Logo from './template4.png'
+import template5Logo from './template5.png'
 import { Template1 } from './Template1'
 import { Template2 } from './Template2'
 import { Template3 } from './Template3'
 import { Template4 } from './Template4'
+import { Template5 } from './Template5'
 
 const TemplateList = [
   {
@@ -185,6 +187,50 @@ const TemplateList = [
         { name: 'phone', display: true },
         { name: 'email', display: true },
         { name: 'website', display: true },
+        { name: 'book', display: true },
+        { name: 'journal', display: true },
+        { name: 'presentation', display: true },
+      ],
+    },
+  },
+  {
+    id: 'template5',
+    name: 'Thanh lịch',
+    logo: template5Logo,
+    component: Template5,
+    config: {
+      fontFamily: 'arial',
+      fontSize: 11,
+      lineHeight: 1.4,
+      orders: [
+        [
+          { name: 'profile', display: true },
+          { name: 'education', display: true },
+          { name: 'work', display: true },
+          { name: 'project', display: true },
+          { name: 'membership', display: true },
+          { name: 'skill', display: true },
+          { name: 'award', display: true },
+          { name: 'certificate', display: true },
+          { name: 'scholarship', display: true },
+          { name: 'thesis', display: true },
+          { name: 'publication', display: true },
+          { name: 'activity', display: true },
+          { name: 'hobby', display: true },
+          { name: 'additional', display: true },
+        ],
+      ],
+      subs: [
+        { name: 'gender', display: true },
+        { name: 'dob', display: true },
+        { name: 'address', display: true },
+        { name: 'marital', display: true },
+        { name: 'childs', display: false },
+        { name: 'nationality', display: false },
+        { name: 'religion', display: false },
+        { name: 'phone', display: true },
+        { name: 'email', display: true },
+        { name: 'website', display: false },
         { name: 'book', display: true },
         { name: 'journal', display: true },
         { name: 'presentation', display: true },
