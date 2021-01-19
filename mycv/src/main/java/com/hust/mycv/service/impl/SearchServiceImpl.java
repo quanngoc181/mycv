@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.hust.mycv.dto.CvDto;
 import com.hust.mycv.dto.SearchCvDto;
+import com.hust.mycv.dto.SearchPaginationDto;
 import com.hust.mycv.dto.SearchResultDto;
 import com.hust.mycv.service.SearchService;
 import com.hust.mycv.utility.SearchUtility;
@@ -16,7 +17,7 @@ import com.hust.mycv.utility.SearchUtility;
 public class SearchServiceImpl implements SearchService {
 
 	@Override
-	public List<SearchResultDto> filterCvs(List<CvDto> cvs, SearchCvDto dto) {
+	public SearchPaginationDto filterCvs(List<CvDto> cvs, SearchCvDto dto) {
 
 		// filter language
 		if (dto.language != null) {
@@ -93,45 +94,56 @@ public class SearchServiceImpl implements SearchService {
 			SearchResultDto result = new SearchResultDto(cv.id, cv.cvName, cv.template, cv.language, cv.fullName, cv.gender, cv.dob, cv.address, cv.phone, identifier);
 			res.add(result);
 		}
+		
+		int page = dto.page;
+		
+		int total = res.size();
+		
+		res = res.stream()
+				 .skip((page - 1)*10)
+		         .limit(10)
+		         .collect(Collectors.toList());
+		
+		SearchPaginationDto pagination = new SearchPaginationDto(page, total, res);
 
-		return res;
+		return pagination;
 
 	}
 
 	@Override
-	public List<SearchResultDto> searchCvs(List<CvDto> cvs, SearchCvDto dto) {
+	public SearchPaginationDto searchCvs(List<CvDto> cvs, SearchCvDto dto) {
 
-		// filter language
-		if (dto.language != null) {
-			cvs = cvs.stream().filter(cv -> cv.language.equals(dto.language)).collect(Collectors.toList());
-		}
-
-		// filter gender
-		if (dto.gender != null) {
-			if (dto.gender.equals("male")) {
-				cvs = cvs.stream().filter(cv -> SearchUtility.checkMale(cv.gender)).collect(Collectors.toList());
-			} else if (dto.gender.equals("female")) {
-				cvs = cvs.stream().filter(cv -> SearchUtility.checkFemale(cv.gender)).collect(Collectors.toList());
-			}
-		}
-
-		// filter marital
-		if (dto.marital != null) {
-			if (dto.marital.equals("single")) {
-				cvs = cvs.stream().filter(cv -> SearchUtility.checkSingle(cv.marital)).collect(Collectors.toList());
-			} else if (dto.marital.equals("married")) {
-				cvs = cvs.stream().filter(cv -> SearchUtility.checkMarried(cv.marital)).collect(Collectors.toList());
-			} else if (dto.marital.equals("divorced")) {
-				cvs = cvs.stream().filter(cv -> SearchUtility.checkDivorced(cv.marital)).collect(Collectors.toList());
-			} else if (dto.marital.equals("widowed")) {
-				cvs = cvs.stream().filter(cv -> SearchUtility.checkWidowed(cv.marital)).collect(Collectors.toList());
-			}
-		}
-
-		// filter age
-		if (dto.age.length == 2) {
-			cvs = cvs.stream().filter(cv -> SearchUtility.checkAge(cv.dob, dto.age)).collect(Collectors.toList());
-		}
+//		// filter language
+//		if (dto.language != null) {
+//			cvs = cvs.stream().filter(cv -> cv.language.equals(dto.language)).collect(Collectors.toList());
+//		}
+//
+//		// filter gender
+//		if (dto.gender != null) {
+//			if (dto.gender.equals("male")) {
+//				cvs = cvs.stream().filter(cv -> SearchUtility.checkMale(cv.gender)).collect(Collectors.toList());
+//			} else if (dto.gender.equals("female")) {
+//				cvs = cvs.stream().filter(cv -> SearchUtility.checkFemale(cv.gender)).collect(Collectors.toList());
+//			}
+//		}
+//
+//		// filter marital
+//		if (dto.marital != null) {
+//			if (dto.marital.equals("single")) {
+//				cvs = cvs.stream().filter(cv -> SearchUtility.checkSingle(cv.marital)).collect(Collectors.toList());
+//			} else if (dto.marital.equals("married")) {
+//				cvs = cvs.stream().filter(cv -> SearchUtility.checkMarried(cv.marital)).collect(Collectors.toList());
+//			} else if (dto.marital.equals("divorced")) {
+//				cvs = cvs.stream().filter(cv -> SearchUtility.checkDivorced(cv.marital)).collect(Collectors.toList());
+//			} else if (dto.marital.equals("widowed")) {
+//				cvs = cvs.stream().filter(cv -> SearchUtility.checkWidowed(cv.marital)).collect(Collectors.toList());
+//			}
+//		}
+//
+//		// filter age
+//		if (dto.age.length == 2) {
+//			cvs = cvs.stream().filter(cv -> SearchUtility.checkAge(cv.dob, dto.age)).collect(Collectors.toList());
+//		}
 
 		List<SearchResultDto> res = new ArrayList<>();
 
@@ -141,8 +153,19 @@ public class SearchServiceImpl implements SearchService {
 			SearchResultDto result = new SearchResultDto(cv.id, cv.cvName, cv.template, cv.language, cv.fullName, cv.gender, cv.dob, cv.address, cv.phone, identifier);
 			res.add(result);
 		}
+		
+		int page = dto.page;
+		
+		int total = res.size();
+		
+		res = res.stream()
+				 .skip((page - 1)*10)
+		         .limit(10)
+		         .collect(Collectors.toList());
+		
+		SearchPaginationDto pagination = new SearchPaginationDto(page, total, res);
 
-		return res;
+		return pagination;
 
 	}
 

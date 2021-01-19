@@ -1,4 +1,4 @@
-import { Button, Col, message, Radio, Row, Select, Slider } from 'antd'
+import { Button, Col, message, Pagination, Radio, Row, Select, Slider } from 'antd'
 import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { debounce } from 'lodash'
@@ -12,6 +12,8 @@ export function FindCV() {
   const dispatch = useDispatch()
 
   let savedCv = useSelector((state) => state.save.savedCv)
+  let searchPage = useSelector((state) => state.find.searchPage)
+  let searchTotal = useSelector((state) => state.find.searchTotal)
   let searchResult = useSelector((state) => state.find.searchResult)
   let suggestTag = useSelector((state) => state.find.suggestTag)
   let suggestAddress = useSelector((state) => state.find.suggestAddress)
@@ -21,6 +23,13 @@ export function FindCV() {
   let suggestPosition = useSelector((state) => state.find.suggestPosition)
   let suggestSkill = useSelector((state) => state.find.suggestSkill)
   let searchStatus = useSelector((state) => state.find.searchStatus)
+
+  const [lastSearch, setLastSearch] = useState(null)
+
+  const [keyword, setKeyword] = useState(null);
+  const handleKeyword = (e) => {
+    setKeyword(e.target.value)
+  }
 
   const [language, setLanguage] = useState(undefined)
   const handleLanguage = (e) => {
@@ -91,11 +100,21 @@ export function FindCV() {
   }
 
   const submitSearchFilter = () => {
-    dispatch(searchFilter({ language, gender, age, marital, tag, address, school, field, company, position, skill }))
+    setLastSearch('FILTER')
+    dispatch(searchFilter({ language, gender, age, marital, tag, address, school, field, company, position, skill, page: 1 }))
   }
 
-  const submitSearchKeyword = (keyword) => {
-    dispatch(searchKeyword({ language, gender, age, marital, tag, address, school, field, company, position, skill, keyword }))
+  const submitSearchKeyword = () => {
+    setLastSearch('KEYWORD')
+    dispatch(searchKeyword({ language, gender, age, marital, tag, address, school, field, company, position, skill, keyword, page: 1 }))
+  }
+
+  const handlePaging = (page) => {
+    if(lastSearch === 'FILTER') {
+      dispatch(searchFilter({ language, gender, age, marital, tag, address, school, field, company, position, skill, page }))
+    } else if (lastSearch === 'KEYWORD') {
+      dispatch(searchKeyword({ language, gender, age, marital, tag, address, school, field, company, position, skill, keyword, page }))
+    }
   }
 
   return (
@@ -149,12 +168,15 @@ export function FindCV() {
                 <span className='keyword-label'>Nhập từ khóa tìm kiếm:</span>
               </Col>
               <Col span={12}>
-                <Search placeholder='Tìm theo từ khóa' onSearch={submitSearchKeyword} enterButton />
+                <Search placeholder='Tìm theo từ khóa' value={keyword} onChange={handleKeyword} onSearch={submitSearchKeyword} enterButton />
               </Col>
               <Col span={6}>
-                <span className='keyword-label'>hoặc sử dụng bộ lọc sau:</span>
+                <span className='keyword-label'>hoặc sử dụng các bộ lọc</span>
               </Col>
             </Row>
+          </div>
+          <div style={{ margin: '14px 0', textAlign: 'center' }}>
+            <Pagination current={searchPage} total={searchTotal} onChange={handlePaging} />
           </div>
           <div className='result-container'>
             {searchResult.map((result, index) => {

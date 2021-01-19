@@ -62,8 +62,8 @@
 }
 
 .find-cv .result-container {
-  padding: 40px;
-  height: calc(100vh - 154px);
+  padding: 0 30px 14px;
+  height: calc(100vh - 214px);
   overflow-y: scroll;
 }
 

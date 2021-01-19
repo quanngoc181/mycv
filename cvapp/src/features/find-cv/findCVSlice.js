@@ -32,6 +32,8 @@ export const getSuggest = createAsyncThunk('create/getSuggest', async ({ field, 
 export const findCVSlice = createSlice({
   name: 'find',
   initialState: {
+    searchPage: 0,
+    searchTotal: 0,
     searchResult: [],
     suggestTag: [],
     suggestAddress: [],
@@ -48,7 +50,9 @@ export const findCVSlice = createSlice({
       state.searchStatus = 'pending'
     },
     [searchFilter.fulfilled]: (state, action) => {
-      state.searchResult = action.payload
+      state.searchPage = action.payload.page
+      state.searchTotal = action.payload.total
+      state.searchResult = action.payload.result
       state.searchStatus = 'success'
     },
     [searchFilter.rejected]: (state, action) => {
@@ -59,7 +63,9 @@ export const findCVSlice = createSlice({
       state.searchStatus = 'pending'
     },
     [searchKeyword.fulfilled]: (state, action) => {
-      state.searchResult = action.payload
+      state.searchPage = action.payload.page
+      state.searchTotal = action.payload.total
+      state.searchResult = action.payload.result
       state.searchStatus = 'success'
     },
     [searchKeyword.rejected]: (state, action) => {

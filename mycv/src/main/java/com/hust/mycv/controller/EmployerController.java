@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hust.mycv.dto.CvDto;
 import com.hust.mycv.dto.SavedCvDto;
 import com.hust.mycv.dto.SearchCvDto;
+import com.hust.mycv.dto.SearchPaginationDto;
 import com.hust.mycv.dto.SearchResultDto;
 import com.hust.mycv.service.CvService;
 import com.hust.mycv.service.ElasticService;
@@ -39,7 +40,7 @@ public class EmployerController {
 	SearchService searchService;
 
 	@PostMapping("/search/keyword")
-	public List<SearchResultDto> searchKeyword(@RequestBody SearchCvDto dto) {
+	public SearchPaginationDto searchKeyword(@RequestBody SearchCvDto dto) {
 		
 		List<CvDto> cvs = new ArrayList<>();
 
@@ -50,18 +51,18 @@ public class EmployerController {
 			cvs = cvService.findByIds(ids);
 		}
 
-		List<SearchResultDto> ret = searchService.searchCvs(cvs, dto);
+		SearchPaginationDto ret = searchService.searchCvs(cvs, dto);
 		
 		return ret;
 		
 	}
 
 	@PostMapping("/search/filter")
-	public List<SearchResultDto> searchFilter(@RequestBody SearchCvDto dto) {
+	public SearchPaginationDto searchFilter(@RequestBody SearchCvDto dto) {
 
 		List<CvDto> cvs = cvService.findAll();
 
-		List<SearchResultDto> ret = searchService.filterCvs(cvs, dto);
+		SearchPaginationDto ret = searchService.filterCvs(cvs, dto);
 
 		return ret;
 
