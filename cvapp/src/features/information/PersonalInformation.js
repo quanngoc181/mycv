@@ -4,8 +4,9 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateInfo } from './infoSlice'
 import moment from 'moment'
+import { CheckOutlined } from '@ant-design/icons'
 
-export function PersonalInformation({ info, layout, tailLayout, locale, language }) {
+export function PersonalInformation({ info, layout, tailLayout, locale, language, updateStatus }) {
   const [form] = useForm()
   const dispatch = useDispatch()
 
@@ -41,10 +42,11 @@ export function PersonalInformation({ info, layout, tailLayout, locale, language
         <Input />
       </Form.Item>
 
-      <Form.Item label='Tình trạng hôn nhân' name='marital'>
+      <Form.Item label='Hôn nhân' name='marital'>
         <Radio.Group buttonStyle='solid'>
           <Radio.Button value='single'>{language === 'vi' ? 'Độc thân' : 'Single'}</Radio.Button>
           <Radio.Button value='married'>{language === 'vi' ? 'Kết hôn' : 'Married'}</Radio.Button>
+          <div style={{ height: 5 }}></div>
           <Radio.Button value='divorced'>{language === 'vi' ? 'Ly hôn' : 'Divorced'}</Radio.Button>
           <Radio.Button value='widowed'>{language === 'vi' ? 'Góa' : 'Widowed'}</Radio.Button>
         </Radio.Group>
@@ -62,8 +64,8 @@ export function PersonalInformation({ info, layout, tailLayout, locale, language
         <Input />
       </Form.Item>
 
-      <Form.Item {...tailLayout}>
-        <Button type='primary' htmlType='submit'>
+      <Form.Item {...tailLayout} className='mb-0'>
+        <Button type='primary' htmlType='submit' icon={<CheckOutlined />} loading={updateStatus === 'pending'}>
           Lưu
         </Button>
       </Form.Item>

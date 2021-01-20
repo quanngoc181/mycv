@@ -1,9 +1,10 @@
+import { CheckOutlined } from '@ant-design/icons'
 import { Button, Form, Input } from 'antd'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateInfo } from './infoSlice'
 
-export function Profile({ info, layout, tailLayout }) {
+export function Profile({ info, layout, tailLayout, updateStatus }) {
   const [form] = Form.useForm()
   const dispatch = useDispatch()
 
@@ -24,11 +25,11 @@ export function Profile({ info, layout, tailLayout }) {
       </Form.Item>
 
       <Form.Item label='Profile' name='profile'>
-        <Input.TextArea />
+        <Input.TextArea autoSize />
       </Form.Item>
 
-      <Form.Item {...tailLayout}>
-        <Button type='primary' htmlType='submit'>
+      <Form.Item {...tailLayout} className='mb-0'>
+        <Button type='primary' htmlType='submit' icon={<CheckOutlined />} loading={updateStatus === 'pending'}>
           Lưu
         </Button>
       </Form.Item>

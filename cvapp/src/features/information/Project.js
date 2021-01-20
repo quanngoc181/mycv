@@ -3,10 +3,10 @@ import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import moment from 'moment'
-import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { CheckOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { updateInfo } from './infoSlice'
 
-export function Project({ info, layout, tailLayout, locale, language }) {
+export function Project({ info, layout, tailLayout, locale, language, updateStatus }) {
   const [form] = useForm()
   const dispatch = useDispatch()
 
@@ -48,7 +48,7 @@ export function Project({ info, layout, tailLayout, locale, language }) {
                   <DatePicker.RangePicker locale={locale} picker='month' format={'MM/YYYY'} />
                 </Form.Item>
                 <Form.Item {...field} name={[field.name, 'description']} fieldKey={[field.fieldKey, 'description']} label='Mô tả'>
-                  <Input.TextArea style={{ width: 'calc(100% - 40px)' }} />
+                  <Input.TextArea style={{ width: 'calc(100% - 40px)' }} autoSize />
                 </Form.Item>
               </Space>
             ))}
@@ -56,8 +56,8 @@ export function Project({ info, layout, tailLayout, locale, language }) {
         )}
       </Form.List>
 
-      <Form.Item {...tailLayout}>
-        <Button type='primary' htmlType='submit'>
+      <Form.Item {...tailLayout} className='mb-0'>
+        <Button type='primary' htmlType='submit' icon={<CheckOutlined />} loading={updateStatus === 'pending'}>
           Lưu
         </Button>
       </Form.Item>

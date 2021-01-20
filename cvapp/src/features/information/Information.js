@@ -1,8 +1,7 @@
-import { message, Radio, Tabs } from 'antd'
+import { Card, Col, message, Radio, Row, Tabs } from 'antd'
 import React, { useEffect } from 'react'
 import VI from 'antd/es/date-picker/locale/vi_VN'
 import EN from 'antd/es/date-picker/locale/en_US'
-import coverImage from '../../image/cover-image.jpg'
 import '../../css/information.css'
 import { Profile } from './Profile'
 import { PersonalInformation } from './PersonalInformation'
@@ -25,11 +24,11 @@ import { Project } from './Project'
 import { resetStatus, updateLanguage } from './infoSlice'
 
 const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 12 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
 }
 const tailLayout = {
-  wrapperCol: { offset: 6, span: 12 },
+  wrapperCol: { offset: 8, span: 16 },
 }
 
 export function Information() {
@@ -63,110 +62,87 @@ export function Information() {
   }
 
   return (
-    <div className='container p-0' style={{ backgroundColor: '#fff' }}>
-      <div className='homepage-region'>
-        <img className='cover-image' src={coverImage} alt='Anh bia' />
-        <div className='avatar-region'>
-          <img className='avatar-image' src={'http://localhost:8080/resources/avatar/' + info.avatar} alt='Anh dai dien' />
-          <UploadAvatar />
+    <Row>
+      <Col span={8}>
+        <div style={{ padding: 15 }}>
+          <Card size='small' hoverable style={{ marginBottom: 15 }}>
+            <div className='avatar-region'>
+              <img className='avatar-image' src={'http://localhost:8080/resources/avatar/' + info.avatar} alt='Anh dai dien' />
+              <UploadAvatar />
+            </div>
+            <div style={{ marginTop: 20, textAlign: 'center' }}>
+              <Radio.Group value={language} onChange={handleLanguageChange} buttonStyle='solid'>
+                <Radio.Button className='info-language' value='vi'>
+                  Tiếng Việt
+                </Radio.Button>
+                <Radio.Button className='info-language' value='en'>
+                  English
+                </Radio.Button>
+              </Radio.Group>
+            </div>
+          </Card>
+          <Card size='small' title='Profile' hoverable style={{ marginBottom: 15 }}>
+            <Profile info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Thông tin cá nhân' hoverable style={{ marginBottom: 15 }}>
+            <PersonalInformation info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Thông tin liên hệ' hoverable style={{ marginBottom: 15 }}>
+            <ContactInformation info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Thông tin thêm' hoverable>
+            <AdditionalInformation info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
+          </Card>
         </div>
-      </div>
-
-      <div>
-        <Radio.Group value={language} onChange={handleLanguageChange} buttonStyle='solid'>
-          <Radio.Button className='info-language' value='vi'>
-            Tiếng Việt
-          </Radio.Button>
-          <Radio.Button className='info-language' value='en'>
-            English
-          </Radio.Button>
-        </Radio.Group>
-      </div>
-
-      <Tabs className='info-menu' tabPosition='left'>
-        <Tabs.TabPane tab='Profile' key='5'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Profile info={info} layout={layout} tailLayout={tailLayout} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Thông tin cá nhân' key='1'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <PersonalInformation info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Thông tin liên hệ' key='2'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <ContactInformation info={info} layout={layout} tailLayout={tailLayout} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Thông tin thêm' key='4'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <AdditionalInformation info={info} layout={layout} tailLayout={tailLayout} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Xuất bản, thuyết trình' key='6'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
+      </Col>
+      <Col span={8}>
+        <div style={{ padding: 15 }}>
+          <Card size='small' title='Kỹ năng' hoverable style={{ marginBottom: 15 }}>
+            <Skill info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Xuất bản, thuyết trình' hoverable style={{ marginBottom: 15 }}>
             <Tabs defaultActiveKey='61' centered>
               <Tabs.TabPane tab='Sách' key='61'>
-                <Book info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
+                <Book info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} locale={locale} />
               </Tabs.TabPane>
               <Tabs.TabPane tab='Tạp chí' key='62'>
-                <Journal info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
+                <Journal info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} locale={locale} />
               </Tabs.TabPane>
               <Tabs.TabPane tab='Thuyết trình' key='63'>
-                <Presentation info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
+                <Presentation info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} locale={locale} />
               </Tabs.TabPane>
             </Tabs>
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Học bổng, tài trợ' key='7'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Scholarship info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Giải thưởng, danh hiệu' key='8'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Award info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Chứng nhận, giấy phép' key='9'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Certificate info={info} layout={layout} tailLayout={tailLayout} locale={locale} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Luận văn, luận án' key='10'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Thesis info={info} layout={layout} tailLayout={tailLayout} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Thành viên tổ chức' key='11'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Membership info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Kỹ năng' key='12'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Skill info={info} layout={layout} tailLayout={tailLayout} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Giáo dục, đào tạo' key='13'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Education info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Kinh nghiệm làm việc' key='14'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Work info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} />
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Dự án' key='15'>
-          <div style={{ padding: '16px 24px 16px 0' }}>
-            <Project info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} />
-          </div>
-        </Tabs.TabPane>
-      </Tabs>
-
-      <div style={{ height: 50 }}></div>
-    </div>
+          </Card>
+          <Card size='small' title='Giải thưởng, danh hiệu' hoverable style={{ marginBottom: 15 }}>
+            <Award info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} locale={locale} />
+          </Card>
+          <Card size='small' title='Chứng nhận, giấy phép' hoverable style={{ marginBottom: 15 }}>
+            <Certificate info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} locale={locale} />
+          </Card>
+          <Card size='small' title='Học bổng, tài trợ' hoverable>
+            <Scholarship info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} locale={locale} />
+          </Card>
+        </div>
+      </Col>
+      <Col span={8}>
+        <div style={{ padding: 15 }}>
+          <Card size='small' title='Giáo dục, đào tạo' hoverable style={{ marginBottom: 15 }}>
+            <Education info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Kinh nghiệm làm việc' hoverable style={{ marginBottom: 15 }}>
+            <Work info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Dự án' hoverable style={{ marginBottom: 15 }}>
+            <Project info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Thành viên tổ chức' hoverable style={{ marginBottom: 15 }}>
+            <Membership info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Luận văn, luận án' hoverable>
+            <Thesis info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
+          </Card>
+        </div>
+      </Col>
+    </Row>
   )
 }

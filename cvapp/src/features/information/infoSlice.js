@@ -42,7 +42,7 @@ export const infoSlice = createSlice({
       state.enInfo = null
     },
     resetStatus(state, action) {
-      state.updateStatus = 'pending'
+      state.updateStatus = null
     },
     updateAvatar(state, action) {
       state.viInfo.avatar = action.payload

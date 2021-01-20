@@ -3,10 +3,10 @@ import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import moment from 'moment'
-import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { CheckOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { updateInfo } from './infoSlice'
 
-export function Book({ info, layout, tailLayout, locale }) {
+export function Book({ info, layout, tailLayout, locale, updateStatus }) {
   const [form] = useForm()
   const dispatch = useDispatch()
 
@@ -53,8 +53,8 @@ export function Book({ info, layout, tailLayout, locale }) {
         )}
       </Form.List>
 
-      <Form.Item {...tailLayout}>
-        <Button type='primary' htmlType='submit'>
+      <Form.Item {...tailLayout} className='mb-0'>
+        <Button type='primary' htmlType='submit' icon={<CheckOutlined />} loading={updateStatus === 'pending'}>
           Lưu
         </Button>
       </Form.Item>

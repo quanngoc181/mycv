@@ -1,11 +1,11 @@
-import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { CheckOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Space } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateInfo } from './infoSlice'
 
-export function Thesis({ info, layout, tailLayout }) {
+export function Thesis({ info, layout, tailLayout, updateStatus }) {
   const [form] = useForm()
   const dispatch = useDispatch()
 
@@ -37,7 +37,7 @@ export function Thesis({ info, layout, tailLayout }) {
                   <Input style={{ width: 'calc(100% - 40px)' }} />
                 </Form.Item>
                 <Form.Item {...field} name={[field.name, 'description']} fieldKey={[field.fieldKey, 'description']} label='Mô tả ngắn'>
-                  <Input.TextArea style={{ width: 'calc(100% - 40px)' }} />
+                  <Input.TextArea style={{ width: 'calc(100% - 40px)' }} autoSize />
                 </Form.Item>
               </Space>
             ))}
@@ -45,8 +45,8 @@ export function Thesis({ info, layout, tailLayout }) {
         )}
       </Form.List>
 
-      <Form.Item {...tailLayout}>
-        <Button type='primary' htmlType='submit'>
+      <Form.Item {...tailLayout} className='mb-0'>
+        <Button type='primary' htmlType='submit' icon={<CheckOutlined />} loading={updateStatus === 'pending'}>
           Lưu
         </Button>
       </Form.Item>

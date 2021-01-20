@@ -1,11 +1,11 @@
-import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { CheckOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Rate, Space } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateInfo } from './infoSlice'
 
-export function Skill({ info, layout, tailLayout }) {
+export function Skill({ info, layout, tailLayout, updateStatus }) {
   const [form] = useForm()
   const dispatch = useDispatch()
 
@@ -42,8 +42,8 @@ export function Skill({ info, layout, tailLayout }) {
         )}
       </Form.List>
 
-      <Form.Item {...tailLayout}>
-        <Button type='primary' htmlType='submit'>
+      <Form.Item {...tailLayout} className='mb-0'>
+        <Button type='primary' htmlType='submit' icon={<CheckOutlined />} loading={updateStatus === 'pending'}>
           Lưu
         </Button>
       </Form.Item>
