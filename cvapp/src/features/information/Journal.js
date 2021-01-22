@@ -29,51 +29,51 @@ export function Journal({ info, layout, tailLayout, locale, updateStatus }) {
           <>
             {fields.map((field, index) => (
               <Space key={field.key} direction='vertical' style={{ width: '100%' }} size={0}>
-                <Form.Item label='Tiêu đề'>
+                <Form.Item label={'Bài viết ' + (index + 1)} className='mb-5px'>
                   <Form.Item {...field} name={[field.name, 'title']} fieldKey={[field.fieldKey, 'title']} noStyle>
-                    <Input style={{ width: 'calc(100% - 40px)' }} />
+                    <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên bài viết' />
                   </Form.Item>
-                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />}
+                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button add' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button delete' onClick={() => remove(field.name)} />}
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'name']} fieldKey={[field.fieldKey, 'name']} label='Tên tạp chí'>
-                  <Input style={{ width: 'calc(100% - 40px)' }} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'authors']} fieldKey={[field.fieldKey, 'authors']} className='mb-5px'>
+                  <Select mode='tags' style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên các tác giả'></Select>
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'authors']} fieldKey={[field.fieldKey, 'authors']} label='Tác giả'>
-                  <Select mode='tags' style={{ width: 'calc(100% - 40px)' }}></Select>
-                </Form.Item>
-                <Form.Item {...field} name={[field.name, 'year']} fieldKey={[field.fieldKey, 'year']} label='Năm xuất bản'>
-                  <DatePicker locale={locale} picker='year' />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'name']} fieldKey={[field.fieldKey, 'name']} className='mb-5px'>
+                  <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên tạp chí' />
                 </Form.Item>
                 <Row>
                   <Col span={8}>
-                    <div style={{ lineHeight: '32px', textAlign: 'right', paddingRight: 8 }}>Tập, Kỳ:</div>
+                    <div style={{ lineHeight: '32px', textAlign: 'right', paddingRight: 8 }}></div>
                   </Col>
                   <Col span={8}>
-                    <Form.Item {...field} name={[field.name, 'volume']} fieldKey={[field.fieldKey, 'volume']} wrapperCol={{ span: 24 }}>
+                    <Form.Item {...field} name={[field.name, 'volume']} fieldKey={[field.fieldKey, 'volume']} wrapperCol={{ span: 24 }} className='mb-5px'>
                       <InputNumber min={0} placeholder='Tập' style={{ width: 'calc(100% - 40px)' }} />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Form.Item {...field} name={[field.name, 'issue']} fieldKey={[field.fieldKey, 'issue']} wrapperCol={{ span: 24 }}>
+                    <Form.Item {...field} name={[field.name, 'issue']} fieldKey={[field.fieldKey, 'issue']} wrapperCol={{ span: 24 }} className='mb-5px'>
                       <InputNumber min={0} placeholder='Kỳ' style={{ width: 'calc(100% - 40px)' }} />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row>
                   <Col span={8}>
-                    <div style={{ lineHeight: '32px', textAlign: 'right', paddingRight: 8 }}>Trang:</div>
+                    <div style={{ lineHeight: '32px', textAlign: 'right', paddingRight: 8 }}></div>
                   </Col>
                   <Col span={8}>
-                    <Form.Item {...field} name={[field.name, 'start']} fieldKey={[field.fieldKey, 'start']} wrapperCol={{ span: 24 }}>
-                      <InputNumber min={0} placeholder='Từ' style={{ width: 'calc(100% - 40px)' }} />
+                    <Form.Item {...field} name={[field.name, 'start']} fieldKey={[field.fieldKey, 'start']} wrapperCol={{ span: 24 }} className='mb-5px'>
+                      <InputNumber min={0} placeholder='Từ trang' style={{ width: 'calc(100% - 40px)' }} />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Form.Item {...field} name={[field.name, 'end']} fieldKey={[field.fieldKey, 'end']} wrapperCol={{ span: 24 }}>
-                      <InputNumber min={0} placeholder='Đến' style={{ width: 'calc(100% - 40px)' }} />
+                    <Form.Item {...field} name={[field.name, 'end']} fieldKey={[field.fieldKey, 'end']} wrapperCol={{ span: 24 }} className='mb-5px'>
+                      <InputNumber min={0} placeholder='Đến trang' style={{ width: 'calc(100% - 40px)' }} />
                     </Form.Item>
                   </Col>
                 </Row>
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'year']} fieldKey={[field.fieldKey, 'year']}>
+                  <DatePicker locale={locale} picker='year' />
+                </Form.Item>
               </Space>
             ))}
           </>

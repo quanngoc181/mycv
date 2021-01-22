@@ -62,10 +62,29 @@ export function Information() {
   }
 
   return (
-    <Row>
+    <Row className='information-container'>
       <Col span={8}>
         <div style={{ padding: 15 }}>
-          <Card size='small' hoverable style={{ marginBottom: 15 }}>
+          <Card size='small' title='Profile' style={{ marginBottom: 15 }}>
+            <Profile info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Thông tin cá nhân' style={{ marginBottom: 15 }}>
+            <PersonalInformation info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Thông tin liên hệ' style={{ marginBottom: 15 }}>
+            <ContactInformation info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Kỹ năng' style={{ marginBottom: 15 }}>
+            <Skill info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
+          </Card>
+          <Card size='small' title='Thông tin thêm'>
+            <AdditionalInformation info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
+          </Card>
+        </div>
+      </Col>
+      <Col span={8}>
+        <div style={{ padding: 15 }}>
+          <Card size='small' style={{ marginBottom: 15 }}>
             <div className='avatar-region'>
               <img className='avatar-image' src={'http://localhost:8080/resources/avatar/' + info.avatar} alt='Anh dai dien' />
               <UploadAvatar />
@@ -81,26 +100,7 @@ export function Information() {
               </Radio.Group>
             </div>
           </Card>
-          <Card size='small' title='Profile' hoverable style={{ marginBottom: 15 }}>
-            <Profile info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
-          </Card>
-          <Card size='small' title='Thông tin cá nhân' hoverable style={{ marginBottom: 15 }}>
-            <PersonalInformation info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
-          </Card>
-          <Card size='small' title='Thông tin liên hệ' hoverable style={{ marginBottom: 15 }}>
-            <ContactInformation info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
-          </Card>
-          <Card size='small' title='Thông tin thêm' hoverable>
-            <AdditionalInformation info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
-          </Card>
-        </div>
-      </Col>
-      <Col span={8}>
-        <div style={{ padding: 15 }}>
-          <Card size='small' title='Kỹ năng' hoverable style={{ marginBottom: 15 }}>
-            <Skill info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
-          </Card>
-          <Card size='small' title='Xuất bản, thuyết trình' hoverable style={{ marginBottom: 15 }}>
+          <Card size='small' title='Xuất bản, thuyết trình' style={{ marginBottom: 15 }}>
             <Tabs defaultActiveKey='61' centered>
               <Tabs.TabPane tab='Sách' key='61'>
                 <Book info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} locale={locale} />
@@ -113,32 +113,32 @@ export function Information() {
               </Tabs.TabPane>
             </Tabs>
           </Card>
-          <Card size='small' title='Giải thưởng, danh hiệu' hoverable style={{ marginBottom: 15 }}>
+          <Card size='small' title='Giải thưởng, danh hiệu' style={{ marginBottom: 15 }}>
             <Award info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} locale={locale} />
           </Card>
-          <Card size='small' title='Chứng nhận, giấy phép' hoverable style={{ marginBottom: 15 }}>
+          <Card size='small' title='Chứng nhận, giấy phép' style={{ marginBottom: 15 }}>
             <Certificate info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} locale={locale} />
           </Card>
-          <Card size='small' title='Học bổng, tài trợ' hoverable>
+          <Card size='small' title='Học bổng, tài trợ'>
             <Scholarship info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} locale={locale} />
           </Card>
         </div>
       </Col>
       <Col span={8}>
         <div style={{ padding: 15 }}>
-          <Card size='small' title='Giáo dục, đào tạo' hoverable style={{ marginBottom: 15 }}>
+          <Card size='small' title='Giáo dục, đào tạo' style={{ marginBottom: 15 }}>
             <Education info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
           </Card>
-          <Card size='small' title='Kinh nghiệm làm việc' hoverable style={{ marginBottom: 15 }}>
+          <Card size='small' title='Kinh nghiệm làm việc' style={{ marginBottom: 15 }}>
             <Work info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
           </Card>
-          <Card size='small' title='Dự án' hoverable style={{ marginBottom: 15 }}>
+          <Card size='small' title='Dự án' style={{ marginBottom: 15 }}>
             <Project info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
           </Card>
-          <Card size='small' title='Thành viên tổ chức' hoverable style={{ marginBottom: 15 }}>
+          <Card size='small' title='Thành viên tổ chức' style={{ marginBottom: 15 }}>
             <Membership info={info} layout={layout} tailLayout={tailLayout} locale={locale} language={language} updateStatus={updateStatus} />
           </Card>
-          <Card size='small' title='Luận văn, luận án' hoverable>
+          <Card size='small' title='Luận văn, luận án'>
             <Thesis info={info} layout={layout} tailLayout={tailLayout} updateStatus={updateStatus} />
           </Card>
         </div>

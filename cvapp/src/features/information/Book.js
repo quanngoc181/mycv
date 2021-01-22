@@ -29,22 +29,22 @@ export function Book({ info, layout, tailLayout, locale, updateStatus }) {
           <>
             {fields.map((field, index) => (
               <Space key={field.key} direction='vertical' style={{ width: '100%' }} size={0}>
-                <Form.Item label='Tiêu đề'>
+                <Form.Item label={'Sách ' + (index + 1)} className='mb-5px'>
                   <Form.Item {...field} name={[field.name, 'title']} fieldKey={[field.fieldKey, 'title']} noStyle>
-                    <Input style={{ width: 'calc(100% - 40px)' }} />
+                    <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tiêu đề sách' />
                   </Form.Item>
-                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />}
+                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button add' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button delete' onClick={() => remove(field.name)} />}
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'publisher']} fieldKey={[field.fieldKey, 'publisher']} label='Nhà xuất bản'>
-                  <Input style={{ width: 'calc(100% - 40px)' }} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'authors']} fieldKey={[field.fieldKey, 'authors']} className='mb-5px'>
+                  <Select mode='tags' style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên các tác giả'></Select>
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'location']} fieldKey={[field.fieldKey, 'location']} label='Nơi xuất bản'>
-                  <Input style={{ width: 'calc(100% - 40px)' }} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'publisher']} fieldKey={[field.fieldKey, 'publisher']} className='mb-5px'>
+                  <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên nhà xuất bản' />
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'authors']} fieldKey={[field.fieldKey, 'authors']} label='Tác giả'>
-                  <Select mode='tags' style={{ width: 'calc(100% - 40px)' }}></Select>
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'location']} fieldKey={[field.fieldKey, 'location']} className='mb-5px'>
+                  <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nơi xuất bản' />
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'year']} fieldKey={[field.fieldKey, 'year']} label='Năm xuất bản'>
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'year']} fieldKey={[field.fieldKey, 'year']}>
                   <DatePicker locale={locale} picker='year' />
                 </Form.Item>
               </Space>

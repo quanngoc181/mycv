@@ -21,11 +21,11 @@ export function Profile({ info, layout, tailLayout, updateStatus }) {
   return (
     <Form form={form} onFinish={onFinish} {...layout}>
       <Form.Item label='Vị trí ứng tuyển' name='position'>
-        <Input />
+        <Input placeholder='Nhập vị trí ứng tuyển' />
       </Form.Item>
 
       <Form.Item label='Profile' name='profile'>
-        <Input.TextArea autoSize />
+        <Input.TextArea autoSize placeholder='Giới thiệu ngắn gọn về bản thân và mục tiêu trong công việc' />
       </Form.Item>
 
       <Form.Item {...tailLayout} className='mb-0'>
