@@ -77,7 +77,8 @@ public class ElasticRepositoryImpl implements ElasticRepository {
 					+ "        \"fuzziness\": \"" + fuziness + "\"\n"
 					+ "      }\n"
 					+ "    }\n"
-					+ "  }\n"
+					+ "  },\n"
+					+ "  \"size\": 10000\n"
 					+ "}";
 
 			RequestEntity<String> request = RequestEntity.post(new URI("http://localhost:9200/" + index

@@ -27,13 +27,13 @@ export function Skill({ info, layout, tailLayout, updateStatus }) {
           <>
             {fields.map((field, index) => (
               <Space key={field.key} direction='vertical' style={{ width: '100%' }} size={0}>
-                <Form.Item label='Kỹ năng'>
+                <Form.Item label={'Kỹ năng ' + (index + 1)} className='mb-0'>
                   <Form.Item {...field} name={[field.name, 'name']} fieldKey={[field.fieldKey, 'name']} noStyle>
-                    <Input style={{ width: 'calc(100% - 40px)' }} />
+                    <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên kỹ năng' bordered={false} />
                   </Form.Item>
-                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />}
+                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button add' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button delete' onClick={() => remove(field.name)} />}
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'rate']} fieldKey={[field.fieldKey, 'rate']} label='Đánh giá'>
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'rate']} fieldKey={[field.fieldKey, 'rate']}>
                   <Rate allowHalf />
                 </Form.Item>
               </Space>

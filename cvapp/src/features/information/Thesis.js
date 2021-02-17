@@ -27,17 +27,17 @@ export function Thesis({ info, layout, tailLayout, updateStatus }) {
           <>
             {fields.map((field, index) => (
               <Space key={field.key} direction='vertical' style={{ width: '100%' }} size={0}>
-                <Form.Item label='Luận văn'>
+                <Form.Item label={'Luận văn ' + (index + 1)} className='mb-5px'>
                   <Form.Item {...field} name={[field.name, 'title']} fieldKey={[field.fieldKey, 'title']} noStyle>
-                    <Input style={{ width: 'calc(100% - 40px)' }} />
+                    <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên luận văn' />
                   </Form.Item>
-                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />}
+                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button add' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button delete' onClick={() => remove(field.name)} />}
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'advisor']} fieldKey={[field.fieldKey, 'advisor']} label='Người hướng dẫn'>
-                  <Input style={{ width: 'calc(100% - 40px)' }} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'advisor']} fieldKey={[field.fieldKey, 'advisor']} className='mb-5px'>
+                  <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên người hướng dẫn' />
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'description']} fieldKey={[field.fieldKey, 'description']} label='Mô tả ngắn'>
-                  <Input.TextArea style={{ width: 'calc(100% - 40px)' }} autoSize />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'description']} fieldKey={[field.fieldKey, 'description']}>
+                  <Input.TextArea style={{ width: 'calc(100% - 40px)' }} autoSize placeholder='Mô tả thêm về nội dung của luận văn, luận án' />
                 </Form.Item>
               </Space>
             ))}

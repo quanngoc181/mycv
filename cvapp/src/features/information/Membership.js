@@ -35,17 +35,17 @@ export function Membership({ info, layout, tailLayout, locale, language, updateS
           <>
             {fields.map((field, index) => (
               <Space key={field.key} direction='vertical' style={{ width: '100%' }} size={0}>
-                <Form.Item label='Tổ chức'>
+                <Form.Item label={'Tổ chức ' + (index + 1)} className='mb-5px'>
                   <Form.Item {...field} name={[field.name, 'organization']} fieldKey={[field.fieldKey, 'organization']} noStyle>
-                    <Input style={{ width: 'calc(100% - 40px)' }} />
+                    <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên tổ chức' />
                   </Form.Item>
-                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />}
+                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button add' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button delete' onClick={() => remove(field.name)} />}
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'role']} fieldKey={[field.fieldKey, 'role']} label='Vai trò'>
-                  <Input style={{ width: 'calc(100% - 40px)' }} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'role']} fieldKey={[field.fieldKey, 'role']} className='mb-5px'>
+                  <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập vai trò trong tổ chức' />
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'time']} fieldKey={[field.fieldKey, 'time']} label='Thời gian'>
-                  <DatePicker.RangePicker locale={locale} picker='month' format={'MM/YYYY'} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'time']} fieldKey={[field.fieldKey, 'time']}>
+                  <DatePicker.RangePicker locale={locale} picker='month' format={'MM/YYYY'} style={{ width: 'calc(100% - 40px)' }} />
                 </Form.Item>
               </Space>
             ))}

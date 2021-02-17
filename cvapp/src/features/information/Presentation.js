@@ -29,19 +29,19 @@ export function Presentation({ info, layout, tailLayout, locale, updateStatus })
           <>
             {fields.map((field, index) => (
               <Space key={field.key} direction='vertical' style={{ width: '100%' }} size={0}>
-                <Form.Item label='Tiêu đề'>
+                <Form.Item label={'Thuyết trình ' + (index + 1)} className='mb-5px'>
                   <Form.Item {...field} name={[field.name, 'title']} fieldKey={[field.fieldKey, 'title']} noStyle>
-                    <Input style={{ width: 'calc(100% - 40px)' }} />
+                    <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên bài thuyết trình' />
                   </Form.Item>
-                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />}
+                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button add' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button delete' onClick={() => remove(field.name)} />}
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'conference']} fieldKey={[field.fieldKey, 'conference']} label='Tên hội nghị'>
-                  <Input style={{ width: 'calc(100% - 40px)' }} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'conference']} fieldKey={[field.fieldKey, 'conference']} className='mb-5px'>
+                  <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên hội nghị' />
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'location']} fieldKey={[field.fieldKey, 'location']} label='Nơi diễn ra'>
-                  <Input style={{ width: 'calc(100% - 40px)' }} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'location']} fieldKey={[field.fieldKey, 'location']} className='mb-5px'>
+                  <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập nơi diễn ra' />
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'year']} fieldKey={[field.fieldKey, 'year']} label='Năm diễn ra'>
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'year']} fieldKey={[field.fieldKey, 'year']}>
                   <DatePicker locale={locale} picker='year' />
                 </Form.Item>
               </Space>

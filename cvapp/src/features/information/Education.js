@@ -35,20 +35,20 @@ export function Education({ info, layout, tailLayout, locale, language, updateSt
           <>
             {fields.map((field, index) => (
               <Space key={field.key} direction='vertical' style={{ width: '100%' }} size={0}>
-                <Form.Item label='Nơi học tập'>
+                <Form.Item label={'Nơi học tập ' + (index + 1)} className='mb-5px'>
                   <Form.Item {...field} name={[field.name, 'school']} fieldKey={[field.fieldKey, 'school']} noStyle>
-                    <Input style={{ width: 'calc(100% - 40px)' }} />
+                    <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập trường học, trung tâm' />
                   </Form.Item>
-                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />}
+                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button add' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button delete' onClick={() => remove(field.name)} />}
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'field']} fieldKey={[field.fieldKey, 'field']} label='Ngành học'>
-                  <Input style={{ width: 'calc(100% - 40px)' }} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'field']} fieldKey={[field.fieldKey, 'field']} className='mb-5px'>
+                  <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập ngành học' />
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'time']} fieldKey={[field.fieldKey, 'time']} label='Thời gian'>
-                  <DatePicker.RangePicker locale={locale} picker='month' format={'MM/YYYY'} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'time']} fieldKey={[field.fieldKey, 'time']} className='mb-5px'>
+                  <DatePicker.RangePicker locale={locale} picker='month' format={'MM/YYYY'} style={{ width: 'calc(100% - 40px)' }} />
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'description']} fieldKey={[field.fieldKey, 'description']} label='Thông tin khác'>
-                  <Input.TextArea style={{ width: 'calc(100% - 40px)' }} autoSize />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'description']} fieldKey={[field.fieldKey, 'description']}>
+                  <Input.TextArea style={{ width: 'calc(100% - 40px)' }} autoSize placeholder='Mô tả thêm về quá trình học tập, rèn luyện' />
                 </Form.Item>
               </Space>
             ))}

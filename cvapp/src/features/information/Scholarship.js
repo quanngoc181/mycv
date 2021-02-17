@@ -29,16 +29,16 @@ export function Scholarship({ info, layout, tailLayout, locale, updateStatus }) 
           <>
             {fields.map((field, index) => (
               <Space key={field.key} direction='vertical' style={{ width: '100%' }} size={0}>
-                <Form.Item label='Học bổng'>
+                <Form.Item label={'Học bổng ' + (index + 1)} className='mb-5px'>
                   <Form.Item {...field} name={[field.name, 'name']} fieldKey={[field.fieldKey, 'name']} noStyle>
-                    <Input style={{ width: 'calc(100% - 40px)' }} />
+                    <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Nhập tên học bổng' />
                   </Form.Item>
-                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button' onClick={() => remove(field.name)} />}
+                  {index === 0 ? <PlusCircleOutlined className='dynamic-delete-button add' onClick={() => add()} /> : <MinusCircleOutlined className='dynamic-delete-button delete' onClick={() => remove(field.name)} />}
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'organization']} fieldKey={[field.fieldKey, 'organization']} label='Trao bởi'>
-                  <Input style={{ width: 'calc(100% - 40px)' }} />
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'organization']} fieldKey={[field.fieldKey, 'organization']} className='mb-5px'>
+                  <Input style={{ width: 'calc(100% - 40px)' }} placeholder='Được trao bởi' />
                 </Form.Item>
-                <Form.Item {...field} name={[field.name, 'year']} fieldKey={[field.fieldKey, 'year']} label='Năm nhận'>
+                <Form.Item {...field} {...tailLayout} name={[field.name, 'year']} fieldKey={[field.fieldKey, 'year']}>
                   <DatePicker locale={locale} picker='year' />
                 </Form.Item>
               </Space>

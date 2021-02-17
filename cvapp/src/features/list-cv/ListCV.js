@@ -1,5 +1,5 @@
-import { CheckOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, EditOutlined, EyeOutlined, FacebookOutlined, GiftOutlined, LinkedinOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons'
-import { Button, Input, List, message, Modal, Popconfirm, Popover, Radio, Space, Steps, Switch } from 'antd'
+import { CheckOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined, FacebookOutlined, GiftOutlined, LinkedinOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { Button, Card, Input, message, Modal, Popconfirm, Popover, Radio, Space, Statistic, Steps, Switch } from 'antd'
 import '../../css/list-cv.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { initCvInfo, editCv, copyCvAll, copyCvTemplate } from '../create-cv/createCVSlice'
@@ -22,11 +22,11 @@ export function ListCV() {
   let sendStatus = useSelector((state) => state.list.sendStatus)
 
   useEffect(() => {
-    if(sendStatus === 'success') {
+    if (sendStatus === 'success') {
       setIsModalVisible(false)
       message.success({ content: 'Thành công' })
     }
-    if(sendStatus === 'error') {
+    if (sendStatus === 'error') {
       setIsModalVisible(false)
       message.error({ content: 'Thất bại' })
     }
@@ -105,39 +105,49 @@ export function ListCV() {
   }
 
   return (
-    <div className='container' style={{ backgroundColor: '#fff', padding: 50 }}>
-      <List
-        header={
-          <div className='list-header'>
-            <b>Danh Sách CV</b>
-            <Button type='primary' size='small' icon={<PlusOutlined />} onClick={createCV}></Button>
-          </div>
-        }
-        bordered
-        dataSource={listCv}
-        renderItem={(item) => {
-          let logo = TemplateList.find((t) => t.id === item.template).logo
-          return (
-            <List.Item>
+    <div className='container listcv-container' style={{ backgroundColor: '#fff', padding: 50, minHeight: 'calc(100vh - 104px)' }}>
+      <h1 className='list-name'>
+        <span>Danh sách CV</span>
+      </h1>
+      <div style={{ textAlign: 'right' }}>
+        <Button type='primary' icon={<PlusOutlined />} onClick={createCV} className='create-button'>
+          Tạo mới
+        </Button>
+      </div>
+      {listCv.map((item, index) => {
+        let logo = TemplateList.find((t) => t.id === item.template).logo
+        return (
+          <div key={index}>
+            <Card style={{ marginBottom: index === listCv.length - 1 ? 0 : 20 }} hoverable>
               <div className='cv-list-item'>
                 <img src={logo} alt='my cv'></img>
                 <div className='content'>
-                  <h2 style={{ marginBottom: 0 }}>{item.cvName}</h2>
-                  <div>
-                    Lượt xem: {item.viewCount ? item.viewCount : 0} Lượt tải: {item.downloadCount ? item.downloadCount : 0} Người tặng: {item.sender ? item.sender : ''}
+                  <h2 className='cv-name'>
+                    {item.cvName}
+                    {item.sender && <span className='normal'>{' (Tặng bởi ' + item.sender + ')'}</span>}
+                  </h2>
+                  <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: 5 }}>
+                    <Statistic
+                      title='Công khai'
+                      value={' '}
+                      prefix={
+                        <Switch
+                          checked={item.cvPublic}
+                          onChange={(cvPublic) => {
+                            dispatch(publicCv({ id: item.id, cvPublic }))
+                          }}
+                          checkedChildren={<CheckOutlined />}
+                          unCheckedChildren={<CloseOutlined />}
+                        />
+                      }
+                    />
+                    <Statistic title='Lượt xem' value={item.viewCount ? item.viewCount : 0} prefix={<EyeOutlined />} />
+                    <Statistic title='Lượt tải' value={item.downloadCount ? item.downloadCount : 0} prefix={<DownloadOutlined />} />
                   </div>
-                  <div>{item.cvNote}</div>
+                  <p className='cv-note'>{item.cvNote}</p>
                   <div className='create-at'>{item.lastModified}</div>
                   <div className='button-group'>
                     <Space>
-                      <Switch
-                        checked={item.cvPublic}
-                        onChange={(cvPublic) => {
-                          dispatch(publicCv({ id: item.id, cvPublic }))
-                        }}
-                        checkedChildren={<CheckOutlined />}
-                        unCheckedChildren={<CloseOutlined />}
-                      />
                       <Button
                         type='primary'
                         size='small'
@@ -145,7 +155,10 @@ export function ListCV() {
                         onClick={() => {
                           handleView(item.identifier)
                         }}
-                      ></Button>
+                        ghost
+                      >
+                        Xem CV
+                      </Button>
                       <Button
                         type='primary'
                         size='small'
@@ -153,7 +166,9 @@ export function ListCV() {
                         onClick={() => {
                           handleUpdate(item.id)
                         }}
-                      ></Button>
+                      >
+                        Sửa CV
+                      </Button>
                       <Popover
                         content={
                           <div>
@@ -181,7 +196,9 @@ export function ListCV() {
                         title='Sao chép CV'
                         trigger='click'
                       >
-                        <Button type='primary' size='small' icon={<CopyOutlined />}></Button>
+                        <Button type='dashed' size='small' icon={<CopyOutlined />}>
+                          Sao chép
+                        </Button>
                       </Popover>
                       <Popconfirm
                         title='Xóa CV này?'
@@ -191,29 +208,39 @@ export function ListCV() {
                         okText='Xóa'
                         cancelText='Hủy'
                       >
-                        <Button type='primary' size='small' icon={<DeleteOutlined />}></Button>
+                        <Button type='primary' size='small' icon={<DeleteOutlined />} danger>
+                          Xóa CV
+                        </Button>
                       </Popconfirm>
                       <Popover
                         content={
                           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                            <Button type='primary' size='small' icon={<FacebookOutlined />} onClick={handleShareFb}></Button>
-                            <Button type='primary' size='small' icon={<LinkedinOutlined />} onClick={handleShareIn}></Button>
+                            <Button type='primary' size='small' icon={<FacebookOutlined />} onClick={handleShareFb} style={{ marginRight: 10 }}>
+                              Facebook
+                            </Button>
+                            <Button type='primary' size='small' icon={<LinkedinOutlined />} onClick={handleShareIn}>
+                              LinkedIn
+                            </Button>
                           </div>
                         }
                         title='Chia sẻ CV'
                         trigger='click'
                       >
-                        <Button type='primary' size='small' icon={<ShareAltOutlined />}></Button>
+                        <Button type='primary' size='small' icon={<ShareAltOutlined />}>
+                          Chia sẻ
+                        </Button>
                       </Popover>
-                      <Button type='primary' size='small' icon={<GiftOutlined />} onClick={() => showModal(item.id)}></Button>
+                      <Button type='primary' size='small' icon={<GiftOutlined />} onClick={() => showModal(item.id)}>
+                        Tặng CV
+                      </Button>
                     </Space>
                   </div>
                 </div>
               </div>
-            </List.Item>
-          )
-        }}
-      />
+            </Card>
+          </div>
+        )
+      })}
       <Modal
         title='Tặng CV'
         width={600}

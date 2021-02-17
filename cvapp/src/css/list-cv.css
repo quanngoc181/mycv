@@ -10,10 +10,10 @@
 }
 
 .cv-list-item img {
-  width: 60px;
-  height: 70px;
+  width: 130px;
+  height: 150px;
   object-fit: cover;
-  box-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.5);
+  border: 1px solid;
   margin-right: 20px;
 }
 
@@ -26,12 +26,31 @@
   position: absolute;
   right: 0;
   top: 0;
+  color: #999;
+}
+
+.cv-list-item .cv-name {
+  margin-bottom: 0;
+  color: #52c41a;
+}
+
+.cv-list-item .cv-name .normal {
+  color: rgba(0,0,0,.85);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.cv-list-item .cv-note {
+  font-style: italic;
+  color: #999;
 }
 
 .cv-list-item .button-group {
-  position: absolute;
-  right: 0;
-  bottom: 0;
+  text-align: right;
+}
+
+.cv-list-item .ant-statistic-content {
+  font-size: 16px;
 }
 
 .send-container {

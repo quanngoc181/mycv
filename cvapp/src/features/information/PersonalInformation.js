@@ -24,7 +24,7 @@ export function PersonalInformation({ info, layout, tailLayout, locale, language
   return (
     <Form form={form} onFinish={onFinish} {...layout}>
       <Form.Item label='Họ tên' name='fullName'>
-        <Input />
+        <Input placeholder='Nhập họ và tên' />
       </Form.Item>
 
       <Form.Item label='Giới tính' name='gender'>
@@ -39,7 +39,7 @@ export function PersonalInformation({ info, layout, tailLayout, locale, language
       </Form.Item>
 
       <Form.Item label='Địa chỉ' name='address'>
-        <Input />
+        <Input placeholder='Nhập địa chỉ' />
       </Form.Item>
 
       <Form.Item label='Hôn nhân' name='marital'>
@@ -53,15 +53,15 @@ export function PersonalInformation({ info, layout, tailLayout, locale, language
       </Form.Item>
 
       <Form.Item label='Số con' name='childs'>
-        <InputNumber min={0} />
+        <InputNumber min={0} placeholder='Số con cái' />
       </Form.Item>
 
       <Form.Item label='Quốc tịch' name='nationality'>
-        <Input />
+        <Input placeholder='Nhập quốc tịch' />
       </Form.Item>
 
       <Form.Item label='Tôn giáo' name='religion'>
-        <Input />
+        <Input placeholder='Nhập tôn giáo' />
       </Form.Item>
 
       <Form.Item {...tailLayout} className='mb-0'>
