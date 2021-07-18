@@ -1,0 +1,243 @@
+.cv-container2 {
+  width: 794px;
+  margin: 0 auto;
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  position: relative;
+  transition: all 0.2s;
+}
+
+.cv-container2 table {
+  width: 100%;
+}
+
+.cv-container2 td {
+  padding: 0;
+  vertical-align: top;
+}
+
+.cv-container2 p {
+  margin-bottom: 0;
+}
+
+.cv-container2 [contenteditable='true']:focus,
+.cv-container2 [contenteditable='true']:hover {
+  outline: 1px dashed #333;
+}
+
+.cv-container2 .cv-avatar {
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.cv-container2 .cv-avatar:hover {
+  outline: 1px dashed #333;
+}
+
+.cv-container2 .cv-section-header {
+  font-size: calc(1em + 2pt);
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.cv-container2 ul {
+  margin: 0;
+  padding-left: 15px;
+}
+
+.cv-container2 .cv-section {
+  margin-bottom: 25px;
+}
+
+.cv-container2 .cv-section:last-child {
+  margin-bottom: 0;
+}
+
+.cv-container2 .cv-section-item {
+  margin-bottom: 10px;
+  position: relative;
+}
+.cv-container2:not(.view-mode) .cv-section-item:hover {
+  outline: 1px dashed #333;
+  outline-offset: 3px;
+}
+
+.cv-container2 .cv-section-item:last-child {
+  margin-bottom: 0;
+}
+
+.cv-container2 .cv-section-item:hover .cv-action {
+  display: block;
+}
+.cv-container2 .cv-section-item .cv-action {
+  position: absolute;
+  top: -26px;
+  right: 0;
+  display: none;
+  padding-bottom: 6px;
+}
+.cv-container2 .cv-action button {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 0;
+  border: none;
+  color: white;
+  background: #1890ff;
+  cursor: pointer;
+  font-weight: bold;
+}
+.cv-container2 .cv-action button.cv-add {
+  background: #1890ff;
+}
+.cv-container2 .cv-action button.cv-remove {
+  background: #ff4d4f;
+}
+.cv-container2 .cv-action button:focus {
+  outline: none;
+}
+
+.cv-container2 .d-flex {
+  display: flex;
+}
+.cv-container2 .flex-grow {
+  flex-grow: 1;
+}
+.cv-container2 .justify-content-between {
+  justify-content: space-between;
+}
+.cv-container2 .font-bold {
+  font-weight: bold;
+}
+.cv-container2 .font-italic {
+  font-style: italic;
+}
+.cv-container2 .text-justify {
+  text-align: justify;
+}
+.cv-container2 .pre-line {
+  white-space: pre-line;
+}
+.cv-container2 .mb-0 {
+  margin-bottom: 0 !important;
+}
+.cv-container2 .d-inline-block {
+  display: inline-block !important;
+}
+
+.cv-container2 .cv-bullet {
+  padding-left: 12px;
+  position: relative;
+}
+.cv-container2 .cv-bullet::before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: #000;
+  border-radius: 50%;
+  left: 0;
+  top: 50%;
+  margin-top: -3px;
+}
+
+[field]:empty:not(:focus):after{
+  content: attr(data-placeholder);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Template Specific */
+.cv-container2 {
+  padding: 30px;
+}
+
+.cv-container2 .cv-col-1 {
+  width: 220px;
+  min-width: 220px;
+  padding-right: 30px;
+}
+
+.cv-container2 .cv-col-2 {
+  flex-grow: 1;
+  padding-left: 30px;
+}
+
+.cv-container2 .cv-section-header {
+  border-bottom: 1px solid #000;
+}
+
+.cv-container2 .rating {
+  display: flex;
+  justify-content: space-between;
+}
+.cv-container2 .rating span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cv-container2 .cv-page {
+  line-height: 1.2;
+}
+
+.cv-container2 .cv-date {
+  min-width: 120px;
+  text-align: right;
+}
+
+.cv-container2 .mb-5 {
+  margin-bottom: 5px;
+}
+
+.cv-container2 .cv-top {
+  margin: 0 60px 30px 60px;
+  padding: 30px;
+  border: 1px solid #000;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.cv-container2 .cv-fullname {
+  color: #000;
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.cv-container2 .cv-position {
+  font-style: italic;
+}
+
+.cv-container2 {
+  color: #000000cc;
+  background: linear-gradient(to right, #f4f4f4 250px, #fff 250px);
+}
+
+.cv-container2 .font-bold {
+  color: #000;
+}
+
+.cv-container2 .cv-section-header {
+  color: #000;
+}
+
+.cv-container2 .cv-info-item span {
+  display: inline-block;
+  width: calc(100% - 20px);
+}
+
+.cv-container2 .cv-icon {
+  width: 15px;
+  height: 15px;
+  vertical-align: top;
+  margin-right: 5px;
+  margin-top: 2px;
+}
